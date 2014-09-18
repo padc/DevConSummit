@@ -21,5 +21,7 @@ android {
 dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:+'
+    compile 'com.j256.ormlite:ormlite-android:4.48'
+    compile 'com.jakewharton:butterknife:5.0.0'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

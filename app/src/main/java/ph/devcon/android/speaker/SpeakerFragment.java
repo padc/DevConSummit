@@ -6,41 +6,30 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import ph.devcon.android.R;
+import ph.devcon.android.speaker.adapter.SpeakerAdapter;
+import ph.devcon.android.speaker.db.Speaker;
 
 /**
  * Created by lope on 9/13/14.
  */
 public class SpeakerFragment extends Fragment {
-    /**
-     * The fragment argument representing the section number for this
-     * fragment.
-     */
-    private static final String ARG_SECTION_NUMBER = "section_number";
 
-    /**
-     * Returns a new instance of this fragment for the given section
-     * number.
-     */
-//    public static PlaceholderFragment newInstance(int sectionNumber) {
-//        PlaceholderFragment fragment = new PlaceholderFragment();
-//        Bundle args = new Bundle();
-//        args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-    public SpeakerFragment() {
-    }
+    @InjectView(R.id.lvw_speakers)
+    ListView lvwSpeaker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-        TextView textView = (TextView) rootView.findViewById(R.id.section_label);
-        textView.setText(Integer.toString(getArguments().getInt(ARG_SECTION_NUMBER)));
+        View rootView = inflater.inflate(R.layout.fragment_speaker, container, false);
+        ButterKnife.inject(this, rootView);
+        lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), new ArrayList<Speaker>()));
         return rootView;
     }
 
