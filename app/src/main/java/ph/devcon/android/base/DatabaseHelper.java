@@ -1,18 +1,23 @@
 package ph.devcon.android.base;
 
 import android.content.Context;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
-import com.j256.ormlite.dao.Dao;
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import ph.devcon.android.program.db.Program;
+import ph.devcon.android.program.db.ProgramDao;
+import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.speaker.db.SpeakerDao;
+import ph.devcon.android.sponsor.db.Sponsor;
+import ph.devcon.android.sponsor.db.SponsorDao;
 
 /**
  * Created by lope on 9/16/14.
@@ -27,7 +32,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private static DatabaseHelper mInstance = null;
 
     // the DAO object we use to access the SimpleData table
-    private Dao<Program, Integer> programDao = null;
+    private ProgramDao programDao = null;
+    private SpeakerDao speakerDao = null;
+    private SponsorDao sponsorDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -49,7 +56,9 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
-//            TableUtils.createTable(connectionSource, Card.class);
+            TableUtils.createTable(connectionSource, Program.class);
+            TableUtils.createTable(connectionSource, Speaker.class);
+            TableUtils.createTable(connectionSource, Sponsor.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -59,26 +68,25 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
-        try {
-            List<String> allSql = new ArrayList<String>();
-            switch (oldVersion) {
+//        try {
+        List<String> allSql = new ArrayList<String>();
+        switch (oldVersion) {
 //                case 1:
-//                    allSql.add("alter table Card add column `isProcessed` VARCHAR");
-            }
-            for (String sql : allSql) {
-                database.execSQL(sql);
-            }
-        } catch (SQLException e) {
-            Log.e(DatabaseHelper.class.getName(), "exception during onUpgrade", e);
-            throw new RuntimeException(e);
+//                    allSql.add("alter table Test add column `isProcessed` VARCHAR");
         }
+        for (String sql : allSql) {
+            database.execSQL(sql);
+        }
+//        } catch (SQLException e) {
+//            Log.e(DatabaseHelper.class.getName(), "exception during onUpgrade", e);
+//            throw new RuntimeException(e);
+//        }
     }
 
-    public Dao<Program, Integer> getProgramDao() {
+    public ProgramDao getProgramDao() {
         if (null == programDao) {
             try {
                 programDao = getDao(Program.class);
-//                ((ProgramDao) cardDao).init(getFTSSearch(), (ContactDao) getContactDao());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
@@ -86,4 +94,25 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return programDao;
     }
 
+    public SpeakerDao getSpeakerDao() {
+        if (null == speakerDao) {
+            try {
+                speakerDao = getDao(Speaker.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return speakerDao;
+    }
+
+    public SponsorDao getSponsorDao() {
+        if (null == sponsorDao) {
+            try {
+                sponsorDao = getDao(Sponsor.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return sponsorDao;
+    }
 }

@@ -2,12 +2,14 @@ package ph.devcon.android.sponsor.db;
 
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
 
 /**
  * Created by lope on 9/16/14.
  */
+@DatabaseTable(daoClass = SponsorDaoImpl.class)
 public class Sponsor extends BaseDevCon {
     public static final int TYPE_GOLD = 0;
     public static final int TYPE_SILVER = 1;

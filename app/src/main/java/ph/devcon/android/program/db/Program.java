@@ -1,6 +1,7 @@
 package ph.devcon.android.program.db;
 
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.Date;
 
@@ -10,6 +11,7 @@ import ph.devcon.android.speaker.db.Speaker;
 /**
  * Created by lope on 9/16/14.
  */
+@DatabaseTable(daoClass = ProgramDaoImpl.class)
 public class Program extends BaseDevCon {
     @DatabaseField
     Date time;
