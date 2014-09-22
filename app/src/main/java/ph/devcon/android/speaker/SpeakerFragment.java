@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -29,7 +30,11 @@ public class SpeakerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_speaker, container, false);
         ButterKnife.inject(this, rootView);
-        lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), new ArrayList<Speaker>()));
+        List<Speaker> speakers = new ArrayList<Speaker>();
+        Speaker speaker = new Speaker();
+        speaker.setName("Lope Emano");
+        speakers.add(speaker);
+        lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), speakers));
         return rootView;
     }
 

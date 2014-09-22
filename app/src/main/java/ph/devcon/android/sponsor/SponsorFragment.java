@@ -3,14 +3,16 @@ package ph.devcon.android.sponsor;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +26,21 @@ import ph.devcon.android.sponsor.db.Sponsor;
  */
 public class SponsorFragment extends Fragment {
 
-    @InjectView(R.id.lvw_speakers)
-    ListView lvwSpeaker;
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sponsor, container, false);
-        ButterKnife.inject(this, rootView);
         ViewGroup contSponsors = (ViewGroup) rootView.findViewById(R.id.cont_sponsors);
-        buildSponsors(contSponsors, new ArrayList<Sponsor>());
+        List<Sponsor> sponsors = new ArrayList<Sponsor>();
+        Sponsor sponsor = new Sponsor();
+        sponsor.setSponsorName("Metric BPO");
+        sponsor.setSponsorType(Sponsor.TYPE_GOLD);
+        Bitmap bitmap = ((BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_launcher)).getBitmap();
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+        sponsor.setSponsorIcon(stream.toByteArray());
+        sponsors.add(sponsor);
+        buildSponsors(contSponsors, sponsors);
         return rootView;
     }
 

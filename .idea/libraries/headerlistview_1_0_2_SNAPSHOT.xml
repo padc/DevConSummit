@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="headerlistview-1.0.2-SNAPSHOT">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/app/build/exploded-bundles/ComApplidiumHeaderlistviewHeaderlistview102SNAPSHOT.aar/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/exploded-bundles/ComApplidiumHeaderlistviewHeaderlistview102SNAPSHOT.aar/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

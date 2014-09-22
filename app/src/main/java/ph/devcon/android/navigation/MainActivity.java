@@ -15,6 +15,8 @@ import android.widget.TextView;
 
 import ph.devcon.android.R;
 import ph.devcon.android.program.ProgramFragment;
+import ph.devcon.android.speaker.SpeakerFragment;
+import ph.devcon.android.sponsor.SponsorFragment;
 
 public class MainActivity extends Activity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
@@ -56,13 +58,19 @@ public class MainActivity extends Activity
     public void onSectionAttached(int number) {
         switch (number) {
             case 1:
-                mTitle = getString(R.string.title_section1);
+                mTitle = getString(R.string.title_user);
                 break;
             case 2:
-                mTitle = getString(R.string.title_section2);
+                mTitle = getString(R.string.title_news);
                 break;
             case 3:
-                mTitle = getString(R.string.title_section3);
+                mTitle = getString(R.string.title_programs);
+                break;
+            case 4:
+                mTitle = getString(R.string.title_speakers);
+                break;
+            case 5:
+                mTitle = getString(R.string.title_sponsors);
                 break;
         }
     }
@@ -115,8 +123,22 @@ public class MainActivity extends Activity
          */
         public static Fragment newInstance(int sectionNumber) {
             Fragment fragment = new PlaceholderFragment();
-            if (sectionNumber == 1) {
-                fragment = new ProgramFragment();
+            switch (sectionNumber) {
+                case 1:
+                    fragment = new PlaceholderFragment();
+                    break;
+                case 2:
+                    fragment = new PlaceholderFragment();
+                    break;
+                case 3:
+                    fragment = new ProgramFragment();
+                    break;
+                case 4:
+                    fragment = new SpeakerFragment();
+                    break;
+                case 5:
+                    fragment = new SponsorFragment();
+                    break;
             }
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);

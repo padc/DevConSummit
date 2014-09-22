@@ -1,37 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
 
-    <TableRow
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:color/darker_gray">
+    <com.applidium.headerlistview.HeaderListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/lvw_programs"/>
+    <!--<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent">-->
 
-        <TextView
-            android:text="Time"
-            android:layout_width="match_parent"
-            android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:padding="3dip"/>
+    <!--<TableRow-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:background="@android:color/darker_gray">-->
 
-        <TextView
-            android:text="Activity"
-            android:layout_weight="1"
-            android:gravity="center_horizontal"
-            android:padding="3dip"/>
-    </TableRow>
+    <!--<TextView-->
+    <!--android:text="Time"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:layout_weight="1"-->
+    <!--android:padding="3dip"/>-->
 
-    <TableRow>
+    <!--<TextView-->
+    <!--android:text="Activity"-->
+    <!--android:layout_weight="1"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:padding="3dip"/>-->
+    <!--</TableRow>-->
 
-        <TextView
-            android:text="8 AM"
-            android:layout_weight="1"
-            android:padding="3dip"/>
+    <!--<TableRow>-->
 
-        <TextView
-            android:text="Talk 1 by Mr. A"
-            android:layout_weight="1"
-            android:padding="3dip"/>
-    </TableRow>
-</TableLayout>
+    <!--<TextView-->
+    <!--android:text="8 AM"-->
+    <!--android:layout_weight="1"-->
+    <!--android:padding="3dip"/>-->
+
+    <!--<TextView-->
+    <!--android:text="Talk 1 by Mr. A"-->
+    <!--android:layout_weight="1"-->
+    <!--android:padding="3dip"/>-->
+    <!--</TableRow>-->
+    <!--</TableLayout>-->
+</LinearLayout>
