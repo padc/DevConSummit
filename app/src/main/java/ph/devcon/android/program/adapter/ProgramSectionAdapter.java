@@ -5,9 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.applidium.headerlistview.SectionAdapter;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import ph.devcon.android.R;
 
 /**
@@ -28,7 +32,7 @@ public class ProgramSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfRows(int section) {
-        return 35;
+        return 5;
     }
 
     @Override
@@ -43,12 +47,18 @@ public class ProgramSectionAdapter extends SectionAdapter {
 
     @Override
     public View getRowView(int section, int row, View convertView, ViewGroup parent) {
-//        if (convertView == null) {
-//            convertView = (TextView) getLayoutInflater().inflate(getResources().getLayout(android.R.layout.simple_list_item_1), null);
-//        }
-//        ((TextView) convertView).setText("Section " + section + " Row " + row);
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_speaker), null);
+        ViewHolder holder = null;
+//        Program program = (Program) getRowItem(section, row);
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else if (convertView == null) {
+            convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
+            holder = new ViewHolder(convertView);
+        }
+//        holder.txtSpeakerName.setText(program.getSpeaker().getName());
+//        holder.imgSpeaker.setImageBitmap(program.getSpeaker().getSpeakerIconBitmap());
+//        holder.txtProgramTitle.setText(program.getTitle());
         return convertView;
     }
 
@@ -65,7 +75,13 @@ public class ProgramSectionAdapter extends SectionAdapter {
     @Override
     public View getSectionHeaderView(int section, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_speaker), null);
+        convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
+        if (convertView == null) {
+            convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
+        }
+        TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
+        txtTime.setText("10:00 AM");
+//        ((TextView) convertView).setText("Section " + section + " Row " + row);
 //        if (convertView == null) {
 //            if (getSectionHeaderItemViewType(section) == 0) {
 //                convertView = inflater.inflate(mContext.getResources().getLayout(android.R.layout.simple_list_item_1), null);
@@ -81,25 +97,38 @@ public class ProgramSectionAdapter extends SectionAdapter {
 //            ((TextView) convertView.findViewById(android.R.id.text2)).setText("Has a detail text field");
 //        }
 
-        switch (section) {
-            case 0:
-                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-                break;
-            case 1:
-                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_orange_light));
-                break;
-            case 2:
-                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-                break;
-            case 3:
-                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
-                break;
-        }
+//        convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_orange_light));
+//        switch (section) {
+//            case 0:
+//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_red_light));
+//                break;
+//            case 1:
+//                break;
+//            case 2:
+//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
+//                break;
+//            case 3:
+//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
+//                break;
+//        }
         return convertView;
     }
 
     @Override
     public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
         super.onRowItemClick(parent, view, section, row, id);
+    }
+
+    static class ViewHolder {
+        @InjectView(R.id.img_speaker)
+        ImageView imgSpeaker;
+        @InjectView(R.id.txt_speaker_name)
+        TextView txtSpeakerName;
+        @InjectView(R.id.txt_program_title)
+        TextView txtProgramTitle;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 }
