@@ -5,10 +5,11 @@
     <color name="blue_light">#39B2E7</color>
     <color name="gray">#E1E1E1</color>
     <color name="gray_light">#999999</color>
-    <color name="gray_light_light">#E2E2E2</color>
+    <color name="gray_light_light">#EFEFF4</color>
     <color name="gray_light_light_home">#E1E1E1</color>
     <color name="green">#84AD2E</color>
     <color name="green_trans">#D999CC00</color>
     <color name="orange">#DB6D2C</color>
     <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
 </resources>

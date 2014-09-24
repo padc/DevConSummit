@@ -2,14 +2,49 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="#cccc"
+              android:background="#ECECED"
               android:orientation="vertical"
               android:gravity="center_horizontal">
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/ic_launcher"/>
+        android:orientation="vertical"
+        android:layout_marginBottom="8dp"
+        android:padding="4dp"
+        android:gravity="center_horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/ic_launcher"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAllCaps="true"
+            android:textColor="@color/green"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:text="ERICSON LUCIANO"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Junior Designer at Thousand Minds"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Ruby on Rails"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Navotas City, Metro Manila"/>
+
+    </LinearLayout>
 
     <ListView
         android:id="@+id/lvw_drawer_items"
@@ -18,6 +53,7 @@
         android:choiceMode="singleChoice"
         android:divider="@android:color/transparent"
         android:dividerHeight="0dp"
+        android:background="#EFEFF4"
         tools:context="ph.devcon.android.navigation.NavigationDrawerFragment"/>
 
 </LinearLayout>
