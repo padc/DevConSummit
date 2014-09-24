@@ -52,6 +52,7 @@ public class NavigationDrawerFragment extends Fragment {
     private ActionBarDrawerToggle mDrawerToggle;
 
     private DrawerLayout mDrawerLayout;
+    private ViewGroup mContainerListView;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
 
@@ -90,8 +91,9 @@ public class NavigationDrawerFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mDrawerListView = (ListView) inflater.inflate(
-                R.layout.fragment_navigation_drawer, container, false);
+        mContainerListView = (ViewGroup) inflater.inflate(
+                R.layout.fragment_navigation_drawer, null);
+        mDrawerListView = (ListView) mContainerListView.findViewById(R.id.lvw_drawer_items);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -110,7 +112,7 @@ public class NavigationDrawerFragment extends Fragment {
                         "Sponsors",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
-        return mDrawerListView;
+        return mContainerListView;
     }
 
     public boolean isDrawerOpen() {
