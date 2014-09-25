@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:src="@drawable/ic_launcher"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:background="#231233"/>
+
+                <View
+                    android:src="@drawable/ic_launcher"
+                    android:layout_width="fill_parent"
+                    android:layout_height="150dp"
+                    android:background="#6A4FFA"/>
+            </LinearLayout>
+
+            <ImageView
+                android:id="@+id/img_speaker"
+                android:src="@drawable/ic_launcher"
+                android:layout_gravity="center"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:scaleType="centerCrop"
+                android:layout_centerInParent="true"
+                android:layout_marginTop="30dp"/>
+
+            <LinearLayout
+                android:layout_centerHorizontal="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:paddingBottom="12dp"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAllCaps="true"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:layout_marginBottom="4dp"
+                        android:text="HAIFA BALUYOS"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="Executive Director at Developers Connect"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="\@haifacarina"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/white"
+                        android:text="http://www.haifacarina.com"/>
+                </LinearLayout>
+            </LinearLayout>
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="Resource Speakers"/>
+
+        <View
+            android:src="@drawable/ic_launcher"
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:text="Trends and Best Practices in Android Development"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="About Haifa"/>
+
+        <View
+            android:src="@drawable/ic_launcher"
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="Haifa is currently managing the organization's direction Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae libero at lorem dictum interdum quis sed nunc. Aliquam at dolor eget sem fringilla semper. Nam nunc ex, lacinia."/>
+    </LinearLayout>
+
+
+</ScrollView>
