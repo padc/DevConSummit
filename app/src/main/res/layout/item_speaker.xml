@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:gravity="left|center_vertical">
+
+    <LinearLayout
+        android:id="@+id/cont_speaker_details"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="left|center_vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#6A4FFA"
+            android:padding="10dp"
+            android:gravity="left|center_vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:paddingLeft="58dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="@+id/img_speaker"
+                android:textColor="@color/white"
+                android:text="Resource Speakers"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:paddingLeft="58dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="@+id/img_speaker"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="21sp"
+                android:textAllCaps="true"
+                android:background="#6A4FFA"
+                android:text="Haifa Carina Baluyos"/>
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:paddingLeft="58dp"
+                android:layout_height="wrap_content"
+                android:textAlignment="@+id/img_speaker"
+                android:textColor="@color/white"
+                android:background="#6A4FFA"
+                android:text="Executive Director at Developers Connect"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#201038"
+            android:padding="6dp"
+            android:gravity="left|center_vertical">
+
+            <TextView
+                android:id="@+id/txt_program_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="17sp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="60dp"
+                android:text="Trends and Best Practices in Android Development"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/img_speaker"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_launcher"/>
+</RelativeLayout>
