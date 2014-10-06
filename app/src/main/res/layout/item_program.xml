@@ -2,40 +2,55 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="horizontal"
-              android:padding="8dp"
+              android:orientation="vertical"
+              android:padding="4dp"
               android:gravity="left|center_vertical">
-
-    <ImageView
-        android:id="@+id/img_speaker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_launcher"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/img_speaker"
-        android:padding="8dp"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:gravity="left|center_vertical">
 
-        <TextView
-            android:id="@+id/txt_speaker_name"
+        <ImageView
+            android:id="@+id/img_speaker"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_launcher"/>
+
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAlignment="@+id/img_speaker"
-            android:textColor="@color/green"
-            android:textStyle="bold"
-            android:textSize="16sp"
-            android:layout_centerVertical="true"
-            android:text="Haifa Baluyos . DevCon"/>
+            android:padding="8dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/txt_program_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="16sp"
-            android:textColor="@color/orange"
-            android:text="Trends and Best Practices in Android Development"/>
+            <TextView
+                android:id="@+id/txt_speaker_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:textSize="12sp"
+                android:text="Haifa Baluyos • DevCon"/>
+
+            <TextView
+                android:id="@+id/txt_program_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="@color/orange"
+                android:text="Trends and Best Practices in Android Development"/>
+
+        </LinearLayout>
+
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/txt_program_description"
+        android:layout_marginLeft="58dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:textColor="@color/black"
+        android:text="Learn the latest trends and Best Practices in Android Development with the ux ambassador"/>
 </LinearLayout>

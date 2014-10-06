@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:id="@+id/lvw_speakers"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="25dp"
                 android:gravity="center"
                 android:background="@color/orange"
-                android:padding="10dp">
+                android:padding="5dp">
 
     <TextView
         android:id="@+id/txt_time"
@@ -13,6 +13,8 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textStyle="bold"
-        android:textSize="16sp"/>
+        android:textSize="12sp"
+        android:text="saample"
+        android:layout_centerInParent="true"/>
 
 </RelativeLayout>

@@ -13,6 +13,7 @@ import com.applidium.headerlistview.SectionAdapter;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/21/14.
@@ -27,12 +28,12 @@ public class ProgramSectionAdapter extends SectionAdapter {
 
     @Override
     public int numberOfSections() {
-        return 4;
+        return 9;
     }
 
     @Override
     public int numberOfRows(int section) {
-        return 5;
+        return 1;
     }
 
     @Override
@@ -80,7 +81,7 @@ public class ProgramSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
         }
         TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
-        txtTime.setText("10:00 AM");
+        txtTime.setText(Util.toTime(section));
 //        ((TextView) convertView).setText("Section " + section + " Row " + row);
 //        if (convertView == null) {
 //            if (getSectionHeaderItemViewType(section) == 0) {
