@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ph.devcon.android.R;
+import ph.devcon.android.news.NewsFragment;
 import ph.devcon.android.program.ProgramFragment;
 import ph.devcon.android.speaker.SpeakerTabFragment;
 import ph.devcon.android.sponsor.SponsorFragment;
@@ -129,7 +130,7 @@ public class MainActivity extends ActionBarActivity
                     fragment = new PlaceholderFragment();
                     break;
                 case 2:
-                    fragment = new PlaceholderFragment();
+                    fragment = new NewsFragment();
                     break;
                 case 3:
                     fragment = new ProgramFragment();
