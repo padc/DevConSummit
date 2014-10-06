@@ -3,22 +3,21 @@ package ph.devcon.android.sponsor;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
+import com.applidium.headerlistview.HeaderListView;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
+import ph.devcon.android.sponsor.adapter.SponsorSectionAdapter;
 import ph.devcon.android.sponsor.db.Sponsor;
 
 /**
@@ -26,21 +25,26 @@ import ph.devcon.android.sponsor.db.Sponsor;
  */
 public class SponsorFragment extends Fragment {
 
+    @InjectView(R.id.lvw_sponsors)
+    HeaderListView lvwSponsors;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_sponsor, container, false);
-        ViewGroup contSponsors = (ViewGroup) rootView.findViewById(R.id.cont_sponsors);
-        List<Sponsor> sponsors = new ArrayList<Sponsor>();
-        Sponsor sponsor = new Sponsor();
-        sponsor.setSponsorName("Metric BPO");
-        sponsor.setSponsorType(Sponsor.TYPE_GOLD);
-        Bitmap bitmap = ((BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_launcher)).getBitmap();
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
-        sponsor.setSponsorIcon(stream.toByteArray());
-        sponsors.add(sponsor);
-        buildSponsors(contSponsors, sponsors);
+        ButterKnife.inject(this, rootView);
+        lvwSponsors.setAdapter(new SponsorSectionAdapter(getActivity()));
+//        ViewGroup contSponsors = (ViewGroup) rootView.findViewById(R.id.cont_sponsors);
+//        List<Sponsor> sponsors = new ArrayList<Sponsor>();
+//        Sponsor sponsor = new Sponsor();
+//        sponsor.setSponsorName("Metric BPO");
+//        sponsor.setSponsorType(Sponsor.TYPE_GOLD);
+//        Bitmap bitmap = ((BitmapDrawable) getActivity().getResources().getDrawable(R.drawable.ic_launcher)).getBitmap();
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+//        sponsor.setSponsorIcon(stream.toByteArray());
+//        sponsors.add(sponsor);
+//        buildSponsors(contSponsors, sponsors);
         return rootView;
     }
 

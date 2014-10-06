@@ -28,4 +28,19 @@ public class Util {
                 return "UNKNOWN";
         }
     }
+
+    public static String toSponsorType(int section) {
+        switch (section) {
+            case 0:
+                return "Co-Presentors";
+            case 1:
+                return "Gold Sponsors";
+            case 2:
+                return "Silver Sponsors";
+            case 3:
+                return "Community Partner";
+            default:
+                return "UNKNOWN";
+        }
+    }
 }
