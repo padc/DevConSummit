@@ -34,13 +34,16 @@ public class SpeakerFragment extends Fragment {
         speaker.setName("Lope Emano");
         speakers.add(speaker);
         lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), speakers));
+        lvwSpeaker.addFooterView(buildFooterView(inflater));
         return rootView;
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        ((MainActivity) activity).onSectionAttached(
-//                getArguments().getInt(ARG_SECTION_NUMBER));
+    }
+
+    protected View buildFooterView(LayoutInflater inflater) {
+        return inflater.inflate(R.layout.footer_standard, null);
     }
 }
