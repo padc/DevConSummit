@@ -53,7 +53,15 @@ public class ProgramSectionAdapter extends SectionAdapter {
         if (section != 8) {
 //        Program program = (Program) getRowItem(section, row);
             if (convertView != null) {
-                holder = (ViewHolder) convertView.getTag();
+                // related to a bug lol
+                View sponsorView = convertView.findViewById(R.id.cont_sponsors);
+                if (sponsorView == null)
+                    holder = (ViewHolder) convertView.getTag();
+                else {
+                    convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
+                    holder = new ViewHolder(convertView);
+                }
+
             } else if (convertView == null) {
                 convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                 holder = new ViewHolder(convertView);
@@ -62,7 +70,7 @@ public class ProgramSectionAdapter extends SectionAdapter {
 //        holder.imgSpeaker.setImageBitmap(program.getSpeaker().getSpeakerIconBitmap());
 //        holder.txtProgramTitle.setText(program.getTitle());
         } else {
-            convertView = inflater.inflate(R.layout.footer_standard, null);
+            return inflater.inflate(R.layout.footer_standard, null);
         }
         return convertView;
     }
