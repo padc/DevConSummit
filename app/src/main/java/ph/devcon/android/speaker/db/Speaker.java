@@ -18,8 +18,13 @@ import ph.devcon.android.program.db.Program;
 public class Speaker extends BaseDevCon {
     @DatabaseField(index = true)
     String name;
+
+    @DatabaseField(index = true)
+    String title;
+
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] speakerIcon;
+
     @DatabaseField(foreign = true)
     ForeignCollection<Program> programs;
 

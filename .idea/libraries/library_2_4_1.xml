@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="library-2.4.1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/app/build/exploded-bundles/ComViewpagerindicatorLibrary241.aar/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/exploded-bundles/ComViewpagerindicatorLibrary241.aar/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

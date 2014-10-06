@@ -29,5 +29,6 @@ dependencies {
     compile 'com.applidium.headerlistview:headerlistview:1.0.2-SNAPSHOT'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.jakewharton:butterknife:5.0.0'
+    compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }

@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,10 +16,10 @@ import android.widget.TextView;
 
 import ph.devcon.android.R;
 import ph.devcon.android.program.ProgramFragment;
-import ph.devcon.android.speaker.SpeakerFragment;
+import ph.devcon.android.speaker.SpeakerTabFragment;
 import ph.devcon.android.sponsor.SponsorFragment;
 
-public class MainActivity extends Activity
+public class MainActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     /**
@@ -134,7 +135,7 @@ public class MainActivity extends Activity
                     fragment = new ProgramFragment();
                     break;
                 case 4:
-                    fragment = new SpeakerFragment();
+                    fragment = new SpeakerTabFragment();
                     break;
                 case 5:
                     fragment = new SponsorFragment();

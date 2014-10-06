@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.speaker.db.Speaker;
 
@@ -31,5 +34,18 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
             txtSpeakerName.setText(speaker.getName());
         }
         return convertView;
+    }
+
+    static class ViewHolder {
+        @InjectView(R.id.img_speaker)
+        ImageView imgSpeaker;
+        @InjectView(R.id.txt_speaker_name)
+        TextView txtSpeakerName;
+        @InjectView(R.id.txt_program_title)
+        TextView txtProgramTitle;
+
+        public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
     }
 }

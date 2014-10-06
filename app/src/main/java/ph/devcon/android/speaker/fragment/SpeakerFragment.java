@@ -1,8 +1,8 @@
-package ph.devcon.android.speaker;
+package ph.devcon.android.speaker.fragment;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +18,9 @@ import ph.devcon.android.speaker.adapter.SpeakerAdapter;
 import ph.devcon.android.speaker.db.Speaker;
 
 /**
- * Created by lope on 9/13/14.
+ * Created by lope on 9/29/14.
  */
 public class SpeakerFragment extends Fragment {
-
     @InjectView(R.id.lvw_speakers)
     ListView lvwSpeaker;
 
