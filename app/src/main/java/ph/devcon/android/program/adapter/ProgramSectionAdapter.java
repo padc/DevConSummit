@@ -50,16 +50,20 @@ public class ProgramSectionAdapter extends SectionAdapter {
     public View getRowView(int section, int row, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder = null;
+        if (section != 8) {
 //        Program program = (Program) getRowItem(section, row);
-        if (convertView != null) {
-            holder = (ViewHolder) convertView.getTag();
-        } else if (convertView == null) {
-            convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
-            holder = new ViewHolder(convertView);
-        }
+            if (convertView != null) {
+                holder = (ViewHolder) convertView.getTag();
+            } else if (convertView == null) {
+                convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
+                holder = new ViewHolder(convertView);
+            }
 //        holder.txtSpeakerName.setText(program.getSpeaker().getName());
 //        holder.imgSpeaker.setImageBitmap(program.getSpeaker().getSpeakerIconBitmap());
 //        holder.txtProgramTitle.setText(program.getTitle());
+        } else {
+            convertView = inflater.inflate(R.layout.footer_standard, null);
+        }
         return convertView;
     }
 
@@ -82,6 +86,9 @@ public class ProgramSectionAdapter extends SectionAdapter {
         }
         TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
         txtTime.setText(Util.toTime(section));
+        if (section == 8) {
+            convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_null), null);
+        }
 //        ((TextView) convertView).setText("Section " + section + " Row " + row);
 //        if (convertView == null) {
 //            if (getSectionHeaderItemViewType(section) == 0) {

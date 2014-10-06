@@ -52,5 +52,6 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textColor="@color/black"
+        android:paddingBottom="8dp"
         android:text="Learn the latest trends and Best Practices in Android Development with the ux ambassador"/>
 </LinearLayout>
