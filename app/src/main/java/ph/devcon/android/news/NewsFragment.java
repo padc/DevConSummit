@@ -2,6 +2,7 @@ package ph.devcon.android.news;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnItemClick;
 import ph.devcon.android.R;
 import ph.devcon.android.news.adapter.NewsAdapter;
 import ph.devcon.android.news.db.News;
@@ -23,6 +25,16 @@ public class NewsFragment extends Fragment {
 
     @InjectView(R.id.lvw_news)
     ListView lvwNews;
+
+    @OnItemClick(R.id.lvw_news)
+    public void onItemClick(int position) {
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.add(R.id.cont_news, new NewsDetailActivity());
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+        Intent intent = new Intent(getActivity(), NewsDetailActivity.class);
+        startActivity(intent);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
