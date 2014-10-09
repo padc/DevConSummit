@@ -20,6 +20,9 @@ public class News extends BaseDevCon {
     @DatabaseField
     byte[] image;
 
+    @DatabaseField
+    byte[] imagePreview;
+
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     Tag tag;
 
@@ -45,6 +48,14 @@ public class News extends BaseDevCon {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public byte[] getImagePreview() {
+        return imagePreview;
+    }
+
+    public void setImagePreview(byte[] imagePreview) {
+        this.imagePreview = imagePreview;
     }
 
     public Tag getTag() {
