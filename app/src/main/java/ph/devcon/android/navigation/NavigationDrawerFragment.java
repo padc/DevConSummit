@@ -191,6 +191,7 @@ public class NavigationDrawerFragment extends Fragment {
         });
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+
     }
 
     private void selectItem(int position) {
@@ -204,6 +205,10 @@ public class NavigationDrawerFragment extends Fragment {
         if (mCallbacks != null) {
             mCallbacks.onNavigationDrawerItemSelected(position);
         }
+    }
+
+    public ActionBarDrawerToggle getActionBarDrawerToggle() {
+        return mDrawerToggle;
     }
 
     @Override
