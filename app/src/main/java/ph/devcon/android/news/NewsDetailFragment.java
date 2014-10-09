@@ -1,7 +1,7 @@
 package ph.devcon.android.news;
 
-import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +17,6 @@ import ph.devcon.android.news.view.ObservableScrollView;
  */
 public class NewsDetailFragment extends Fragment implements ObservableScrollView.Callbacks {
 
-//    @InjectView(R.id.lvw_news)
-//    ListView lvwNews;
-
     private TextView mStickyView;
     private View mPlaceholderView;
     private ObservableScrollView mObservableScrollView;
@@ -30,8 +27,6 @@ public class NewsDetailFragment extends Fragment implements ObservableScrollView
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_news_details, container, false);
         ButterKnife.inject(this, container);
-//        lvwNews.setAdapter(new NewsAdapter(this, new ArrayList<News>()));
-//        lvwNews.addFooterView(buildFooterView(inflater));
         mObservableScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
         mObservableScrollView.setCallbacks(this);
 
