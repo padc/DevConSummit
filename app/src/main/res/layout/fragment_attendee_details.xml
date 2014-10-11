@@ -28,7 +28,7 @@
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
                     android:layout_height="150dp"
-                    android:background="#6A4FFA"/>
+                    android:background="@color/yellow"/>
             </LinearLayout>
 
             <ImageView
@@ -87,12 +87,13 @@
         </RelativeLayout>
 
         <TextView
+            android:id="@+id/txt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text="Resource Speakers"/>
+            android:text="Location"/>
 
         <View
             android:src="@drawable/ic_launcher"
@@ -102,13 +103,37 @@
             android:background="@color/gray"/>
 
         <TextView
+            android:id="@+id/txt_address"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp"
-            android:textStyle="bold"
             android:layout_marginTop="10dp"
-            android:text="Trends and Best Practices in Android Development"/>
+            android:text="Manila, Philippines"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="E-mail Address &amp; Contact Information"/>
+
+        <View
+            android:src="@drawable/ic_launcher"
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/gray"/>
+
+        <TextView
+            android:id="@+id/txt_email_and_contact"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="haifa@devcon.ph . +63 916 4644 275"/>
 
         <TextView
             android:layout_width="wrap_content"

@@ -105,10 +105,10 @@ public class NavigationDrawerFragment extends Fragment {
                 R.layout.item_navigation_drawer,
                 android.R.id.text1,
                 new String[]{
-                        "User",
                         "News",
                         "Programs",
                         "Speakers",
+                        "Attendees",
                         "Sponsors",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);

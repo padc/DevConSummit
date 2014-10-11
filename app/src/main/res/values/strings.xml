@@ -8,6 +8,7 @@
     <string name="title_user">User</string>
     <string name="title_news">News</string>
     <string name="title_programs">Programs</string>
+    <string name="title_attendees">Attendees</string>
     <string name="title_speakers">Speakers</string>
     <string name="title_sponsors">Sponsors</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

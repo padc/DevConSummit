@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import ph.devcon.android.R;
+import ph.devcon.android.attendee.AttendeesFragment;
 import ph.devcon.android.news.NewsFragment;
 import ph.devcon.android.program.ProgramFragment;
 import ph.devcon.android.speaker.SpeakerTabFragment;
@@ -22,7 +23,11 @@ import ph.devcon.android.sponsor.SponsorFragment;
 
 public abstract class BaseDevConActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
-
+    protected static final int NEWS = 1;
+    protected static final int PROGRAMS = 2;
+    protected static final int SPEAKERS = 3;
+    protected static final int ATTENDEES = 4;
+    protected static final int SPONSORS = 5;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -73,19 +78,19 @@ public abstract class BaseDevConActivity extends ActionBarActivity
 
     public void onSectionAttached(int number) {
         switch (number) {
-            case 1:
-                mTitle = getString(R.string.title_user);
-                break;
-            case 2:
+            case NEWS:
                 mTitle = getString(R.string.title_news);
                 break;
-            case 3:
+            case PROGRAMS:
                 mTitle = getString(R.string.title_programs);
                 break;
-            case 4:
+            case ATTENDEES:
+                mTitle = getString(R.string.title_attendees);
+                break;
+            case SPEAKERS:
                 mTitle = getString(R.string.title_speakers);
                 break;
-            case 5:
+            case SPONSORS:
                 mTitle = getString(R.string.title_sponsors);
                 break;
         }
@@ -140,19 +145,19 @@ public abstract class BaseDevConActivity extends ActionBarActivity
         public static Fragment newInstance(int sectionNumber) {
             Fragment fragment = new PlaceholderFragment();
             switch (sectionNumber) {
-                case 1:
-                    fragment = new PlaceholderFragment();
-                    break;
-                case 2:
+                case NEWS:
                     fragment = new NewsFragment();
                     break;
-                case 3:
+                case PROGRAMS:
                     fragment = new ProgramFragment();
                     break;
-                case 4:
+                case SPEAKERS:
                     fragment = new SpeakerTabFragment();
                     break;
-                case 5:
+                case ATTENDEES:
+                    fragment = new AttendeesFragment();
+                    break;
+                case SPONSORS:
                     fragment = new SponsorFragment();
                     break;
             }
