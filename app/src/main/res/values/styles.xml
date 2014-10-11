@@ -22,4 +22,18 @@
         <item name="android:maxLines">1</item>
         <item name="android:textAppearance">@style/TextAppearance.TabPageIndicator</item>
     </style>
+
+    <style name="EditProfileHeaderTextView">
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="EditProfileEditTextItem">
+        <item name="android:textSize">17sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:layout_marginLeft">8dp</item>
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

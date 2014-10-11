@@ -11,6 +11,17 @@
     <string name="title_attendees">Attendees</string>
     <string name="title_speakers">Speakers</string>
     <string name="title_sponsors">Sponsors</string>
+    <string name="about_me">About Me</string>
+    <string name="company_position">Company Role/Position</string>
+    <string name="company_name">Company Name</string>
+    <string name="location">Location</string>
+    <string name="primary">(Primary)</string>
+    <string name="email_address">Email Address</string>
+    <string name="contact_number">Contact Number</string>
+    <string name="describe_yourself">Describe yourself within a maximum of 500 characters</string>
+    <string name="disclaimer">Disclaimer: Details will be displayed in the attendees list</string>
+    <string name="three_main_tech">Three Main Technology Stack</string>
+    <string name="other_profiles">Other Profiles &amp; Links</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
