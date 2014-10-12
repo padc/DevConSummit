@@ -13,22 +13,31 @@ import ph.devcon.android.base.db.BaseDevCon;
  */
 @DatabaseTable(daoClass = UserDaoImpl.class)
 public class User extends BaseDevCon {
+
     @DatabaseField
     String companyPosition;
+
     @DatabaseField
     String companyName;
+
     @DatabaseField
     String location;
+
     @DatabaseField
     String emailAddress;
+
     @DatabaseField
     String contactNumber;
+
     @DatabaseField
     String aboutMe;
+
     @DatabaseField
     String technology1;
+
     @DatabaseField
     String technology2;
+
     @DatabaseField
     String technology3;
 

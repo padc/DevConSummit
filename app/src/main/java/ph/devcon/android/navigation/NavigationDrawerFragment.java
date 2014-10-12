@@ -3,6 +3,7 @@ package ph.devcon.android.navigation;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -22,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import ph.devcon.android.R;
+import ph.devcon.android.user.EditUserProfileActivity;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -112,6 +114,15 @@ public class NavigationDrawerFragment extends Fragment {
                         "Sponsors",
                 }));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
+
+        ViewGroup contUserProfile = (ViewGroup) mContainerListView.findViewById(R.id.cont_user_profile);
+        contUserProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), EditUserProfileActivity.class);
+                startActivity(intent);
+            }
+        });
         return mContainerListView;
     }
 
