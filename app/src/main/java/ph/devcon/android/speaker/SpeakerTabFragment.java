@@ -15,7 +15,7 @@ import com.viewpagerindicator.TabPageIndicator;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
-import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.navigation.BaseDevConActivity;
 import ph.devcon.android.speaker.fragment.SpeakerFragment;
 
 /**
@@ -34,7 +34,7 @@ public class SpeakerTabFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_speaker, container, false);
         ButterKnife.inject(this, rootView);
 
-        FragmentPagerAdapter adapter = new ViewSpeakerTypesAdapter(((MainActivity) getActivity()).getSupportFragmentManager());
+        FragmentPagerAdapter adapter = new ViewSpeakerTypesAdapter(((BaseDevConActivity) getActivity()).getSupportFragmentManager());
         pager.setAdapter(adapter);
         indicator.setViewPager(pager);
         return rootView;

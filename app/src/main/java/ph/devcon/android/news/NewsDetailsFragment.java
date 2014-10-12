@@ -15,7 +15,7 @@ import ph.devcon.android.news.view.ObservableScrollView;
 /**
  * Created by lope on 10/9/14.
  */
-public class NewsDetailFragment extends Fragment implements ObservableScrollView.Callbacks {
+public class NewsDetailsFragment extends Fragment implements ObservableScrollView.Callbacks {
 
     private TextView mStickyView;
     private View mPlaceholderView;
