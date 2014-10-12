@@ -8,9 +8,9 @@
 
     <ImageView
         android:id="@+id/img_devcon_logo"
-        android:src="@drawable/ic_launcher"
-        android:layout_width="110dp"
-        android:layout_height="110dp"
+        android:src="@drawable/logo_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="centerCrop"
         android:layout_marginTop="30dp"/>
 
@@ -18,24 +18,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
+        android:layout_marginTop="8dp"
         android:orientation="vertical">
 
         <EditText
             android:src="@drawable/ic_launcher"
             android:layout_width="270dp"
-            android:drawableLeft="@drawable/ic_launcher"
+            android:drawableLeft="@drawable/ic_emailaddress"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
+            android:padding="8dp"
+            android:drawablePadding="8dp"
             android:hint="Email Address"
             android:background="@color/white"/>
 
         <EditText
             android:src="@drawable/ic_launcher"
             android:layout_width="270dp"
-            android:drawableLeft="@drawable/ic_launcher"
+            android:drawableLeft="@drawable/ic_password"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop"
+            android:padding="8dp"
             android:hint="Password"
+            android:drawablePadding="8dp"
             android:background="@color/white"/>
     </LinearLayout>
 
