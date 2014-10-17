@@ -6,7 +6,7 @@
 
     <com.viewpagerindicator.TabPageIndicator
         android:id="@+id/indicator"
-        android:background="@color/blue"
+        android:background="@color/white_dark_light"
         android:layout_height="48dp"
         android:layout_width="fill_parent"/>
 

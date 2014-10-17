@@ -33,6 +33,12 @@ public class SpeakerFragment extends Fragment {
         Speaker speaker = new Speaker();
         speaker.setName("Lope Emano");
         speakers.add(speaker);
+        speakers.add(speaker);
+        speakers.add(speaker);
+        speakers.add(speaker);
+        speakers.add(speaker);
+        speakers.add(speaker);
+        speakers.add(speaker);
         lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), speakers));
         lvwSpeaker.addFooterView(buildFooterView(inflater));
         return rootView;
