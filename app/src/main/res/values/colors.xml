@@ -3,6 +3,9 @@
     <color name="blue_dark">#0099CC</color>
     <color name="blue">#00B7E2</color>
     <color name="blue_light">#39B2E7</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_trans">#D9F8F8F8</color>
+    <color name="white_dark">#F8F8F8</color>
     <color name="gray">#E1E1E1</color>
     <color name="gray_light">#999999</color>
     <color name="gray_light_greenish">#F8F8F8</color>
@@ -12,7 +15,6 @@
     <color name="green">#84AD2E</color>
     <color name="green_trans">#D999CC00</color>
     <color name="orange">#DB6D2C</color>
-    <color name="white">#FFFFFF</color>
     <color name="yellow">#E6C630</color>
     <color name="black">#000000</color>
 </resources>

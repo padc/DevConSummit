@@ -31,6 +31,7 @@
                 android:textColor="@color/green"
                 android:textStyle="bold"
                 android:textSize="12sp"
+                android:typeface="sans"
                 android:text="Haifa Baluyos • DevCon"/>
 
             <TextView
@@ -50,8 +51,9 @@
         android:layout_marginLeft="58dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="@color/black"
         android:paddingBottom="8dp"
+        android:typeface="monospace"
         android:text="Learn the latest trends and Best Practices in Android Development with the ux ambassador"/>
 </LinearLayout>

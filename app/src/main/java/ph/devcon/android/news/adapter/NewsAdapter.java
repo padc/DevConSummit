@@ -2,6 +2,7 @@ package ph.devcon.android.news.adapter;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +21,11 @@ import ph.devcon.android.news.db.News;
  * Created by lope on 10/6/14.
  */
 public class NewsAdapter extends ArrayAdapter<News> {
+    Context mContext;
+
     public NewsAdapter(Context context, List<News> newsList) {
         super(context, R.layout.item_news, newsList);
+        mContext = context;
     }
 
     @Override
@@ -32,7 +36,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
             holder = (ViewHolder) convertView.getTag();
         } else {
             convertView = inflater.inflate(R.layout.item_news, parent, false);
-            holder = new ViewHolder(convertView);
+            holder = new ViewHolder(convertView, mContext);
             convertView.setTag(holder);
         }
         return convertView;
@@ -48,8 +52,10 @@ public class NewsAdapter extends ArrayAdapter<News> {
         @InjectView(R.id.txt_preview)
         TextView txtPreview;
 
-        public ViewHolder(View view) {
+        public ViewHolder(View view, Context context) {
             ButterKnife.inject(this, view);
+            Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Merriweather-Regular.otf");
+            txtPreview.setTypeface(myTypeface);
         }
     }
 }

@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -41,7 +42,14 @@ public class NewsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         ButterKnife.inject(this, rootView);
-        lvwNews.setAdapter(new NewsAdapter(getActivity(), new ArrayList<News>()));
+        News news = new News();
+        List<News> newsList = new ArrayList<News>();
+        newsList.add(news);
+        newsList.add(news);
+        newsList.add(news);
+        newsList.add(news);
+        newsList.add(news);
+        lvwNews.setAdapter(new NewsAdapter(getActivity(), newsList));
         lvwNews.addFooterView(buildFooterView(inflater));
         return rootView;
     }

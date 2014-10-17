@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -37,7 +38,14 @@ public class AttendeesFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_attendee, container, false);
         ButterKnife.inject(this, rootView);
-        lvwAttendee.setAdapter(new AttendeeAdapter(getActivity(), new ArrayList<Attendee>()));
+        List<Attendee> attendeeList = new ArrayList<Attendee>();
+        attendeeList.add(new Attendee());
+        attendeeList.add(new Attendee());
+        attendeeList.add(new Attendee());
+        attendeeList.add(new Attendee());
+        attendeeList.add(new Attendee());
+        attendeeList.add(new Attendee());
+        lvwAttendee.setAdapter(new AttendeeAdapter(getActivity(), attendeeList));
         lvwAttendee.addFooterView(buildFooterView(inflater));
         return rootView;
     }

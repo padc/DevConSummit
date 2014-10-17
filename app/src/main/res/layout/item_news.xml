@@ -3,7 +3,6 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="horizontal"
-              android:padding="4dp"
               android:background="@color/gray_light_greenish"
               android:gravity="left|center_vertical">
 
@@ -12,35 +11,37 @@
         android:id="@+id/img_news"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/ic_launcher"/>
+        android:scaleType="centerCrop"
+        android:src="@drawable/sample_large"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="8dp"
+        android:background="@color/white_dark"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_tag"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
+            android:layout_marginBottom="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="top"
             android:background="@color/blue"
             android:padding="6dp"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:textSize="15sp"
+            android:textSize="13sp"
             android:text="Speakers"/>
 
         <TextView
             android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="12sp"
             android:textColor="@color/green"
-            android:textStyle="bold"
-            android:text="Trends and Best Practices in Android Development"/>
+            android:typeface="sans"
+            android:text="Early bird promo for DevCon Summit 2014"/>
 
         <TextView
             android:id="@+id/txt_preview"
@@ -48,8 +49,9 @@
             android:layout_marginBottom="6dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="13sp"
-            android:text="The speaker is a well known programmer"/>
+            android:maxLines="2"
+            android:textSize="10sp"
+            android:text="The speaker is a well known programmer The speaker is a well known programmer The speaker is a well known programmer"/>
 
     </LinearLayout>
 </LinearLayout>

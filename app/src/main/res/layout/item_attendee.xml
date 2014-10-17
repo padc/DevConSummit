@@ -3,6 +3,8 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:orientation="horizontal"
+              android:layout_marginTop="9dp"
+              android:layout_marginBottom="3dp"
               android:padding="4dp"
               android:background="@color/yellow"
               android:gravity="left|center_vertical">
@@ -10,6 +12,7 @@
 
     <ImageView
         android:id="@+id/img_attendee"
+        android:padding="6dp"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:src="@drawable/ic_launcher"/>
@@ -27,7 +30,7 @@
             android:textSize="20sp"
             android:textColor="@color/white"
             android:textAllCaps="true"
-            android:textStyle="bold"
+            android:typeface="sans"
             android:text="Lope Emano"/>
 
         <TextView

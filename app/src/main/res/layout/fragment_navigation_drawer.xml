@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:tools="http://schemas.android.com/tools"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="#ECECED"
@@ -15,10 +16,14 @@
         android:padding="4dp"
         android:gravity="center_horizontal">
 
-        <ph.devcon.android.user.view.RoundImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/ic_launcher"/>
+        <com.pkmmte.view.CircularImageView
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:src="@drawable/ic_launcher"
+            android:padding="4dp"
+            app:border_color="@color/green"
+            app:border="true"
+            app:border_width="2dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -26,7 +31,7 @@
             android:textAllCaps="true"
             android:textColor="@color/green"
             android:textSize="21sp"
-            android:textStyle="bold"
+            android:typeface="sans"
             android:text="ERICSON LUCIANO"/>
 
         <TextView
