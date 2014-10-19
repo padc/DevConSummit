@@ -10,12 +10,24 @@
               android:gravity="left|center_vertical">
 
 
-    <ImageView
+    <!--<ImageView-->
+    <!--android:id="@+id/img_attendee"-->
+    <!--android:padding="6dp"-->
+    <!--android:layout_width="60dp"-->
+    <!--android:layout_height="60dp"-->
+    <!--android:src="@drawable/ic_launcher"/>-->
+
+    <com.makeramen.RoundedImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_attendee"
-        android:padding="6dp"
+        android:src="@drawable/sample_large"
+        android:scaleType="centerCrop"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/ic_launcher"/>
+        android:padding="6dp"
+        app:corner_radius="5dp"
+        app:mutate_background="true"
+        app:oval="false"/>
 
     <LinearLayout
         android:layout_width="wrap_content"

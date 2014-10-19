@@ -28,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:src="@drawable/splash_bottom"
+        android:scaleType="fitXY"
         android:textStyle="bold"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
