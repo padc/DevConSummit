@@ -41,18 +41,19 @@
 
                 <View
                     android:id="@+id/placeholder"
-                    android:layout_height="100dp"
+                    android:layout_height="80dp"
                     android:layout_width="match_parent"
                     android:layout_alignParentBottom="true"
                     />
             </RelativeLayout>
 
             <TextView
+                android:id="@+id/txt_content"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:layout_marginTop="12dp"
                 android:padding="12dp"
-                android:text="Sticky old Test text It is a long  \n established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \n \nlike readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their  established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."/>
+                android:text="Sticky old Test text It is a long  \n established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look \n like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their  established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point \n \n of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' \n \n will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like)."/>
 
         </LinearLayout>
 
@@ -67,11 +68,11 @@
         <TextView
             android:id="@+id/sticky"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="80dp"
             android:gravity="center_vertical"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:padding="13dp"
+            android:padding="8dp"
             android:background="@color/white_trans"
             android:textColor="@color/green"
             android:typeface="sans"

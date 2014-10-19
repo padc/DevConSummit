@@ -1,5 +1,6 @@
 package ph.devcon.android.news;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.ViewTreeObserver;
 import android.widget.TextView;
 
 import butterknife.ButterKnife;
+import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.news.view.ObservableScrollView;
 
@@ -21,12 +23,15 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
     private View mPlaceholderView;
     private ObservableScrollView mObservableScrollView;
 
+    @InjectView(R.id.txt_content)
+    TextView txtContent;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_news_details, container, false);
-        ButterKnife.inject(this, container);
+        ButterKnife.inject(this, rootView);
         mObservableScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
         mObservableScrollView.setCallbacks(this);
 
@@ -40,8 +45,13 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
                         onScrollChanged(mObservableScrollView.getScrollY());
                     }
                 });
-
+        init();
         return rootView;
+    }
+
+    protected void init() {
+        Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Merriweather-Regular.otf");
+        txtContent.setTypeface(myTypeface);
     }
 
     protected View buildFooterView(LayoutInflater inflater) {

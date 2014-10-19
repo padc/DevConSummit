@@ -54,8 +54,6 @@ public class NewsAdapter extends ArrayAdapter<News> {
 
         public ViewHolder(View view, Context context) {
             ButterKnife.inject(this, view);
-            Typeface myTypeface = Typeface.createFromAsset(context.getAssets(), "fonts/Merriweather-Regular.otf");
-            txtPreview.setTypeface(myTypeface);
         }
     }
 }
