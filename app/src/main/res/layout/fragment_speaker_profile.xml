@@ -18,17 +18,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
-                    android:src="@drawable/ic_launcher"
+                <ImageView
+                    android:id="@+id/img_background_top"
+                    android:src="@drawable/sample_large"
+                    android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
-                    android:layout_height="170dp"
-                    android:background="#231233"/>
+                    android:layout_height="160dp"/>
 
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="170dp"
-                    android:background="#6A4FFA"/>
+                    android:layout_height="160dp"
+                    android:background="@color/purple"/>
             </LinearLayout>
 
             <!--<ImageView-->
@@ -52,7 +53,7 @@
                 android:layout_centerInParent="true"
                 app:corner_radius="5dp"
                 app:border_width="2dp"
-                app:border_color="@color/blue_purple"
+                app:border_color="@color/purple"
                 app:mutate_background="true"
                 app:oval="false"/>
 
@@ -75,9 +76,9 @@
                         android:layout_height="wrap_content"
                         android:textAllCaps="true"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
                         android:textSize="20sp"
                         android:layout_marginBottom="4dp"
+                        android:typeface="sans"
                         android:text="HAIFA BALUYOS"/>
 
                     <TextView

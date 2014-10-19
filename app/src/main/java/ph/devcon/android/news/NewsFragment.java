@@ -29,10 +29,6 @@ public class NewsFragment extends Fragment {
 
     @OnItemClick(R.id.lvw_news)
     public void onItemClick(int position) {
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.add(R.id.cont_news, new NewsDetailsActivity());
-//        transaction.addToBackStack(null);
-//        transaction.commit();
         Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
         startActivity(intent);
     }

@@ -43,6 +43,13 @@
                 android:value=".navigation.MainActivity"/>
         </activity>
         <activity
+            android:name=".speaker.SpeakerDetailsActivity"
+            android:label="@string/app_name">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".navigation.MainActivity"/>
+        </activity>
+        <activity
             android:name=".user.EditUserProfileActivity"
             android:label="@string/app_name">
             <meta-data
