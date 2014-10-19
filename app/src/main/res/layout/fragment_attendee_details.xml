@@ -18,28 +18,30 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
-                <View
-                    android:src="@drawable/ic_launcher"
+                <ImageView
+                    android:id="@+id/img_background_top"
+                    android:src="@drawable/sample_large"
+                    android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="160dp"
                     android:background="#231233"/>
 
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="160dp"
                     android:background="@color/yellow"/>
             </LinearLayout>
 
             <!--<ImageView-->
-            <!--android:id="@+id/img_speaker"-->
-            <!--android:src="@drawable/ic_launcher"-->
-            <!--android:layout_gravity="center"-->
-            <!--android:layout_width="110dp"-->
-            <!--android:layout_height="110dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:layout_centerInParent="true"-->
-            <!--android:layout_marginTop="30dp"/>-->
+                <!--android:id="@+id/img_speaker"-->
+                <!--android:src="@drawable/sample_large"-->
+                <!--android:layout_gravity="center"-->
+                <!--android:layout_width="110dp"-->
+                <!--android:layout_height="110dp"-->
+                <!--android:scaleType="centerCrop"-->
+                <!--android:layout_centerInParent="true"-->
+                <!--android:layout_marginTop="30dp"/>-->
 
             <com.makeramen.RoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -107,13 +109,14 @@
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
+            android:typeface="monospace"
             android:text="Location"/>
 
         <View
             android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@color/gray"/>
 
         <TextView
@@ -131,13 +134,14 @@
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
+            android:typeface="monospace"
             android:text="E-mail Address &amp; Contact Information"/>
 
         <View
             android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@color/gray"/>
 
         <TextView
@@ -155,13 +159,14 @@
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
+            android:typeface="monospace"
             android:text="About Haifa"/>
 
         <View
             android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="6dp"
             android:background="@color/gray"/>
 
         <TextView

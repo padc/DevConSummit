@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="blue_purple">#333333</color>
+    <color name="blue_purple_trans">#E1333333</color>
     <color name="blue_dark">#0099CC</color>
     <color name="blue">#00B7E2</color>
     <color name="blue_light">#39B2E7</color>
@@ -18,5 +19,6 @@
     <color name="green_trans">#D999CC00</color>
     <color name="orange">#DB6D2C</color>
     <color name="yellow">#E6C630</color>
+    <color name="yellow_trans">#91E6C630</color>
     <color name="black">#000000</color>
 </resources>
