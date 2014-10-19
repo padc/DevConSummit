@@ -11,8 +11,10 @@
         android:id="@+id/img_news"
         android:layout_width="100dp"
         android:layout_height="100dp"
+        android:padding="2dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/sample_large"/>
+        android:src="@drawable/sample_large"
+        />
 
     <LinearLayout
         android:layout_width="wrap_content"

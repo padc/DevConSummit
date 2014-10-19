@@ -16,14 +16,28 @@
         android:padding="4dp"
         android:gravity="center_horizontal">
 
-        <com.pkmmte.view.CircularImageView
+        <!--<com.pkmmte.view.CircularImageView-->
+        <!--android:layout_width="75dp"-->
+        <!--android:layout_height="75dp"-->
+        <!--android:src="@drawable/ic_launcher"-->
+        <!--android:padding="4dp"-->
+        <!--app:border_color="@color/green"-->
+        <!--app:border="true"-->
+        <!--app:border_width="2dp"/>-->
+
+        <!--app:corner_radius="3dip"-->
+
+        <com.makeramen.RoundedImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/img_news"
+            android:src="@drawable/sample_large"
+            android:scaleType="centerCrop"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:src="@drawable/ic_launcher"
-            android:padding="4dp"
+            app:border_width="2dp"
             app:border_color="@color/green"
-            app:border="true"
-            app:border_width="2dp"/>
+            app:mutate_background="true"
+            app:oval="true"/>
 
         <TextView
             android:layout_width="wrap_content"

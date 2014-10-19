@@ -21,25 +21,40 @@
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="170dp"
                     android:background="#231233"/>
 
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="170dp"
                     android:background="#6A4FFA"/>
             </LinearLayout>
 
-            <ImageView
+            <!--<ImageView-->
+            <!--android:id="@+id/img_speaker"-->
+            <!--android:src="@drawable/ic_launcher"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="110dp"-->
+            <!--android:layout_height="110dp"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginTop="30dp"-->
+            <!--android:layout_marginBottom="14dp"/>-->
+
+            <com.makeramen.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_speaker"
-                android:src="@drawable/ic_launcher"
-                android:layout_gravity="center"
+                android:src="@drawable/sample_large"
+                android:scaleType="centerCrop"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="30dp"/>
+                app:corner_radius="5dp"
+                app:border_width="2dp"
+                app:border_color="@color/blue_purple"
+                app:mutate_background="true"
+                app:oval="false"/>
 
             <LinearLayout
                 android:layout_centerHorizontal="true"

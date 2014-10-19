@@ -21,25 +21,39 @@
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="170dp"
                     android:background="#231233"/>
 
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
-                    android:layout_height="150dp"
+                    android:layout_height="170dp"
                     android:background="@color/yellow"/>
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/img_speaker"
-                android:src="@drawable/ic_launcher"
-                android:layout_gravity="center"
+            <!--<ImageView-->
+            <!--android:id="@+id/img_speaker"-->
+            <!--android:src="@drawable/ic_launcher"-->
+            <!--android:layout_gravity="center"-->
+            <!--android:layout_width="110dp"-->
+            <!--android:layout_height="110dp"-->
+            <!--android:scaleType="centerCrop"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:layout_marginTop="30dp"/>-->
+
+            <com.makeramen.RoundedImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/img_attendee"
+                android:src="@drawable/sample_large"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
-                android:scaleType="centerCrop"
                 android:layout_centerInParent="true"
-                android:layout_marginTop="30dp"/>
+                android:scaleType="centerCrop"
+                app:corner_radius="5dp"
+                app:border_width="2dp"
+                app:border_color="@color/yellow"
+                app:mutate_background="true"
+                app:oval="false"/>
 
             <LinearLayout
                 android:layout_centerHorizontal="true"
