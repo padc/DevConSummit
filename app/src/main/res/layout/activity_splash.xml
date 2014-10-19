@@ -1,37 +1,35 @@
-<ScrollView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_horizontal"
+    android:background="@color/gray_login"
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ImageView
+        android:id="@+id/img_devcon_logo"
+        android:src="@drawable/logo_login"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:scaleType="fitCenter"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"/>
+
+    <!--<TextView-->
+    <!--android:id="@+id/lbl_sponsors"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="20dp"-->
+    <!--android:text="Co-Presented by"-->
+    <!--android:textStyle="bold"/>-->
+
+    <ImageView
+        android:id="@+id/img_sponsor_logos"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/img_devcon_logo"
-            android:src="@drawable/ic_launcher"
-            android:layout_width="250dp"
-            android:layout_height="250dp"
-            android:scaleType="centerCrop"
-            android:layout_marginTop="60dp"/>
-
-        <TextView
-            android:id="@+id/lbl_sponsors"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
-            android:text="Co-Presented by"
-            android:textStyle="bold"
-            android:gravity="center"/>
-
-        <ImageView
-            android:id="@+id/img_sponsor_logos"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/ic_launcher"
-            android:textStyle="bold"
-            android:gravity="center"/>
-    </LinearLayout>
-</ScrollView>
+        android:layout_height="150dp"
+        android:src="@drawable/splash_bottom"
+        android:textStyle="bold"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
+        android:gravity="center"/>
+</RelativeLayout>

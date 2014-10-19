@@ -1,18 +1,18 @@
 package ph.devcon.android.splash;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v7.app.ActionBarActivity;
 
 import ph.devcon.android.R;
-import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.login.LoginActivity;
 
 /**
  * Created by lope on 9/16/14.
  */
-public class SplashActivity extends ActionBarActivity {
-    private static int SPLASH_TIME_OUT = 3000;
+public class SplashActivity extends Activity {
+    private static int SPLASH_TIME_OUT = 2000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class SplashActivity extends ActionBarActivity {
             public void run() {
                 // This method will be executed once the timer is over
                 // Start your app main activity
-                Intent i = new Intent(SplashActivity.this, MainActivity.class);
+                Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(i);
 
                 // close this activity
