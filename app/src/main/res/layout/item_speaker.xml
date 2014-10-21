@@ -18,16 +18,16 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="#6A4FFA"
-            android:paddingLeft="84dp"
-            android:paddingTop="11dp"
-            android:paddingBottom="11dp"
+            android:paddingLeft="90dp"
+            android:paddingTop="@dimen/regular_padding"
+            android:paddingBottom="@dimen/regular_padding"
             android:gravity="left|center_vertical">
 
             <TextView
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="@dimen/small_text_size"
                 android:typeface="monospace"
                 android:text="Resource Speakers"/>
 
@@ -35,9 +35,8 @@
                 android:id="@+id/txt_speaker_name"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
                 android:textColor="@color/white"
-                android:textSize="18sp"
+                android:textSize="@dimen/big_text_size"
                 android:textAllCaps="true"
                 android:background="#6A4FFA"
                 android:typeface="sans"
@@ -47,7 +46,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="@dimen/small_text_size"
                 android:background="#6A4FFA"
                 android:text="Executive Director at Developers Connect"/>
 
@@ -64,11 +63,11 @@
                 android:id="@+id/txt_program_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="11dp"
-                android:paddingBottom="11dp"
-                android:textSize="15sp"
+                android:paddingTop="@dimen/regular_padding"
+                android:paddingBottom="@dimen/regular_padding"
+                android:textSize="@dimen/regular_text_size"
                 android:textColor="@color/white"
-                android:layout_marginLeft="84dp"
+                android:layout_marginLeft="90dp"
                 android:text="Trends and Best Practices in Android Development"/>
         </LinearLayout>
     </LinearLayout>
@@ -78,8 +77,8 @@
         android:id="@+id/img_news"
         android:src="@drawable/sample_large"
         android:scaleType="centerCrop"
-        android:layout_width="63dp"
-        android:layout_height="63dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_margin="11dp"
         android:layout_marginLeft="8dp"
         android:layout_centerVertical="true"
@@ -87,12 +86,4 @@
         app:mutate_background="true"
         app:oval="false"/>
 
-    <!--<ImageView-->
-        <!--android:id="@+id/img_speaker"-->
-        <!--android:layout_margin="11dp"-->
-        <!--android:layout_width="63dp"-->
-        <!--android:layout_height="63dp"-->
-        <!--android:layout_marginLeft="8dp"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:src="@drawable/ic_launcher"/>-->
 </RelativeLayout>

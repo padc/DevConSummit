@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="headerlistview-1.0.2-SNAPSHOT">
     <CLASSES>
-      <root url="file://$PROJECT_DIR$/app/build/exploded-bundles/ComApplidiumHeaderlistviewHeaderlistview102SNAPSHOT.aar/res" />
-      <root url="jar://$PROJECT_DIR$/app/build/exploded-bundles/ComApplidiumHeaderlistviewHeaderlistview102SNAPSHOT.aar/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.applidium.headerlistview/headerlistview/1.0.2-SNAPSHOT/res" />
+      <root url="jar://$PROJECT_DIR$/app/build/intermediates/exploded-aar/com.applidium.headerlistview/headerlistview/1.0.2-SNAPSHOT/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

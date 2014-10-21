@@ -10,21 +10,14 @@
               android:gravity="left|center_vertical">
 
 
-    <!--<ImageView-->
-    <!--android:id="@+id/img_attendee"-->
-    <!--android:padding="6dp"-->
-    <!--android:layout_width="60dp"-->
-    <!--android:layout_height="60dp"-->
-    <!--android:src="@drawable/ic_launcher"/>-->
-
     <com.makeramen.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_attendee"
         android:src="@drawable/sample_large"
         android:scaleType="centerCrop"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:padding="6dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:padding="@dimen/small_padding"
         app:corner_radius="5dp"
         app:mutate_background="true"
         app:oval="false"/>
@@ -32,14 +25,14 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
+        android:padding="@dimen/regular_padding"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/txt_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
+            android:textSize="@dimen/big_text_size"
             android:textColor="@color/white"
             android:textAllCaps="true"
             android:typeface="sans"
@@ -49,7 +42,7 @@
             android:id="@+id/txt_job"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
+            android:textSize="@dimen/regular_text_size"
             android:textColor="@color/white"
             android:text="Web Developer at Aelogica"/>
 
@@ -57,7 +50,7 @@
             android:id="@+id/txt_languages"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
+            android:textSize="@dimen/small_text_size"
             android:textColor="@color/white"
             android:text="Android (Primary) Javascript Java"/>
 
