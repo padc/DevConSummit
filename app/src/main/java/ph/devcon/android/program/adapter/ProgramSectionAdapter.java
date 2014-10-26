@@ -9,11 +9,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applidium.headerlistview.SectionAdapter;
+import com.google.common.base.Optional;
+import com.google.common.collect.Maps;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
-import ph.devcon.android.util.Util;
+import ph.devcon.android.program.api.Program;
+import ph.devcon.android.speaker.api.Speaker;
 
 /**
  * Created by lope on 9/21/14.
@@ -21,9 +27,21 @@ import ph.devcon.android.util.Util;
 public class ProgramSectionAdapter extends SectionAdapter {
 
     Context mContext;
+    List<Program> programList;
+    HashMap<Integer, Program> programHashMap;
 
-    public ProgramSectionAdapter(Context context) {
+    public ProgramSectionAdapter(Context context, List<Program> programList) {
         mContext = context;
+        this.programList = programList;
+        buildProgramMap();
+    }
+
+    public void buildProgramMap() {
+        programHashMap = Maps.newHashMap();
+        int counter = 0;
+        for (Program program : programList) {
+            programHashMap.put(counter, program);
+        }
     }
 
     @Override
@@ -50,8 +68,8 @@ public class ProgramSectionAdapter extends SectionAdapter {
     public View getRowView(int section, int row, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder = null;
-        if (section != 8) {
-//        Program program = (Program) getRowItem(section, row);
+        if (section != programHashMap.size()) {
+            Program program = programHashMap.get(section);
             if (convertView != null) {
                 // related to a bug lol
                 View sponsorView = convertView.findViewById(R.id.cont_sponsors);
@@ -61,14 +79,18 @@ public class ProgramSectionAdapter extends SectionAdapter {
                     convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                     holder = new ViewHolder(convertView);
                 }
-
             } else if (convertView == null) {
                 convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                 holder = new ViewHolder(convertView);
             }
-//        holder.txtSpeakerName.setText(program.getSpeaker().getName());
-//        holder.imgSpeaker.setImageBitmap(program.getSpeaker().getSpeakerIconBitmap());
-//        holder.txtProgramTitle.setText(program.getTitle());
+            holder.txtProgramTitle.setText(program.getTitle());
+            Optional<Speaker> speakerOptional = Optional.fromNullable(program.getMainSpeaker());
+            if (speakerOptional.isPresent()) {
+                Speaker speaker = speakerOptional.get();
+                // get speaker image
+                // Picasso.with(mContext).load(speaker.get)
+                holder.txtSpeakerName.setText(speaker.getSpeakerName());
+            }
         } else {
             return inflater.inflate(R.layout.footer_standard, null);
         }
@@ -93,40 +115,11 @@ public class ProgramSectionAdapter extends SectionAdapter {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
         }
         TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
-        txtTime.setText(Util.toTime(section));
-        if (section == 8) {
+        Program program = programHashMap.get(section);
+        txtTime.setText(program.getStartAt());
+        if (section == programHashMap.size()) {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_null), null);
         }
-//        ((TextView) convertView).setText("Section " + section + " Row " + row);
-//        if (convertView == null) {
-//            if (getSectionHeaderItemViewType(section) == 0) {
-//                convertView = inflater.inflate(mContext.getResources().getLayout(android.R.layout.simple_list_item_1), null);
-//            } else {
-//                convertView = inflater.inflate(mContext.getResources().getLayout(android.R.layout.simple_list_item_2), null);
-//            }
-//        }
-//
-//        if (getSectionHeaderItemViewType(section) == 0) {
-//            ((TextView) convertView).setText("Header for section " + section);
-//        } else {
-//            ((TextView) convertView.findViewById(android.R.id.text1)).setText("Header for section " + section);
-//            ((TextView) convertView.findViewById(android.R.id.text2)).setText("Has a detail text field");
-//        }
-
-//        convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_orange_light));
-//        switch (section) {
-//            case 0:
-//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_red_light));
-//                break;
-//            case 1:
-//                break;
-//            case 2:
-//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_green_light));
-//                break;
-//            case 3:
-//                convertView.setBackgroundColor(mContext.getResources().getColor(android.R.color.holo_blue_light));
-//                break;
-//        }
         return convertView;
     }
 
