@@ -7,10 +7,16 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 
+import com.google.common.base.Strings;
+
 /**
  * Created by lope on 10/6/14.
  */
 public class Util {
+    public static boolean isNullOrEmpty(String s) {
+        return Strings.isNullOrEmpty(s);
+    }
+
     public static String toTime(int section) {
         switch (section) {
             case 0:

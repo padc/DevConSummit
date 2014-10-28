@@ -16,6 +16,7 @@ public class DevConApplication extends Application {
     public static final String SOURCESANSPRO_SEMIBOLD = "SANS_SERIF";
     public static final String SOURCESANSPRO_REGULAR = "SERIF";
     public static final String PTSERIF_ITALIC = "MONOSPACE";
+    public static final String API_ENDPOINT = "http://api.devcon.ph/api/v1/";
     static DevConApplication instance;
     private static JobManager jobManager;
 
