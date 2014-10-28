@@ -13,4 +13,9 @@ public class ProgramDaoImpl extends BaseDevConDaoImpl<Program, Integer> implemen
     public ProgramDaoImpl(ConnectionSource connectionSource, Class<Program> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public boolean isCacheValid() {
+        return true;
+    }
 }

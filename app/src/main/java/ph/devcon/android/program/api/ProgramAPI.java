@@ -12,17 +12,21 @@ import ph.devcon.android.speaker.api.Speaker;
  * Created by lope on 10/26/2014.
  */
 
-public class Program {
+public class ProgramAPI {
 
     @SerializedName("start_at")
     @Expose
     private String startAt;
+
     @Expose
     private String title;
+
     @Expose
     private String description;
+
     @Expose
     private String category;
+
     @Expose
     private List<Speaker> speakers = new ArrayList<Speaker>();
 

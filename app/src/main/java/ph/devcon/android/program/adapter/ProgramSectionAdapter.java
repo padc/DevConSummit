@@ -18,8 +18,8 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
-import ph.devcon.android.program.api.Program;
-import ph.devcon.android.speaker.api.Speaker;
+import ph.devcon.android.program.db.Program;
+import ph.devcon.android.speaker.db.Speaker;
 
 /**
  * Created by lope on 9/21/14.
@@ -83,13 +83,13 @@ public class ProgramSectionAdapter extends SectionAdapter {
                 convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                 holder = new ViewHolder(convertView);
             }
-            holder.txtProgramTitle.setText(program.getTitle());
+            holder.txtProgramTitle.setText(program.getPosition());
             Optional<Speaker> speakerOptional = Optional.fromNullable(program.getMainSpeaker());
             if (speakerOptional.isPresent()) {
                 Speaker speaker = speakerOptional.get();
                 // get speaker image
                 // Picasso.with(mContext).load(speaker.get)
-                holder.txtSpeakerName.setText(speaker.getSpeakerName());
+                holder.txtSpeakerName.setText(speaker.getName());
             }
         } else {
             return inflater.inflate(R.layout.footer_standard, null);
