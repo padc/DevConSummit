@@ -7,6 +7,11 @@ import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
 import com.path.android.jobqueue.log.CustomLogger;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import dagger.ObjectGraph;
+import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.util.TypeFaceUtil;
 
 /**
@@ -18,6 +23,8 @@ public class DevConApplication extends Application {
     public static final String PTSERIF_ITALIC = "MONOSPACE";
     public static final String API_ENDPOINT = "http://api.devcon.ph/api/v1/";
     static DevConApplication instance;
+    ObjectGraph graph;
+
     private static JobManager jobManager;
 
     public DevConApplication() {
@@ -35,13 +42,30 @@ public class DevConApplication extends Application {
     @Override
     public void onCreate() {
         initFonts();
+        graph = buildObjectGraph();
         configureJobManager();
+    }
+
+    public static void injectMembers(Object object) {
+        getInstance().graph.inject(object);
     }
 
     private void initFonts() {
         TypeFaceUtil.overrideFont(getApplicationContext(), SOURCESANSPRO_SEMIBOLD, "fonts/SourceSansPro-Semibold.otf");
         TypeFaceUtil.overrideFont(getApplicationContext(), SOURCESANSPRO_REGULAR, "fonts/SourceSansPro-Regular.otf");
         TypeFaceUtil.overrideFont(getApplicationContext(), PTSERIF_ITALIC, "fonts/pt-serif.italic.ttf");
+    }
+
+    protected ObjectGraph buildObjectGraph() {
+        List<Object> objectList = new ArrayList<Object>();
+        objectList.addAll(getModules());
+        return ObjectGraph.create(objectList.toArray());
+    }
+
+    protected List<Object> getModules() {
+        List<Object> objectList = new ArrayList<Object>();
+        objectList.add(new AuthModule(this));
+        return objectList;
     }
 
     private void configureJobManager() {
