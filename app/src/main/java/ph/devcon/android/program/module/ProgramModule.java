@@ -13,13 +13,17 @@ import ph.devcon.android.base.module.EventBusModule;
 import ph.devcon.android.program.ProgramFragment;
 import ph.devcon.android.program.db.ProgramDao;
 import ph.devcon.android.program.job.FetchProgramListJob;
-import retrofit.RestAdapter;
+import ph.devcon.android.program.service.ProgramService;
+import ph.devcon.android.program.service.ProgramServiceImpl;
+import ph.devcon.android.speaker.db.SpeakerDao;
+import ph.devcon.android.speaker.module.SpeakerModule;
 
 /**
  * Created by lope on 10/29/14.
  */
 @Module(injects = {ProgramFragment.class, FetchProgramListJob.class},
-        includes = {APIModule.class, AuthModule.class, EventBusModule.class})
+        includes = {APIModule.class, AuthModule.class, EventBusModule.class,
+                SpeakerModule.class})
 public class ProgramModule {
     Context mContext;
 
@@ -29,8 +33,14 @@ public class ProgramModule {
 
     @Provides
     @Singleton
-    public ProgramDao provideProgramDao(RestAdapter restAdapter) {
+    public ProgramDao provideProgramDao() {
         return DatabaseHelper.getInstance(mContext).getProgramDao();
+    }
+
+    @Provides
+    @Singleton
+    public ProgramService provideProgramService(ProgramDao programDao, SpeakerDao speakerDao) {
+        return new ProgramServiceImpl(programDao, speakerDao);
     }
 
 }

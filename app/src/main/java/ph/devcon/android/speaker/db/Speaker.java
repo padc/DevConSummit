@@ -3,14 +3,13 @@ package ph.devcon.android.speaker.db;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.program.db.Program;
+import ph.devcon.android.speaker.api.SpeakerAPI;
 
 /**
  * Created by lope on 9/16/14.
@@ -18,23 +17,29 @@ import ph.devcon.android.program.db.Program;
 @DatabaseTable(daoClass = SpeakerDaoImpl.class)
 public class Speaker extends BaseDevCon {
 
-    @SerializedName("speakerName")
-    @Expose
     @DatabaseField(index = true)
-    String name;
+    String firstName;
 
     @DatabaseField(index = true)
-    String title;
+    String lastName;
 
-    @SerializedName("speakerPosition")
-    @Expose
     @DatabaseField
     String position;
 
-    @SerializedName("speakerCompany")
-    @Expose
     @DatabaseField
     String company;
+
+    @DatabaseField
+    String description;
+
+    @DatabaseField
+    String twitterHandle;
+
+    @DatabaseField
+    String website;
+
+    @DatabaseField
+    String photoUrl;
 
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] speakerIcon;
@@ -46,20 +51,37 @@ public class Speaker extends BaseDevCon {
         return BitmapFactory.decodeByteArray(speakerIcon, 0, speakerIcon.length);
     }
 
-    public String getName() {
-        return name;
+    public static Speaker toSpeaker(SpeakerAPI speakerAPI) {
+        Speaker speaker = new Speaker();
+        speaker.setFirstName(speakerAPI.getFirstName());
+        speaker.setLastName(speakerAPI.getLastName());
+        speaker.setPosition(speakerAPI.getPosition());
+        speaker.setCompany(speakerAPI.getCompany());
+        speaker.setDescription(speakerAPI.getDescription());
+        speaker.setTwitterHandle(speakerAPI.getTwitterHandle());
+        speaker.setWebsite(speakerAPI.getWebsite());
+        speaker.setPhotoUrl(speakerAPI.getPhotoUrl());
+        return speaker;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
     }
 
-    public String getTitle() {
-        return title;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getPosition() {
@@ -76,6 +98,38 @@ public class Speaker extends BaseDevCon {
 
     public void setCompany(String company) {
         this.company = company;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getTwitterHandle() {
+        return twitterHandle;
+    }
+
+    public void setTwitterHandle(String twitterHandle) {
+        this.twitterHandle = twitterHandle;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public byte[] getSpeakerIcon() {

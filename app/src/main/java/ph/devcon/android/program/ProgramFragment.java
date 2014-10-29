@@ -53,16 +53,16 @@ public class ProgramFragment extends Fragment {
         ButterKnife.inject(this, rootView);
         eventBus.register(this);
         populateFromAPI();
-//        try {
-//            if (programDao.isCacheValid()) {
-//                populateFromCache(savedInstanceState);
-//            } else {
-//                populateFromAPI();
-//            }
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//            populateFromAPI();
-//        }
+        try {
+            if (programDao.isCacheValid()) {
+                populateFromCache(savedInstanceState);
+            } else {
+                populateFromAPI();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            populateFromAPI();
+        }
         return rootView;
     }
 

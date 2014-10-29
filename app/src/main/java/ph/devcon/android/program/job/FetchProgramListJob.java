@@ -1,11 +1,9 @@
 package ph.devcon.android.program.job;
 
-import com.google.common.base.Optional;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -13,11 +11,10 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.auth.AuthService;
-import ph.devcon.android.program.api.ProgramAPIContainer;
 import ph.devcon.android.program.api.ProgramBaseResponse;
 import ph.devcon.android.program.controller.ProgramController;
 import ph.devcon.android.program.db.Program;
-import ph.devcon.android.program.db.ProgramDao;
+import ph.devcon.android.program.service.ProgramService;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -32,13 +29,13 @@ public class FetchProgramListJob extends Job {
     private final int id;
 
     @Inject
-    ProgramDao programDao;
-
-    @Inject
     RestAdapter restAdapter;
 
     @Inject
     AuthService authService;
+
+    @Inject
+    ProgramService programService;
 
     @Inject
     EventBus eventBus;
@@ -59,22 +56,11 @@ public class FetchProgramListJob extends Job {
             //many times, cancel me, let the other one fetch tweets.
             return;
         }
-        ProgramController programService = restAdapter.create(ProgramController.class);
-        programService.listPrograms(authService.getCachedToken(), new Callback<ProgramBaseResponse>() {
+        ProgramController programController = restAdapter.create(ProgramController.class);
+        programController.listPrograms(authService.getCachedToken(), new Callback<ProgramBaseResponse>() {
             @Override
             public void success(ProgramBaseResponse baseResponse, Response response) {
-                Optional<ProgramBaseResponse> baseResponseOptional = Optional.of(baseResponse);
-                ProgramBaseResponse programBaseResponse = baseResponseOptional.get();
-                List<Program> programsDBList = new ArrayList<Program>();
-                for (ProgramAPIContainer container : programBaseResponse.getPrograms()) {
-                    try {
-                        Program programDb = Program.toProgram(container.getProgram());
-                        programDao.create(programDb);
-                        programsDBList.add(programDb);
-                    } catch (SQLException e) {
-                        e.printStackTrace();
-                    }
-                }
+                List<Program> programsDBList = programService.createPrograms(baseResponse);
                 eventBus.post(new FetchedProgramListEvent(programsDBList));
             }
 

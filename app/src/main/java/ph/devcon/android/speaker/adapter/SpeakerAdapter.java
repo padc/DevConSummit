@@ -31,7 +31,7 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.item_speaker, parent, false);
             TextView txtSpeakerName = (TextView) convertView.findViewById(R.id.txt_speaker_name);
-            txtSpeakerName.setText(speaker.getName());
+            txtSpeakerName.setText(speaker.getFullName());
         }
         return convertView;
     }

@@ -41,12 +41,13 @@ public class LoginActivity extends Activity {
         String email = String.valueOf(edtEmailAddress.getText());
         String password = String.valueOf(edtPassword.getText());
         email = "haifa@devcon.ph";
-        password = "";
+        password = "password";
         authService.authenticate(email, password, new AuthService.AuthCallback() {
             @Override
             public void onAuthenticated(String token) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override

@@ -41,12 +41,13 @@ public class ProgramSectionAdapter extends SectionAdapter {
         int counter = 0;
         for (Program program : programList) {
             programHashMap.put(counter, program);
+            counter++;
         }
     }
 
     @Override
     public int numberOfSections() {
-        return 9;
+        return programHashMap.size();
     }
 
     @Override
@@ -78,19 +79,22 @@ public class ProgramSectionAdapter extends SectionAdapter {
                 else {
                     convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                     holder = new ViewHolder(convertView);
+                    convertView.setTag(holder);
                 }
-            } else if (convertView == null) {
+            } else {
                 convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_program), null);
                 holder = new ViewHolder(convertView);
+                convertView.setTag(holder);
             }
-            holder.txtProgramTitle.setText(program.getPosition());
+            holder.txtProgramTitle.setText(program.getTitle());
             Optional<Speaker> speakerOptional = Optional.fromNullable(program.getMainSpeaker());
             if (speakerOptional.isPresent()) {
                 Speaker speaker = speakerOptional.get();
                 // get speaker image
                 // Picasso.with(mContext).load(speaker.get)
-                holder.txtSpeakerName.setText(speaker.getName());
+                holder.txtSpeakerName.setText(speaker.getFullName());
             }
+            holder.txtProgramDescription.setText(program.getDescription());
         } else {
             return inflater.inflate(R.layout.footer_standard, null);
         }
@@ -135,6 +139,8 @@ public class ProgramSectionAdapter extends SectionAdapter {
         TextView txtSpeakerName;
         @InjectView(R.id.txt_program_title)
         TextView txtProgramTitle;
+        @InjectView(R.id.txt_program_description)
+        TextView txtProgramDescription;
 
         public ViewHolder(View view) {
             ButterKnife.inject(this, view);

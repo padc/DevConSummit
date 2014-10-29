@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by lope on 10/26/2014.
  */
-public class Speaker {
+public class SpeakerAPI {
     @SerializedName("first_name")
     @Expose
     private String firstName;

@@ -9,6 +9,7 @@ import dagger.ObjectGraph;
 import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.program.module.ProgramModule;
+import ph.devcon.android.speaker.module.SpeakerModule;
 import ph.devcon.android.util.TypeFaceUtil;
 
 /**
@@ -57,6 +58,7 @@ public class DevConApplication extends Application {
         objectList.add(new AuthModule(this));
         objectList.add(new APIModule(this));
         objectList.add(new ProgramModule(this));
+        objectList.add(new SpeakerModule(this));
         return objectList;
     }
 }

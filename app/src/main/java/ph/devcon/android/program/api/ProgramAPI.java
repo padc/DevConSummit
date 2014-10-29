@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-import ph.devcon.android.speaker.api.Speaker;
+import ph.devcon.android.speaker.api.SpeakerAPI;
 
 /**
  * Created by lope on 10/26/2014.
@@ -23,7 +23,7 @@ public class ProgramAPI {
     @Expose
     private Category category;
     @Expose
-    private List<Speaker> speakers = new ArrayList<Speaker>();
+    private List<SpeakerAPI> speakers = new ArrayList<SpeakerAPI>();
 
     public String getStartAt() {
         return startAt;
@@ -57,16 +57,16 @@ public class ProgramAPI {
         this.category = category;
     }
 
-    public List<Speaker> getSpeakers() {
+    public List<SpeakerAPI> getSpeakers() {
         return speakers;
     }
 
-    public void setSpeakers(List<Speaker> speakers) {
+    public void setSpeakers(List<SpeakerAPI> speakers) {
         this.speakers = speakers;
     }
 
-    public Speaker getMainSpeaker() {
-        for (Speaker speaker : getSpeakers()) {
+    public SpeakerAPI getMainSpeaker() {
+        for (SpeakerAPI speaker : getSpeakers()) {
             return speaker;
         }
         return null;

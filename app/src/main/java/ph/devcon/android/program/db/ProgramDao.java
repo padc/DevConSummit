@@ -9,4 +9,6 @@ import ph.devcon.android.base.db.BaseDevConDao;
  */
 public interface ProgramDao extends BaseDevConDao<Program, Integer> {
     public boolean isCacheValid() throws SQLException;
+
+    public void clear() throws SQLException;
 }

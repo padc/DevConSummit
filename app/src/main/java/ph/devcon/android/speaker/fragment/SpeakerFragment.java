@@ -51,7 +51,8 @@ public class SpeakerFragment extends Fragment {
     public void onStart() {
         List<Speaker> speakers = new ArrayList<Speaker>();
         Speaker speaker = new Speaker();
-        speaker.setName("Lope Emano");
+        speaker.setFirstName("Lope");
+        speaker.setLastName("Emano");
         speakers.add(speaker);
         speakers.add(speaker);
         speakers.add(speaker);

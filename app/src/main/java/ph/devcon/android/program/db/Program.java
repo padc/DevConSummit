@@ -19,7 +19,7 @@ public class Program extends BaseDevCon {
     String startAt;
 
     @DatabaseField
-    String position;
+    String title;
 
     @DatabaseField
     String description;
@@ -34,7 +34,7 @@ public class Program extends BaseDevCon {
         Program program = new Program();
         program.setCategory(programAPIApi.getCategory().getName());
         program.setDescription(programAPIApi.getDescription());
-        program.setPosition(programAPIApi.getDescription());
+        program.setTitle(programAPIApi.getTitle());
         program.setStartAt(programAPIApi.getStartAt());
         return program;
     }
@@ -54,12 +54,12 @@ public class Program extends BaseDevCon {
         this.startAt = startAt;
     }
 
-    public String getPosition() {
-        return position;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPosition(String position) {
-        this.position = position;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getDescription() {
