@@ -15,11 +15,12 @@ import com.path.android.jobqueue.JobManager;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
-import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.program.adapter.ProgramSectionAdapter;
 import ph.devcon.android.program.db.Program;
@@ -36,16 +37,17 @@ public class ProgramFragment extends Fragment {
 
     ProgramSectionAdapter programSectionAdapter;
 
+    @Inject
     JobManager jobManager;
+    @Inject
     ProgramDao programDao;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_program, container, false);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-        generatePrograms();
-        programDao = DatabaseHelper.getInstance(DevConApplication.getInstance()).getProgramDao();
         if (programDao.isCacheValid()) {
             populateFromCache(savedInstanceState);
         } else {
@@ -80,12 +82,7 @@ public class ProgramFragment extends Fragment {
     }
 
     protected void populateFromAPI() {
-        jobManager = DevConApplication.getJobManager();
         jobManager.addJobInBackground(new FetchProgramListJob());
-    }
-
-    public void generatePrograms() {
-
     }
 
     public void setProgramList(List<Program> programList) {
