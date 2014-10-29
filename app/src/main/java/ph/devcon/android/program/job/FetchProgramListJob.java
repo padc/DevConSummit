@@ -1,31 +1,26 @@
 package ph.devcon.android.program.job;
 
-import android.util.Log;
-
+import com.google.common.base.Optional;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
-import com.squareup.okhttp.Cache;
-import com.squareup.okhttp.OkHttpClient;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import javax.inject.Inject;
+
 import de.greenrobot.event.EventBus;
-import ph.devcon.android.DevConApplication;
-import ph.devcon.android.base.DatabaseHelper;
-import ph.devcon.android.program.api.ProgramAPI;
+import ph.devcon.android.auth.AuthService;
+import ph.devcon.android.program.api.ProgramAPIContainer;
+import ph.devcon.android.program.api.ProgramBaseResponse;
 import ph.devcon.android.program.controller.ProgramController;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.program.db.ProgramDao;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
-import retrofit.client.OkClient;
 import retrofit.client.Response;
 
 /**
@@ -35,6 +30,18 @@ public class FetchProgramListJob extends Job {
     private static final AtomicInteger jobCounter = new AtomicInteger(0);
 
     private final int id;
+
+    @Inject
+    ProgramDao programDao;
+
+    @Inject
+    RestAdapter restAdapter;
+
+    @Inject
+    AuthService authService;
+
+    @Inject
+    EventBus eventBus;
 
     public FetchProgramListJob() {
         super(new Params(Priority.HIGH).requireNetwork());
@@ -52,42 +59,28 @@ public class FetchProgramListJob extends Job {
             //many times, cancel me, let the other one fetch tweets.
             return;
         }
-        int SIZE_OF_CACHE = 1024;
-        OkHttpClient ok = new OkHttpClient();
-        try {
-            Cache responseCache = new Cache(DevConApplication.getInstance().getCacheDir(), SIZE_OF_CACHE);
-            ok.setCache(responseCache);
-        } catch (Exception e) {
-            Log.d("OkHttp", "Unable to set http cache", e);
-        }
-        ok.setReadTimeout(30, TimeUnit.SECONDS);
-        ok.setConnectTimeout(30, TimeUnit.SECONDS);
-        Executor executor = Executors.newCachedThreadPool();
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setExecutors(executor, executor)
-                .setClient(new OkClient(ok))
-                .setEndpoint("http://api.devcon.ph/api/v1/")
-                .build();
-        final ProgramDao programDao = DatabaseHelper.getInstance(DevConApplication.getInstance()).getProgramDao();
         ProgramController programService = restAdapter.create(ProgramController.class);
-        programService.listPrograms("test", new Callback<List<ProgramAPI>>() {
+        programService.listPrograms(authService.getCachedToken(), new Callback<ProgramBaseResponse>() {
             @Override
-            public void success(List<ProgramAPI> programAPIs, Response response) {
-                List<ph.devcon.android.program.db.Program> programsDBList = new ArrayList<ph.devcon.android.program.db.Program>();
-                for (ProgramAPI programAPIApi : programAPIs) {
+            public void success(ProgramBaseResponse baseResponse, Response response) {
+                Optional<ProgramBaseResponse> baseResponseOptional = Optional.of(baseResponse);
+                ProgramBaseResponse programBaseResponse = baseResponseOptional.get();
+                List<Program> programsDBList = new ArrayList<Program>();
+                for (ProgramAPIContainer container : programBaseResponse.getPrograms()) {
                     try {
-                        Program programDb = Program.toProgram(programAPIApi);
+                        Program programDb = Program.toProgram(container.getProgram());
                         programDao.create(programDb);
                         programsDBList.add(programDb);
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
                 }
-                EventBus.getDefault().post(new FetchedProgramListEvent(programsDBList));
+                eventBus.post(new FetchedProgramListEvent(programsDBList));
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
+                eventBus.post(new FetchedProgramListFailedEvent());
             }
         });
     }
@@ -112,5 +105,8 @@ public class FetchProgramListJob extends Job {
         public FetchedProgramListEvent(List<ph.devcon.android.program.db.Program> programs) {
             this.programs = programs;
         }
+    }
+
+    public static class FetchedProgramListFailedEvent {
     }
 }

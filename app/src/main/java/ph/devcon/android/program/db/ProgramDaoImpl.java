@@ -15,7 +15,7 @@ public class ProgramDaoImpl extends BaseDevConDaoImpl<Program, Integer> implemen
     }
 
     @Override
-    public boolean isCacheValid() {
-        return true;
+    public boolean isCacheValid() throws SQLException {
+        return queryForFirst(queryBuilder().prepare()) != null;
     }
 }

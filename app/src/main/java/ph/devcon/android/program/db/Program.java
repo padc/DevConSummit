@@ -32,7 +32,7 @@ public class Program extends BaseDevCon {
 
     public static Program toProgram(ProgramAPI programAPIApi) {
         Program program = new Program();
-        program.setCategory(programAPIApi.getCategory());
+        program.setCategory(programAPIApi.getCategory().getName());
         program.setDescription(programAPIApi.getDescription());
         program.setPosition(programAPIApi.getDescription());
         program.setStartAt(programAPIApi.getStartAt());

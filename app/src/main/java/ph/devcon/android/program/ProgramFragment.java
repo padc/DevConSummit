@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.base.db.OrmliteListLoader;
@@ -41,6 +42,8 @@ public class ProgramFragment extends Fragment {
     JobManager jobManager;
     @Inject
     ProgramDao programDao;
+    @Inject
+    EventBus eventBus;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -48,11 +51,18 @@ public class ProgramFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_program, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-        if (programDao.isCacheValid()) {
-            populateFromCache(savedInstanceState);
-        } else {
-            populateFromAPI();
-        }
+        eventBus.register(this);
+        populateFromAPI();
+//        try {
+//            if (programDao.isCacheValid()) {
+//                populateFromCache(savedInstanceState);
+//            } else {
+//                populateFromAPI();
+//            }
+//        } catch (SQLException e) {
+//            e.printStackTrace();
+//            populateFromAPI();
+//        }
         return rootView;
     }
 
@@ -86,8 +96,10 @@ public class ProgramFragment extends Fragment {
     }
 
     public void setProgramList(List<Program> programList) {
-        programSectionAdapter = new ProgramSectionAdapter(getActivity(), programList);
-        lvwPrograms.setAdapter(programSectionAdapter);
+        if (programList != null && !programList.isEmpty()) {
+            programSectionAdapter = new ProgramSectionAdapter(getActivity(), programList);
+            lvwPrograms.setAdapter(programSectionAdapter);
+        }
     }
 
     public void onEventMainThread(FetchProgramListJob.FetchedProgramListEvent event) {

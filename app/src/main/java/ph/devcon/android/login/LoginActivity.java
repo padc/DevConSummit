@@ -59,8 +59,13 @@ public class LoginActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         DevConApplication.injectMembers(this);
+        if (authService.isAuthenticated()) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         init();
     }

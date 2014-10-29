@@ -7,6 +7,8 @@ import java.util.List;
 
 import dagger.ObjectGraph;
 import ph.devcon.android.auth.module.AuthModule;
+import ph.devcon.android.base.module.APIModule;
+import ph.devcon.android.program.module.ProgramModule;
 import ph.devcon.android.util.TypeFaceUtil;
 
 /**
@@ -53,6 +55,8 @@ public class DevConApplication extends Application {
     protected List<Object> getModules() {
         List<Object> objectList = new ArrayList<Object>();
         objectList.add(new AuthModule(this));
+        objectList.add(new APIModule(this));
+        objectList.add(new ProgramModule(this));
         return objectList;
     }
 }

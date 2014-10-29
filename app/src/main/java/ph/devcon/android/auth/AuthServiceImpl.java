@@ -67,6 +67,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public boolean isAuthenticated() {
+        try {
+            getCachedToken();
+            return true;
+        } catch (TokenNotExistsException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
     public void setCachedToken(String token) {
         if (!Util.isNullOrEmpty(token))
             mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();

@@ -3,9 +3,12 @@ package ph.devcon.android.base.module;
 import android.content.Context;
 import android.util.Log;
 
+import com.path.android.jobqueue.BaseJob;
 import com.path.android.jobqueue.JobManager;
 import com.path.android.jobqueue.config.Configuration;
+import com.path.android.jobqueue.di.DependencyInjector;
 import com.path.android.jobqueue.log.CustomLogger;
+import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 
 import java.util.concurrent.Executor;
@@ -34,9 +37,16 @@ public class APIModule {
 
     @Provides
     public RestAdapter provideRestAdapter() {
+        int SIZE_OF_CACHE = 1024;
         OkHttpClient ok = new OkHttpClient();
         ok.setReadTimeout(30, TimeUnit.SECONDS);
         ok.setConnectTimeout(30, TimeUnit.SECONDS);
+        try {
+            Cache responseCache = new Cache(DevConApplication.getInstance().getCacheDir(), SIZE_OF_CACHE);
+            ok.setCache(responseCache);
+        } catch (Exception e) {
+            Log.d("OkHttp", "Unable to set http cache", e);
+        }
         Executor executor = Executors.newCachedThreadPool();
         return new RestAdapter.Builder()
                 .setExecutors(executor, executor)
@@ -77,6 +87,12 @@ public class APIModule {
                 .maxConsumerCount(3)//up to 3 consumers at a time
                 .loadFactor(3)//3 jobs per consumer
                 .consumerKeepAlive(120)//wait 2 minute
+                .injector(new DependencyInjector() {
+                    @Override
+                    public void inject(BaseJob job) {
+                        DevConApplication.injectMembers(job);
+                    }
+                })
                 .build();
         return new JobManager(mContext, configuration);
     }

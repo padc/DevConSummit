@@ -13,20 +13,15 @@ import ph.devcon.android.speaker.api.Speaker;
  */
 
 public class ProgramAPI {
-
     @SerializedName("start_at")
     @Expose
     private String startAt;
-
     @Expose
     private String title;
-
     @Expose
     private String description;
-
     @Expose
-    private String category;
-
+    private Category category;
     @Expose
     private List<Speaker> speakers = new ArrayList<Speaker>();
 
@@ -54,19 +49,12 @@ public class ProgramAPI {
         this.description = description;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
-    }
-
-    public Speaker getMainSpeaker() {
-        for (Speaker speaker : getSpeakers()) {
-            return speaker;
-        }
-        return null;
     }
 
     public List<Speaker> getSpeakers() {
@@ -75,6 +63,13 @@ public class ProgramAPI {
 
     public void setSpeakers(List<Speaker> speakers) {
         this.speakers = speakers;
+    }
+
+    public Speaker getMainSpeaker() {
+        for (Speaker speaker : getSpeakers()) {
+            return speaker;
+        }
+        return null;
     }
 
 }
