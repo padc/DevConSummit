@@ -28,11 +28,17 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
     public View getView(int position, View convertView, ViewGroup parent) {
         Speaker speaker = getItem(position);
         LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
-        if (convertView == null) {
+        ViewHolder holder = null;
+        if (convertView != null) {
+            holder = (ViewHolder) convertView.getTag();
+        } else {
             convertView = inflater.inflate(R.layout.item_speaker, parent, false);
-            TextView txtSpeakerName = (TextView) convertView.findViewById(R.id.txt_speaker_name);
-            txtSpeakerName.setText(speaker.getFullName());
+            holder = new ViewHolder(convertView);
+            convertView.setTag(holder);
         }
+        holder.txtProgramTitle.setText(speaker.getMainProgramTitle());
+        holder.txtSpeakerName.setText(speaker.getFullName());
+        holder.txtPosition.setText(speaker.getPosition());
         return convertView;
     }
 
@@ -41,6 +47,8 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
         ImageView imgSpeaker;
         @InjectView(R.id.txt_speaker_name)
         TextView txtSpeakerName;
+        @InjectView(R.id.txt_position)
+        TextView txtPosition;
         @InjectView(R.id.txt_program_title)
         TextView txtProgramTitle;
 

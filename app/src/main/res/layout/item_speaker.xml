@@ -43,6 +43,7 @@
                 android:text="Haifa Carina Baluyos"/>
 
             <TextView
+                android:id="@+id/txt_position"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/white"

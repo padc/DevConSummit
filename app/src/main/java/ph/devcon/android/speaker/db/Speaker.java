@@ -3,6 +3,7 @@ package ph.devcon.android.speaker.db;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.google.common.base.Optional;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -62,6 +63,15 @@ public class Speaker extends BaseDevCon {
         speaker.setWebsite(speakerAPI.getWebsite());
         speaker.setPhotoUrl(speakerAPI.getPhotoUrl());
         return speaker;
+    }
+
+    public String getMainProgramTitle() {
+        Optional<Program> programOptional = Optional.fromNullable(program);
+        if (programOptional.isPresent()) {
+            Program programMain = programOptional.get();
+            return programMain.getTitle();
+        }
+        return "";
     }
 
     public String getFullName() {
