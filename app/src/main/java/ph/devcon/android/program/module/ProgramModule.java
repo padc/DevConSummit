@@ -2,10 +2,13 @@ package ph.devcon.android.program.module;
 
 import android.content.Context;
 
+import com.path.android.jobqueue.JobManager;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import de.greenrobot.event.EventBus;
 import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.module.APIModule;
@@ -37,10 +40,11 @@ public class ProgramModule {
         return DatabaseHelper.getInstance(mContext).getProgramDao();
     }
 
+    //    public ProgramServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProgramDao programDao, SpeakerDao speakerDao) {
     @Provides
     @Singleton
-    public ProgramService provideProgramService(ProgramDao programDao, SpeakerDao speakerDao) {
-        return new ProgramServiceImpl(programDao, speakerDao);
+    public ProgramService provideProgramService(JobManager jobManager, EventBus eventBus, ProgramDao programDao, SpeakerDao speakerDao) {
+        return new ProgramServiceImpl(mContext, jobManager, eventBus, programDao, speakerDao);
     }
 
 }

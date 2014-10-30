@@ -12,5 +12,5 @@ import retrofit.http.POST;
 public interface ProgramController {
     @FormUrlEncoded
     @POST("/programs")
-    void listPrograms(@Field("authentication_token") String token, Callback<ProgramBaseResponse> callback);
+    void fetchPrograms(@Field("authentication_token") String token, Callback<ProgramBaseResponse> callback);
 }

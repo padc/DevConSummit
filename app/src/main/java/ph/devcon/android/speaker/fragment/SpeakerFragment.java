@@ -9,16 +9,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
+import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.speaker.SpeakerDetailsActivity;
 import ph.devcon.android.speaker.adapter.SpeakerAdapter;
 import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
+import ph.devcon.android.speaker.service.SpeakerService;
 
 /**
  * Created by lope on 9/29/14.
@@ -26,6 +31,14 @@ import ph.devcon.android.speaker.db.Speaker;
 public class SpeakerFragment extends Fragment {
     @InjectView(R.id.lvw_speakers)
     ListView lvwSpeaker;
+
+    @Inject
+    SpeakerService speakerService;
+
+    @Inject
+    EventBus eventBus;
+
+    SpeakerAdapter speakerAdapter;
 
     @OnItemClick(R.id.lvw_speakers)
     public void onItemClick(int position) {
@@ -37,8 +50,15 @@ public class SpeakerFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_speakers_all, container, false);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
+        eventBus.register(this);
         lvwSpeaker.addFooterView(buildFooterView(inflater));
+        if (speakerService.isCacheValid()) {
+            speakerService.populateFromCache(getLoaderManager(), savedInstanceState);
+        } else {
+            speakerService.populateFromAPI();
+        }
         return rootView;
     }
 
@@ -47,21 +67,15 @@ public class SpeakerFragment extends Fragment {
         super.onAttach(activity);
     }
 
-    @Override
-    public void onStart() {
-        List<Speaker> speakers = new ArrayList<Speaker>();
-        Speaker speaker = new Speaker();
-        speaker.setFirstName("Lope");
-        speaker.setLastName("Emano");
-        speakers.add(speaker);
-        speakers.add(speaker);
-        speakers.add(speaker);
-        speakers.add(speaker);
-        speakers.add(speaker);
-        speakers.add(speaker);
-        speakers.add(speaker);
-        lvwSpeaker.setAdapter(new SpeakerAdapter(getActivity(), speakers));
-        super.onStart();
+    public void setSpeakerList(List<Speaker> speakerList) {
+        if (speakerList != null && !speakerList.isEmpty()) {
+            speakerAdapter = new SpeakerAdapter(getActivity(), speakerList);
+            lvwSpeaker.setAdapter(speakerAdapter);
+        }
+    }
+
+    public void onEventMainThread(FetchedSpeakerListEvent event) {
+        setSpeakerList(event.speakers);
     }
 
     protected View buildFooterView(LayoutInflater inflater) {

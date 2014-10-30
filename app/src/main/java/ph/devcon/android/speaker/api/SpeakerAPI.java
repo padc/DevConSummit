@@ -13,25 +13,34 @@ public class SpeakerAPI {
     @SerializedName("first_name")
     @Expose
     private String firstName;
+
     @SerializedName("last_name")
     @Expose
     private String lastName;
+
     @Expose
     private String position;
+
     @Expose
     private String company;
+
     @Expose
     private String description;
+
     @SerializedName("twitter_handle")
     @Expose
     private String twitterHandle;
+
     @Expose
     private String website;
+
     @SerializedName("photo_url")
     @Expose
     private String photoUrl;
+
     @Expose
     private List<String> talk = new ArrayList<String>();
+
     @Expose
     private List<String> category = new ArrayList<String>();
 

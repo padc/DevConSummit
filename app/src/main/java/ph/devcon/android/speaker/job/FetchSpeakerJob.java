@@ -1,4 +1,4 @@
-package ph.devcon.android.program.job;
+package ph.devcon.android.speaker.job;
 
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
@@ -11,21 +11,22 @@ import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.auth.AuthService;
-import ph.devcon.android.program.api.ProgramBaseResponse;
-import ph.devcon.android.program.controller.ProgramController;
-import ph.devcon.android.program.db.Program;
-import ph.devcon.android.program.event.FetchedProgramListEvent;
-import ph.devcon.android.program.event.FetchedProgramListFailedEvent;
-import ph.devcon.android.program.service.ProgramService;
+import ph.devcon.android.program.job.Priority;
+import ph.devcon.android.speaker.api.SpeakerBaseResponse;
+import ph.devcon.android.speaker.controller.SpeakerController;
+import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
+import ph.devcon.android.speaker.event.FetchedSpeakerListFailedEvent;
+import ph.devcon.android.speaker.service.SpeakerService;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by lope on 10/27/2014.
+ * Created by lope on 10/29/14.
  */
-public class FetchProgramListJob extends Job {
+public class FetchSpeakerJob extends Job {
     private static final AtomicInteger jobCounter = new AtomicInteger(0);
 
     private final int id;
@@ -37,12 +38,12 @@ public class FetchProgramListJob extends Job {
     AuthService authService;
 
     @Inject
-    ProgramService programService;
+    SpeakerService speakerService;
 
     @Inject
     EventBus eventBus;
 
-    public FetchProgramListJob() {
+    public FetchSpeakerJob() {
         super(new Params(Priority.HIGH).requireNetwork());
         id = jobCounter.incrementAndGet();
     }
@@ -58,17 +59,17 @@ public class FetchProgramListJob extends Job {
             //many times, cancel me, let the other one fetch tweets.
             return;
         }
-        ProgramController programController = restAdapter.create(ProgramController.class);
-        programController.fetchPrograms(authService.getCachedToken(), new Callback<ProgramBaseResponse>() {
+        SpeakerController speakerController = restAdapter.create(SpeakerController.class);
+        speakerController.fetchSpeakers(authService.getCachedToken(), new Callback<SpeakerBaseResponse>() {
             @Override
-            public void success(ProgramBaseResponse baseResponse, Response response) {
-                List<Program> programsDBList = programService.createPrograms(baseResponse);
-                eventBus.post(new FetchedProgramListEvent(programsDBList));
+            public void success(SpeakerBaseResponse baseResponse, Response response) {
+                List<Speaker> speakerDbList = speakerService.createSpeakers(baseResponse);
+                eventBus.post(new FetchedSpeakerListEvent(speakerDbList));
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                eventBus.post(new FetchedProgramListFailedEvent());
+                eventBus.post(new FetchedSpeakerListFailedEvent());
             }
         });
     }
@@ -86,4 +87,5 @@ public class FetchProgramListJob extends Job {
         }
         return true;
     }
+
 }
