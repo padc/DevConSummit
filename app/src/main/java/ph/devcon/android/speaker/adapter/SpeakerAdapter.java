@@ -36,7 +36,7 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.txtProgramTitle.setText(speaker.getMainProgramTitle());
+        holder.txtProgramTitle.setText(speaker.getMainTalkTitle());
         holder.txtSpeakerName.setText(speaker.getFullName());
         holder.txtPosition.setText(speaker.getPosition());
         return convertView;

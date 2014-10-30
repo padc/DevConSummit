@@ -52,7 +52,9 @@ public class SpeakerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_speakers_all, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-        eventBus.register(this);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
         lvwSpeaker.addFooterView(buildFooterView(inflater));
         if (speakerService.isCacheValid()) {
             speakerService.populateFromCache(getLoaderManager(), savedInstanceState);
@@ -60,6 +62,12 @@ public class SpeakerFragment extends Fragment {
             speakerService.populateFromAPI();
         }
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     @Override

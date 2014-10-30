@@ -22,6 +22,6 @@ public class SpeakerDaoImpl extends BaseDevConDaoImpl<Speaker, Integer> implemen
 
     @Override
     public boolean isCacheValid() throws SQLException {
-        return queryForFirst(queryBuilder().prepare()) != null;
+        return queryBuilder().where().isNotNull("talkTitle").countOf() > 0;
     }
 }

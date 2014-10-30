@@ -11,6 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.speaker.api.SpeakerAPI;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/16/14.
@@ -45,6 +46,12 @@ public class Speaker extends BaseDevCon {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] speakerIcon;
 
+    @DatabaseField
+    String talkTitle;
+
+    @DatabaseField
+    String panelTitle;
+
     @DatabaseField(foreign = true)
     Program program;
 
@@ -62,16 +69,31 @@ public class Speaker extends BaseDevCon {
         speaker.setTwitterHandle(speakerAPI.getTwitterHandle());
         speaker.setWebsite(speakerAPI.getWebsite());
         speaker.setPhotoUrl(speakerAPI.getPhotoUrl());
+        int counter = 0;
+        for (String title : speakerAPI.getTalk()) {
+            if (counter == 0) {
+                speaker.setTalkTitle(title);
+            } else if (title.startsWith("PANEL:")) {
+                speaker.setPanelTitle(title);
+            }
+            counter++;
+        }
         return speaker;
     }
 
-    public String getMainProgramTitle() {
+    public String getMainTalkTitle() {
+        String returnTitle = "";
         Optional<Program> programOptional = Optional.fromNullable(program);
         if (programOptional.isPresent()) {
             Program programMain = programOptional.get();
-            return programMain.getTitle();
+            String programTitle = programMain.getTitle();
+            if (Util.isNullOrEmpty(programTitle)) {
+                returnTitle = programTitle;
+            }
+        } else {
+            returnTitle = getTalkTitle();
         }
-        return "";
+        return returnTitle;
     }
 
     public String getFullName() {
@@ -148,6 +170,22 @@ public class Speaker extends BaseDevCon {
 
     public void setSpeakerIcon(byte[] speakerIcon) {
         this.speakerIcon = speakerIcon;
+    }
+
+    public String getTalkTitle() {
+        return talkTitle;
+    }
+
+    public void setTalkTitle(String talkTitle) {
+        this.talkTitle = talkTitle;
+    }
+
+    public String getPanelTitle() {
+        return panelTitle;
+    }
+
+    public void setPanelTitle(String panelTitle) {
+        this.panelTitle = panelTitle;
     }
 
     public Program getProgram() {

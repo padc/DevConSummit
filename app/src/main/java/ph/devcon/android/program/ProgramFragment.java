@@ -45,13 +45,21 @@ public class ProgramFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_program, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-        eventBus.register(this);
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
         if (programService.isCacheValid()) {
             programService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             programService.populateFromAPI();
         }
         return rootView;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     public void setProgramList(List<Program> programList) {

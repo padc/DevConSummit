@@ -73,9 +73,8 @@
         </LinearLayout>
     </LinearLayout>
 
-
     <com.makeramen.RoundedImageView
-        android:id="@+id/img_news"
+        android:id="@+id/img_speaker"
         android:src="@drawable/sample_large"
         android:scaleType="centerCrop"
         android:layout_width="70dp"
