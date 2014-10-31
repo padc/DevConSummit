@@ -12,6 +12,7 @@ import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.news.module.NewsModule;
 import ph.devcon.android.program.module.ProgramModule;
 import ph.devcon.android.speaker.module.SpeakerModule;
+import ph.devcon.android.sponsor.module.SponsorModule;
 import ph.devcon.android.util.TypeFaceUtil;
 
 /**
@@ -63,6 +64,7 @@ public class DevConApplication extends Application {
         objectList.add(new SpeakerModule(this));
         objectList.add(new NewsModule(this));
         objectList.add(new AttendeeModule(this));
+        objectList.add(new SponsorModule(this));
         return objectList;
     }
 }

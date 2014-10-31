@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.sponsor.api.SponsorAPI;
 
 /**
  * Created by lope on 9/16/14.
@@ -17,12 +18,24 @@ public class Sponsor extends BaseDevCon {
 
     @DatabaseField
     Integer sponsorType;
-    @DatabaseField
-    String sponsorName;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] sponsorIcon;
     @DatabaseField
-    String sponsorLink;
+    String name;
+    @DatabaseField
+    String photoUrl;
+    @DatabaseField
+    String website;
+
+    // TODO category
+
+    public static Sponsor toSponsor(SponsorAPI sponsorAPI) {
+        Sponsor sponsor = new Sponsor();
+        sponsor.setName(sponsorAPI.getName());
+        sponsor.setWebsite(sponsorAPI.getWebsite());
+        sponsor.setPhotoUrl(sponsorAPI.getPhotoUrl());
+        return sponsor;
+    }
 
     public Integer getSponsorType() {
         return sponsorType;
@@ -30,14 +43,6 @@ public class Sponsor extends BaseDevCon {
 
     public void setSponsorType(Integer sponsorType) {
         this.sponsorType = sponsorType;
-    }
-
-    public String getSponsorName() {
-        return sponsorName;
-    }
-
-    public void setSponsorName(String sponsorName) {
-        this.sponsorName = sponsorName;
     }
 
     public byte[] getSponsorIcon() {
@@ -48,11 +53,27 @@ public class Sponsor extends BaseDevCon {
         this.sponsorIcon = sponsorIcon;
     }
 
-    public String getSponsorLink() {
-        return sponsorLink;
+    public String getName() {
+        return name;
     }
 
-    public void setSponsorLink(String sponsorLink) {
-        this.sponsorLink = sponsorLink;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
     }
 }
