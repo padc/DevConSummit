@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.applidium.headerlistview.SectionAdapter;
 import com.google.common.base.Optional;
 import com.google.common.collect.Maps;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.List;
@@ -91,7 +92,7 @@ public class ProgramSectionAdapter extends SectionAdapter {
             if (speakerOptional.isPresent()) {
                 Speaker speaker = speakerOptional.get();
                 // get speaker image
-                // Picasso.with(mContext).load(speaker.get)
+                Picasso.with(mContext).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
                 holder.txtSpeakerName.setText(speaker.getFullName());
             }
             holder.txtProgramDescription.setText(program.getDescription());
