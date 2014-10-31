@@ -18,4 +18,6 @@ public interface NewsService {
     public void populateFromCache(LoaderManager loaderManager, Bundle savedInstanceState);
 
     public void populateFromAPI();
+
+    public boolean isCacheValid();
 }

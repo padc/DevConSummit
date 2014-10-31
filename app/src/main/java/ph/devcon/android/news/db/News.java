@@ -1,5 +1,6 @@
 package ph.devcon.android.news.db;
 
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -20,10 +21,10 @@ public class News extends BaseDevCon {
 
     String photoUrl;
 
-    @DatabaseField
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] image;
 
-    @DatabaseField
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] imagePreview;
 
     @DatabaseField(foreign = true, foreignAutoRefresh = true)

@@ -62,6 +62,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Program.class);
             TableUtils.createTable(connectionSource, Speaker.class);
             TableUtils.createTable(connectionSource, Sponsor.class);
+            TableUtils.createTable(connectionSource, News.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);

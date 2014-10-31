@@ -68,13 +68,15 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public boolean isAuthenticated() {
+        Boolean isAuthenticated = false;
         try {
-            getCachedToken();
-            return true;
+            if (!Util.isNullOrEmpty(getCachedToken())) {
+                isAuthenticated = true;
+            }
         } catch (TokenNotExistsException e) {
             e.printStackTrace();
-            return false;
         }
+        return isAuthenticated;
     }
 
     @Override

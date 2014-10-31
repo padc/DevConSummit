@@ -21,6 +21,7 @@ import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/21/14.
@@ -91,8 +92,9 @@ public class ProgramSectionAdapter extends SectionAdapter {
             Optional<Speaker> speakerOptional = Optional.fromNullable(program.getMainSpeaker());
             if (speakerOptional.isPresent()) {
                 Speaker speaker = speakerOptional.get();
-                // get speaker image
-                Picasso.with(mContext).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
+                if (!Util.isNullOrEmpty(speaker.getPhotoUrl())) {
+                    Picasso.with(mContext).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
+                }
                 holder.txtSpeakerName.setText(speaker.getFullName());
             }
             holder.txtProgramDescription.setText(program.getDescription());

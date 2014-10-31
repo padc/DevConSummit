@@ -21,6 +21,7 @@ import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.news.event.FetchedNewsListEvent;
 import ph.devcon.android.news.event.FetchedNewsListFailedEvent;
+import ph.devcon.android.news.job.FetchNewsJob;
 
 /**
  * Created by lope on 10/6/14.
@@ -97,6 +98,16 @@ public class NewsServiceImpl implements NewsService {
 
     @Override
     public void populateFromAPI() {
+        jobManager.addJob(new FetchNewsJob());
+    }
 
+    @Override
+    public boolean isCacheValid() {
+        try {
+            return newsDao.isCacheValid();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

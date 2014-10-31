@@ -2,7 +2,6 @@ package ph.devcon.android.news.adapter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.news.db.News;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 10/6/14.
@@ -38,6 +40,12 @@ public class NewsAdapter extends ArrayAdapter<News> {
             convertView = inflater.inflate(R.layout.item_news, parent, false);
             holder = new ViewHolder(convertView, mContext);
             convertView.setTag(holder);
+        }
+        News newsItem = getItem(position);
+        holder.txtTitle.setText(newsItem.getTitle());
+        holder.txtPreview.setText(newsItem.getHtmlContent());
+        if (!Util.isNullOrEmpty(newsItem.getPhotoUrl())) {
+           Picasso.with(mContext) holder.imgIcon();
         }
         return convertView;
     }
