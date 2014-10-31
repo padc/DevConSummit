@@ -45,7 +45,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
         holder.txtTitle.setText(newsItem.getTitle());
         holder.txtPreview.setText(newsItem.getHtmlContent());
         if (!Util.isNullOrEmpty(newsItem.getPhotoUrl())) {
-           Picasso.with(mContext) holder.imgIcon();
+//           Picasso.with(mContext) holder.imgIcon();
         }
         return convertView;
     }

@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.devcon.android.attendee.db.Attendee;
+import ph.devcon.android.attendee.db.AttendeeDao;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.program.db.Program;
@@ -20,6 +22,8 @@ import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.db.SpeakerDao;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.db.SponsorDao;
+import ph.devcon.android.user.db.User;
+import ph.devcon.android.user.db.UserDao;
 
 /**
  * Created by lope on 9/16/14.
@@ -38,6 +42,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private SpeakerDao speakerDao = null;
     private SponsorDao sponsorDao = null;
     private NewsDao newsDao = null;
+    private AttendeeDao attendeeDao = null;
+    private UserDao userDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,6 +69,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Speaker.class);
             TableUtils.createTable(connectionSource, Sponsor.class);
             TableUtils.createTable(connectionSource, News.class);
+            TableUtils.createTable(connectionSource, Attendee.class);
+            TableUtils.createTable(connectionSource, User.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -129,5 +137,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return newsDao;
+    }
+
+    public AttendeeDao getAttendeeDao() {
+        if (null == attendeeDao) {
+            try {
+                attendeeDao = getDao(Attendee.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return attendeeDao;
+    }
+
+    public UserDao getUserDao() {
+        if (null == userDao) {
+            try {
+                userDao = getDao(User.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return userDao;
     }
 }

@@ -1,4 +1,4 @@
-package ph.devcon.android.user;
+package ph.devcon.android.user.db;
 
 import com.j256.ormlite.support.ConnectionSource;
 

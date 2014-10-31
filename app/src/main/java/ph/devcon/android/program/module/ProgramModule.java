@@ -40,7 +40,6 @@ public class ProgramModule {
         return DatabaseHelper.getInstance(mContext).getProgramDao();
     }
 
-    //    public ProgramServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProgramDao programDao, SpeakerDao speakerDao) {
     @Provides
     @Singleton
     public ProgramService provideProgramService(JobManager jobManager, EventBus eventBus, ProgramDao programDao, SpeakerDao speakerDao) {

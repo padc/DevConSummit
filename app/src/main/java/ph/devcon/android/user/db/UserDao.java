@@ -1,4 +1,4 @@
-package ph.devcon.android.user;
+package ph.devcon.android.user.db;
 
 import ph.devcon.android.base.db.BaseDevConDao;
 

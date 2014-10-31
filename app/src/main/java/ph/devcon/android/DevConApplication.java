@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import dagger.ObjectGraph;
+import ph.devcon.android.attendee.module.AttendeeModule;
 import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.news.module.NewsModule;
@@ -32,14 +33,14 @@ public class DevConApplication extends Application {
         return instance;
     }
 
+    public static void injectMembers(Object object) {
+        getInstance().graph.inject(object);
+    }
+
     @Override
     public void onCreate() {
         initFonts();
         graph = buildObjectGraph();
-    }
-
-    public static void injectMembers(Object object) {
-        getInstance().graph.inject(object);
     }
 
     private void initFonts() {
@@ -61,6 +62,7 @@ public class DevConApplication extends Application {
         objectList.add(new ProgramModule(this));
         objectList.add(new SpeakerModule(this));
         objectList.add(new NewsModule(this));
+        objectList.add(new AttendeeModule(this));
         return objectList;
     }
 }
