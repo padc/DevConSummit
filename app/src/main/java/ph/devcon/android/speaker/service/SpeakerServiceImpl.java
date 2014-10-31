@@ -98,9 +98,9 @@ public class SpeakerServiceImpl implements SpeakerService {
                     @Override
                     public void onLoadFinished(Loader<List<Speaker>> loader, List<Speaker> data) {
                         if (data != null) {
-                            eventBus.post(new FetchedSpeakerListEvent(data));
+                            eventBus.postSticky(new FetchedSpeakerListEvent(data));
                         } else {
-                            eventBus.post(new FetchedSpeakerListFailedEvent());
+                            eventBus.postSticky(new FetchedSpeakerListFailedEvent());
                         }
                     }
 
@@ -133,9 +133,9 @@ public class SpeakerServiceImpl implements SpeakerService {
             @Override
             public void onLoadFinished(android.support.v4.content.Loader<List<Speaker>> loader, List<Speaker> data) {
                 if (data != null) {
-                    eventBus.post(new FetchedSpeakerListEvent(data));
+                    eventBus.postSticky(new FetchedSpeakerListEvent(data));
                 } else {
-                    eventBus.post(new FetchedSpeakerListFailedEvent());
+                    eventBus.postSticky(new FetchedSpeakerListFailedEvent());
                 }
             }
 

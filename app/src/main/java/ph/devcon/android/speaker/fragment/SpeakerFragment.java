@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.common.base.Optional;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -23,6 +25,7 @@ import ph.devcon.android.speaker.SpeakerDetailsActivity;
 import ph.devcon.android.speaker.adapter.SpeakerAdapter;
 import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
+import ph.devcon.android.speaker.event.FetchedSpeakerListFailedEvent;
 import ph.devcon.android.speaker.service.SpeakerService;
 
 /**
@@ -53,7 +56,7 @@ public class SpeakerFragment extends Fragment {
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
         if (!eventBus.isRegistered(this)) {
-            eventBus.register(this);
+            eventBus.registerSticky(this);
         }
         lvwSpeaker.addFooterView(buildFooterView(inflater));
         if (speakerService.isCacheValid()) {
@@ -65,9 +68,21 @@ public class SpeakerFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        FetchedSpeakerListEvent event = eventBus.getStickyEvent(FetchedSpeakerListEvent.class);
+        Optional<FetchedSpeakerListEvent> eventOptional = Optional.fromNullable(event);
+        if (eventOptional.isPresent()) {
+            setSpeakerList(eventOptional.get().speakers);
+        }
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         eventBus.unregister(this);
+        eventBus.removeStickyEvent(FetchedSpeakerListEvent.class);
+        eventBus.removeStickyEvent(FetchedSpeakerListFailedEvent.class);
     }
 
     @Override
