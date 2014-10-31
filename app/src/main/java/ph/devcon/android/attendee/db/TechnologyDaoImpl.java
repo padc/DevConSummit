@@ -13,4 +13,15 @@ public class TechnologyDaoImpl extends BaseDevConDaoImpl<Technology, Integer> im
     public TechnologyDaoImpl(ConnectionSource connectionSource, Class<Technology> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public void clear() throws SQLException {
+        // TODO
+    }
+
+    @Override
+    public boolean isCacheValid() throws SQLException {
+        // TODO
+        return false;
+    }
 }

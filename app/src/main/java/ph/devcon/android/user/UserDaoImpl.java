@@ -13,4 +13,15 @@ public class UserDaoImpl extends BaseDevConDaoImpl<User, Integer> implements Use
     public UserDaoImpl(ConnectionSource connectionSource, Class<User> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public void clear() throws SQLException {
+        // TODO
+    }
+
+    @Override
+    public boolean isCacheValid() throws SQLException {
+        // TODO
+        return false;
+    }
 }

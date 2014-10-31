@@ -13,4 +13,15 @@ public class SponsorDaoImpl extends BaseDevConDaoImpl<Sponsor, Integer> implemen
     public SponsorDaoImpl(ConnectionSource connectionSource, Class<Sponsor> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public void clear() throws SQLException {
+        // TODO
+    }
+
+    @Override
+    public boolean isCacheValid() throws SQLException {
+        // TODO
+        return false;
+    }
 }

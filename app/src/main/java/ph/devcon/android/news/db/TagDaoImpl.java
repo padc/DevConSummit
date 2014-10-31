@@ -13,4 +13,15 @@ public class TagDaoImpl extends BaseDevConDaoImpl<Tag, Integer> implements TagDa
     public TagDaoImpl(ConnectionSource connectionSource, Class<Tag> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public void clear() throws SQLException {
+        // TODO
+    }
+
+    @Override
+    public boolean isCacheValid() throws SQLException {
+        // TODO
+        return false;
+    }
 }

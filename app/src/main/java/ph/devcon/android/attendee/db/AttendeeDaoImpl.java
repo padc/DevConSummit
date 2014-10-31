@@ -14,4 +14,15 @@ public class AttendeeDaoImpl extends BaseDevConDaoImpl<Speaker, Integer> impleme
     public AttendeeDaoImpl(ConnectionSource connectionSource, Class<Speaker> clazz) throws SQLException {
         super(connectionSource, clazz);
     }
+
+    @Override
+    public void clear() throws SQLException {
+        // TODO
+    }
+
+    @Override
+    public boolean isCacheValid() throws SQLException {
+        // TODO
+        return false;
+    }
 }

@@ -1,7 +1,5 @@
 package ph.devcon.android.speaker.db;
 
-import java.sql.SQLException;
-
 import ph.devcon.android.base.db.BaseDevConDao;
 
 /**
