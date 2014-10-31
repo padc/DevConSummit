@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.news.api.NewsAPI;
 
 /**
  * Created by lope on 10/6/14.
@@ -15,7 +16,9 @@ public class News extends BaseDevCon {
     String title;
 
     @DatabaseField(index = true)
-    String body;
+    String htmlContent;
+
+    String photoUrl;
 
     @DatabaseField
     byte[] image;
@@ -26,6 +29,14 @@ public class News extends BaseDevCon {
     @DatabaseField(foreign = true, foreignAutoRefresh = true)
     Tag tag;
 
+    public static News toNews(NewsAPI newsAPI) {
+        News news = new News();
+        news.setTitle(newsAPI.getTitle());
+        news.setHtmlContent(newsAPI.getHtmlContent());
+        news.setPhotoUrl(newsAPI.getPhotoUrl());
+        return news;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -34,12 +45,20 @@ public class News extends BaseDevCon {
         this.title = title;
     }
 
-    public String getBody() {
-        return body;
+    public String getHtmlContent() {
+        return htmlContent;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setHtmlContent(String htmlContent) {
+        this.htmlContent = htmlContent;
+    }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public byte[] getImage() {

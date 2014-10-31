@@ -15,6 +15,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.base.db.OrmliteListLoaderSupport;
+import ph.devcon.android.news.job.FetchNewsJob;
 import ph.devcon.android.speaker.api.SpeakerAPI;
 import ph.devcon.android.speaker.api.SpeakerAPIContainer;
 import ph.devcon.android.speaker.api.SpeakerBaseResponse;
@@ -22,7 +23,6 @@ import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.db.SpeakerDao;
 import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
 import ph.devcon.android.speaker.event.FetchedSpeakerListFailedEvent;
-import ph.devcon.android.speaker.job.FetchSpeakerJob;
 
 /**
  * Created by lope on 10/6/14.
@@ -147,7 +147,7 @@ public class SpeakerServiceImpl implements SpeakerService {
 
     @Override
     public void populateFromAPI() {
-        jobManager.addJobInBackground(new FetchSpeakerJob());
+        jobManager.addJobInBackground(new FetchNewsJob());
     }
 
     @Override

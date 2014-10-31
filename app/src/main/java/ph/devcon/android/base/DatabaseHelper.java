@@ -12,6 +12,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.devcon.android.news.db.News;
+import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.program.db.ProgramDao;
 import ph.devcon.android.speaker.db.Speaker;
@@ -35,6 +37,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private ProgramDao programDao = null;
     private SpeakerDao speakerDao = null;
     private SponsorDao sponsorDao = null;
+    private NewsDao newsDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -114,5 +117,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return sponsorDao;
+    }
+
+    public NewsDao getNewsDao() {
+        if (null == newsDao) {
+            try {
+                newsDao = getDao(News.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return newsDao;
     }
 }
