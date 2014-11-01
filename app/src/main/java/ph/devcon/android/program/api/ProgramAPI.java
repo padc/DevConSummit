@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.devcon.android.category.api.CategoryAPI;
 import ph.devcon.android.speaker.api.SpeakerAPI;
 
 /**
@@ -21,7 +22,7 @@ public class ProgramAPI {
     @Expose
     private String description;
     @Expose
-    private Category category;
+    private CategoryAPI category;
     @Expose
     private List<SpeakerAPI> speakers = new ArrayList<SpeakerAPI>();
 
@@ -49,11 +50,11 @@ public class ProgramAPI {
         this.description = description;
     }
 
-    public Category getCategory() {
+    public CategoryAPI getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryAPI category) {
         this.category = category;
     }
 

@@ -5,7 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import ph.devcon.android.attendee.db.Technology;
+import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.user.api.UserAPI;
 

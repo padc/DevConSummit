@@ -14,6 +14,8 @@ import java.util.List;
 
 import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.db.AttendeeDao;
+import ph.devcon.android.category.db.Category;
+import ph.devcon.android.category.db.CategoryDao;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.profile.db.Profile;
@@ -24,6 +26,8 @@ import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.db.SpeakerDao;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.db.SponsorDao;
+import ph.devcon.android.technology.db.Technology;
+import ph.devcon.android.technology.db.TechnologyDao;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.user.db.UserDao;
 
@@ -47,6 +51,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private AttendeeDao attendeeDao = null;
     private UserDao userDao = null;
     private ProfileDao profileDao = null;
+    private CategoryDao categoryDao = null;
+    private TechnologyDao technologyDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -75,6 +81,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attendee.class);
             TableUtils.createTable(connectionSource, User.class);
             TableUtils.createTable(connectionSource, Profile.class);
+            TableUtils.createTable(connectionSource, Category.class);
+            TableUtils.createTable(connectionSource, Technology.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -175,4 +183,27 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         }
         return profileDao;
     }
+
+    public CategoryDao getCategoryDao() {
+        if (null == categoryDao) {
+            try {
+                categoryDao = getDao(Category.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return categoryDao;
+    }
+
+    public TechnologyDao getTechnologyDao() {
+        if (null == technologyDao) {
+            try {
+                technologyDao = getDao(Technology.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return technologyDao;
+    }
+
 }

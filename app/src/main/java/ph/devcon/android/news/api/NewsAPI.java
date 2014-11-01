@@ -3,7 +3,7 @@ package ph.devcon.android.news.api;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import ph.devcon.android.program.api.Category;
+import ph.devcon.android.category.api.CategoryAPI;
 
 /**
  * Created by lope on 10/31/14.
@@ -21,7 +21,7 @@ public class NewsAPI {
     private String htmlContent;
 
     @Expose
-    private Category category;
+    private CategoryAPI category;
 
     public String getTitle() {
         return title;
@@ -47,11 +47,11 @@ public class NewsAPI {
         this.htmlContent = htmlContent;
     }
 
-    public Category getCategory() {
+    public CategoryAPI getCategory() {
         return category;
     }
 
-    public void setCategory(Category category) {
+    public void setCategory(CategoryAPI category) {
         this.category = category;
     }
 

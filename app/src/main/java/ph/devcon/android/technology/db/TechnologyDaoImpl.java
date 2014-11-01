@@ -1,4 +1,4 @@
-package ph.devcon.android.attendee.db;
+package ph.devcon.android.technology.db;
 
 import com.j256.ormlite.support.ConnectionSource;
 
