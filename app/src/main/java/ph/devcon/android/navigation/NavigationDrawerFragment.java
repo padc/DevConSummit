@@ -23,7 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import ph.devcon.android.R;
-import ph.devcon.android.user.EditUserProfileActivity;
+import ph.devcon.android.profile.EditUserProfileActivity;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.

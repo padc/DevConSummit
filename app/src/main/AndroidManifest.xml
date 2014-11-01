@@ -65,7 +65,7 @@
                 android:value=".navigation.MainActivity"/>
         </activity>
         <activity
-            android:name=".user.EditUserProfileActivity"
+            android:name=".profile.EditUserProfileActivity"
             android:label="@string/app_name">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

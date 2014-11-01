@@ -16,6 +16,8 @@ import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.db.AttendeeDao;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.db.NewsDao;
+import ph.devcon.android.profile.db.Profile;
+import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.program.db.ProgramDao;
 import ph.devcon.android.speaker.db.Speaker;
@@ -44,6 +46,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private NewsDao newsDao = null;
     private AttendeeDao attendeeDao = null;
     private UserDao userDao = null;
+    private ProfileDao profileDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -71,6 +74,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, News.class);
             TableUtils.createTable(connectionSource, Attendee.class);
             TableUtils.createTable(connectionSource, User.class);
+            TableUtils.createTable(connectionSource, Profile.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -159,5 +163,16 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return userDao;
+    }
+
+    public ProfileDao getProfileDao() {
+        if (null == profileDao) {
+            try {
+                profileDao = getDao(Profile.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return profileDao;
     }
 }

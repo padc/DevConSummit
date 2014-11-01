@@ -63,7 +63,7 @@ public class FetchAttendeeListJob extends Job {
         attendeeController.fetchAttendees(authService.getCachedToken(), new Callback<AttendeeBaseResponse>() {
             @Override
             public void success(AttendeeBaseResponse baseResponse, Response response) {
-                List<Attendee> attendeeDbList = attendeeService.createCacheObjects(baseResponse);
+                List<Attendee> attendeeDbList = attendeeService.createCacheObject(baseResponse);
                 eventBus.post(new FetchedAttendeeListEvent(attendeeDbList));
             }
 

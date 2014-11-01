@@ -63,7 +63,7 @@ public class FetchSponsorJob extends Job {
         sponsorController.fetchSponsors(authService.getCachedToken(), new Callback<SponsorBaseResponse>() {
             @Override
             public void success(SponsorBaseResponse baseResponse, Response response) {
-                List<Sponsor> sponsorDbList = sponsorService.createCacheObjects(baseResponse);
+                List<Sponsor> sponsorDbList = sponsorService.createCacheObject(baseResponse);
                 eventBus.post(new FetchedSponsorListEvent(sponsorDbList));
             }
 
