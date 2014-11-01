@@ -4,6 +4,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.user.db.User;
 
 /**
  * Created by lope on 10/12/14.
@@ -16,6 +17,9 @@ public class Technology extends BaseDevCon {
 
     @DatabaseField
     String title;
+
+    @DatabaseField(foreign = true)
+    User user;
 
     public String getCode() {
         return code;

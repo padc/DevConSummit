@@ -74,6 +74,8 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
+            TableUtils.createTable(connectionSource, Category.class);
+            TableUtils.createTable(connectionSource, Technology.class);
             TableUtils.createTable(connectionSource, Program.class);
             TableUtils.createTable(connectionSource, Speaker.class);
             TableUtils.createTable(connectionSource, Sponsor.class);
@@ -81,8 +83,6 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attendee.class);
             TableUtils.createTable(connectionSource, User.class);
             TableUtils.createTable(connectionSource, Profile.class);
-            TableUtils.createTable(connectionSource, Category.class);
-            TableUtils.createTable(connectionSource, Technology.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);

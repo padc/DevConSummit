@@ -5,8 +5,8 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.api.UserAPI;
 
 /**
@@ -48,8 +48,8 @@ public class User extends BaseDevCon {
     @DatabaseField
     private String photoUrl;
 
-    @DatabaseField
-    private Object primaryTechnology;
+    @DatabaseField(foreign = true)
+    private Technology primaryTechnology;
 
     @ForeignCollectionField
     private ForeignCollection<Technology> technologies;
@@ -67,7 +67,6 @@ public class User extends BaseDevCon {
         user.setFacebookUrl(userAPI.getFacebookUrl());
         user.setTwitterHandle(userAPI.getTwitterHandle());
         user.setPhotoUrl(userAPI.getPhotoUrl());
-        user.setPrimaryTechnology(userAPI.getPrimaryTechnology());
         return user;
     }
 
@@ -160,11 +159,11 @@ public class User extends BaseDevCon {
         this.photoUrl = photoUrl;
     }
 
-    public Object getPrimaryTechnology() {
+    public Technology getPrimaryTechnology() {
         return primaryTechnology;
     }
 
-    public void setPrimaryTechnology(Object primaryTechnology) {
+    public void setPrimaryTechnology(Technology primaryTechnology) {
         this.primaryTechnology = primaryTechnology;
     }
 

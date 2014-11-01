@@ -51,10 +51,10 @@ public class UserAPI {
 
     @SerializedName("primary_technology")
     @Expose
-    private Object primaryTechnology;
+    private String primaryTechnology;
 
     @Expose
-    private List<Object> technologies = new ArrayList<Object>();
+    private List<String> technologies = new ArrayList<String>();
 
     public String getEmail() {
         return email;
@@ -148,15 +148,15 @@ public class UserAPI {
         return primaryTechnology;
     }
 
-    public void setPrimaryTechnology(Object primaryTechnology) {
+    public void setPrimaryTechnology(String primaryTechnology) {
         this.primaryTechnology = primaryTechnology;
     }
 
-    public List<Object> getTechnologies() {
+    public List<String> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<Object> technologies) {
+    public void setTechnologies(List<String> technologies) {
         this.technologies = technologies;
     }
 
