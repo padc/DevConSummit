@@ -62,12 +62,17 @@ public class ProgramServiceImpl implements ProgramService {
         for (ProgramAPIContainer container : programBaseResponse.getPrograms()) {
             try {
                 ProgramAPI programAPI = container.getProgram();
-                Program programDb = Program.toProgram(programAPI);
                 ForeignCollection<Speaker> speakers = programDao.getEmptyForeignCollection("speakers");
-                for (SpeakerAPI speakerAPI : programAPI.getSpeakers())
-                    speakers.add(Speaker.toSpeaker(speakerAPI));
+                Program programDb = Program.toProgram(programAPI);
                 programDb.setSpeakers(speakers);
                 programDao.create(programDb);
+                for (SpeakerAPI speakerAPI : programAPI.getSpeakers()) {
+                    Speaker speaker = Speaker.toSpeaker(speakerAPI);
+                    speaker.setProgram(programDb);
+                    // for some reason it doesn't set unless i do this
+//                    speakerDao.create(speaker);
+                    speakers.add(speaker);
+                }
                 programsDBList.add(programDb);
             } catch (SQLException e) {
                 e.printStackTrace();
