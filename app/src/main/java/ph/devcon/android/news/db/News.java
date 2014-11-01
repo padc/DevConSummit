@@ -5,6 +5,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.category.db.Category;
 import ph.devcon.android.news.api.NewsAPI;
 
 /**
@@ -19,6 +20,7 @@ public class News extends BaseDevCon {
     @DatabaseField(index = true)
     String htmlContent;
 
+    @DatabaseField
     String photoUrl;
 
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
@@ -27,14 +29,15 @@ public class News extends BaseDevCon {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] imagePreview;
 
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
-    Tag tag;
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
+    Category category;
 
     public static News toNews(NewsAPI newsAPI) {
         News news = new News();
         news.setTitle(newsAPI.getTitle());
         news.setHtmlContent(newsAPI.getHtmlContent());
         news.setPhotoUrl(newsAPI.getPhotoUrl());
+        news.setCategory(Category.toCategory(newsAPI.getCategory()));
         return news;
     }
 
@@ -78,11 +81,11 @@ public class News extends BaseDevCon {
         this.imagePreview = imagePreview;
     }
 
-    public Tag getTag() {
-        return tag;
+    public Category getCategory() {
+        return category;
     }
 
-    public void setTag(Tag tag) {
-        this.tag = tag;
+    public void setCategory(Category category) {
+        this.category = category;
     }
 }

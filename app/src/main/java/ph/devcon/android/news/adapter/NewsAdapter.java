@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.common.base.Optional;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -16,6 +17,7 @@ import java.util.List;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
+import ph.devcon.android.category.db.Category;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.util.Util;
 
@@ -43,9 +45,13 @@ public class NewsAdapter extends ArrayAdapter<News> {
         }
         News newsItem = getItem(position);
         holder.txtTitle.setText(newsItem.getTitle());
-        holder.txtPreview.setText(newsItem.getHtmlContent());
+        holder.txtPreview.setText(Util.stripHtml(newsItem.getHtmlContent()));
+        Optional<Category> categoryOptional = Optional.fromNullable(newsItem.getCategory());
+        if (categoryOptional.isPresent())
+            holder.txtTag.setText(categoryOptional.get().getName());
         if (!Util.isNullOrEmpty(newsItem.getPhotoUrl())) {
-//           Picasso.with(mContext) holder.imgIcon();
+            Picasso.with(mContext).setIndicatorsEnabled(true);
+            Picasso.with(mContext).load(newsItem.getPhotoUrl()).into(holder.imgIcon);
         }
         return convertView;
     }

@@ -6,8 +6,10 @@ import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
+import android.text.Html;
 
 import com.google.common.base.Strings;
+import com.google.common.html.HtmlEscapers;
 
 /**
  * Created by lope on 10/6/14.
@@ -86,6 +88,19 @@ public class Util {
         //After finishing everything, we destroy the Renderscript.
         rs.destroy();
         return outBitmap;
+    }
 
+    public static String escapeHtml(String htmlString) {
+        if (!isNullOrEmpty(htmlString))
+            return HtmlEscapers.htmlEscaper().escape(htmlString);
+        else
+            return "";
+    }
+
+    public static String stripHtml(String htmlString) {
+        if (!isNullOrEmpty(htmlString))
+            return Html.fromHtml(htmlString).toString();
+        else
+            return "";
     }
 }
