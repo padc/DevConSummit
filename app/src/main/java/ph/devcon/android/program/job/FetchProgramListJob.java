@@ -62,7 +62,7 @@ public class FetchProgramListJob extends Job {
         programController.fetchPrograms(authService.getCachedToken(), new Callback<ProgramBaseResponse>() {
             @Override
             public void success(ProgramBaseResponse baseResponse, Response response) {
-                List<Program> programsDBList = programService.createPrograms(baseResponse);
+                List<Program> programsDBList = programService.createCacheObject(baseResponse);
                 eventBus.post(new FetchedProgramListEvent(programsDBList));
             }
 

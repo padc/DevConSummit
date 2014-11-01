@@ -63,7 +63,7 @@ public class FetchSpeakerJob extends Job {
         speakerController.fetchSpeakers(authService.getCachedToken(), new Callback<SpeakerBaseResponse>() {
             @Override
             public void success(SpeakerBaseResponse baseResponse, Response response) {
-                List<Speaker> speakerDbList = speakerService.createSpeakers(baseResponse);
+                List<Speaker> speakerDbList = speakerService.createCacheObject(baseResponse);
                 eventBus.post(new FetchedSpeakerListEvent(speakerDbList));
             }
 

@@ -45,7 +45,7 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
-    public List<Speaker> createSpeakers(SpeakerBaseResponse baseResponse) {
+    public List<Speaker> createCacheObject(SpeakerBaseResponse baseResponse) {
         try {
             speakerDao.clear();
         } catch (SQLException e) {

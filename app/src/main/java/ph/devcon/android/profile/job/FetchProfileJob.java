@@ -1,21 +1,21 @@
-package ph.devcon.android.news.job;
+package ph.devcon.android.profile.job;
 
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 
 import java.sql.SQLException;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
 import de.greenrobot.event.EventBus;
-import ph.devcon.android.news.api.NewsBaseResponse;
-import ph.devcon.android.news.controller.NewsController;
-import ph.devcon.android.news.db.News;
-import ph.devcon.android.news.event.FetchedNewsListEvent;
-import ph.devcon.android.news.event.FetchedNewsListFailedEvent;
-import ph.devcon.android.news.service.NewsService;
+import ph.devcon.android.auth.AuthService;
+import ph.devcon.android.profile.api.EditProfileBaseResponse;
+import ph.devcon.android.profile.controller.ProfileController;
+import ph.devcon.android.profile.db.Profile;
+import ph.devcon.android.profile.event.FetchedProfileEvent;
+import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
+import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.program.job.Priority;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -23,9 +23,9 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by lope on 10/31/14.
+ * Created by lope on 11/1/2014.
  */
-public class FetchNewsJob extends Job {
+public class FetchProfileJob extends Job {
     private static final AtomicInteger jobCounter = new AtomicInteger(0);
 
     private final int id;
@@ -34,13 +34,16 @@ public class FetchNewsJob extends Job {
     RestAdapter restAdapter;
 
     @Inject
-    NewsService newsService;
+    AuthService authService;
+
+    @Inject
+    ProfileService programService;
 
     @Inject
     EventBus eventBus;
 
-    public FetchNewsJob() {
-        super(new Params(Priority.MID).requireNetwork());
+    public FetchProfileJob() {
+        super(new Params(Priority.HIGH).requireNetwork());
         id = jobCounter.incrementAndGet();
     }
 
@@ -55,17 +58,17 @@ public class FetchNewsJob extends Job {
             //many times, cancel me, let the other one fetch tweets.
             return;
         }
-        NewsController newsController = restAdapter.create(NewsController.class);
-        newsController.fetchNews(new Callback<NewsBaseResponse>() {
+        ProfileController programController = restAdapter.create(ProfileController.class);
+        programController.fetchProfile(authService.getCachedToken(), new Callback<EditProfileBaseResponse>() {
             @Override
-            public void success(NewsBaseResponse baseResponse, Response response) {
-                List<News> newsDbList = newsService.createCacheObject(baseResponse);
-                eventBus.post(new FetchedNewsListEvent(newsDbList));
+            public void success(EditProfileBaseResponse baseResponse, Response response) {
+                Profile programsDB = programService.createCacheObject(baseResponse);
+                eventBus.post(new FetchedProfileEvent(programsDB));
             }
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                eventBus.post(new FetchedNewsListFailedEvent());
+                eventBus.post(new FetchedProfileFailedEvent());
             }
         });
     }

@@ -44,7 +44,7 @@ public class NewsServiceImpl implements NewsService {
     }
 
     @Override
-    public List<News> createNewsList(NewsBaseResponse baseResponse) {
+    public List<News> createCacheObject(NewsBaseResponse baseResponse) {
         try {
             newsDao.clear();
         } catch (SQLException e) {
