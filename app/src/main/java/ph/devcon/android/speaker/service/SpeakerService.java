@@ -13,11 +13,11 @@ import ph.devcon.android.speaker.db.Speaker;
  */
 public interface SpeakerService extends BaseAPICacheService<List<Speaker>, SpeakerBaseResponse> {
 
-    public List<Speaker> getAll();
+    public void getAll(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
 
-    public List<Speaker> getSpeakers();
+    public void getSpeakers(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
 
-    public List<Speaker> getPanels();
+    public void getPanels(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
 
     public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
 

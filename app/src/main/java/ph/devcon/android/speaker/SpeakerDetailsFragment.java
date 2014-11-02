@@ -31,5 +31,4 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
         imgBackgroundTop.setImageBitmap(Util.blurBitmap(getActivity(), icon));
         return rootView;
     }
-
 }

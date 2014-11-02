@@ -69,8 +69,6 @@ public class ProgramServiceImpl implements ProgramService {
                 for (SpeakerAPI speakerAPI : programAPI.getSpeakers()) {
                     Speaker speaker = Speaker.toSpeaker(speakerAPI);
                     speaker.setProgram(programDb);
-                    // for some reason it doesn't set unless i do this
-//                    speakerDao.create(speaker);
                     speakers.add(speaker);
                 }
                 programsDBList.add(programDb);

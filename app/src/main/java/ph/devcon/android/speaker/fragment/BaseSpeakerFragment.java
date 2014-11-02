@@ -9,8 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.google.common.base.Optional;
-
 import java.util.List;
 
 import javax.inject.Inject;
@@ -24,14 +22,14 @@ import ph.devcon.android.R;
 import ph.devcon.android.speaker.SpeakerDetailsActivity;
 import ph.devcon.android.speaker.adapter.SpeakerAdapter;
 import ph.devcon.android.speaker.db.Speaker;
-import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
+import ph.devcon.android.speaker.event.FetchedAllSpeakerListEvent;
 import ph.devcon.android.speaker.event.FetchedSpeakerListFailedEvent;
 import ph.devcon.android.speaker.service.SpeakerService;
 
 /**
  * Created by lope on 9/29/14.
  */
-public class SpeakerFragment extends Fragment {
+public abstract class BaseSpeakerFragment extends Fragment {
     @InjectView(R.id.lvw_speakers)
     ListView lvwSpeaker;
 
@@ -60,28 +58,22 @@ public class SpeakerFragment extends Fragment {
         }
         lvwSpeaker.addFooterView(buildFooterView(inflater));
         if (speakerService.isCacheValid()) {
-            speakerService.populateFromCache(getLoaderManager(), savedInstanceState);
+            executePopulateFromCache(savedInstanceState);
         } else {
-            speakerService.populateFromAPI();
+            executePopulateFromAPI();
         }
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        FetchedSpeakerListEvent event = eventBus.getStickyEvent(FetchedSpeakerListEvent.class);
-        Optional<FetchedSpeakerListEvent> eventOptional = Optional.fromNullable(event);
-        if (eventOptional.isPresent()) {
-            setSpeakerList(eventOptional.get().speakers);
-        }
-    }
+    protected abstract void executePopulateFromCache(Bundle savedInstanceStat);
+
+    protected abstract void executePopulateFromAPI();
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         eventBus.unregister(this);
-        eventBus.removeStickyEvent(FetchedSpeakerListEvent.class);
+        eventBus.removeStickyEvent(FetchedAllSpeakerListEvent.class);
         eventBus.removeStickyEvent(FetchedSpeakerListFailedEvent.class);
     }
 
@@ -92,14 +84,12 @@ public class SpeakerFragment extends Fragment {
 
     public void setSpeakerList(List<Speaker> speakerList) {
         if (speakerList != null && !speakerList.isEmpty()) {
-            speakerAdapter = new SpeakerAdapter(getActivity(), speakerList);
+            speakerAdapter = new SpeakerAdapter(getActivity(), speakerList, shouldDisplayTalkAsTitle());
             lvwSpeaker.setAdapter(speakerAdapter);
         }
     }
 
-    public void onEventMainThread(FetchedSpeakerListEvent event) {
-        setSpeakerList(event.speakers);
-    }
+    public abstract boolean shouldDisplayTalkAsTitle();
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);

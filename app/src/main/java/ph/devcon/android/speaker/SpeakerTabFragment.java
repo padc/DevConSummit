@@ -16,7 +16,9 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
-import ph.devcon.android.speaker.fragment.SpeakerFragment;
+import ph.devcon.android.speaker.fragment.AllSpeakerFragment;
+import ph.devcon.android.speaker.fragment.PanelOnlyFragment;
+import ph.devcon.android.speaker.fragment.SpeakerOnlyFragment;
 
 /**
  * Created by lope on 9/13/14.
@@ -56,11 +58,11 @@ public class SpeakerTabFragment extends Fragment {
         public android.support.v4.app.Fragment getItem(int position) {
             switch (position) {
                 case 0:
-                    return new SpeakerFragment();
+                    return new AllSpeakerFragment();
                 case 1:
-                    return new SpeakerFragment();
+                    return new SpeakerOnlyFragment();
                 case 2:
-                    return new SpeakerFragment();
+                    return new PanelOnlyFragment();
                 default:
                     try {
                         throw new Exception("Fragment position non existent!");

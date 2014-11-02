@@ -24,6 +24,8 @@ import ph.devcon.android.program.db.Program;
 import ph.devcon.android.program.db.ProgramDao;
 import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.db.SpeakerDao;
+import ph.devcon.android.speaker.db.Talk;
+import ph.devcon.android.speaker.db.TalkDao;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.db.SponsorDao;
 import ph.devcon.android.technology.db.Technology;
@@ -53,6 +55,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private ProfileDao profileDao = null;
     private CategoryDao categoryDao = null;
     private TechnologyDao technologyDao = null;
+    private TalkDao talkDao = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -83,6 +86,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Attendee.class);
             TableUtils.createTable(connectionSource, User.class);
             TableUtils.createTable(connectionSource, Profile.class);
+            TableUtils.createTable(connectionSource, Talk.class);
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -204,6 +208,17 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             }
         }
         return technologyDao;
+    }
+
+    public TalkDao getTalkDao() {
+        if (null == talkDao) {
+            try {
+                talkDao = getDao(Talk.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return talkDao;
     }
 
 }

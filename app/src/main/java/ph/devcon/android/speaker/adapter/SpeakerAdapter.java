@@ -9,19 +9,25 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/17/14.
  */
 public class SpeakerAdapter extends ArrayAdapter<Speaker> {
-    public SpeakerAdapter(Context context, List<Speaker> logs) {
+    boolean isShouldDisplayTalkTitle = true;
+
+    public SpeakerAdapter(Context context, List<Speaker> logs, boolean isShouldDisplayTalkTitle) {
         super(context, R.layout.item_program, logs);
+        this.isShouldDisplayTalkTitle = isShouldDisplayTalkTitle;
     }
 
     @Override
@@ -36,9 +42,15 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.txtProgramTitle.setText(speaker.getMainTalkTitle());
+        if (isShouldDisplayTalkTitle)
+            holder.txtProgramTitle.setText(speaker.getTalkTitle());
+        else
+            holder.txtProgramTitle.setText(speaker.getPanelTitle());
         holder.txtSpeakerName.setText(speaker.getFullName());
         holder.txtPosition.setText(speaker.getPosition());
+        if (!Util.isNullOrEmpty(speaker.getPhotoUrl())) {
+            Picasso.with(getContext()).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
+        }
         return convertView;
     }
 

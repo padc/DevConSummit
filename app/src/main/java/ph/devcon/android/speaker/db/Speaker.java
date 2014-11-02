@@ -4,11 +4,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
 import com.google.common.base.Optional;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
 import ph.devcon.android.base.db.BaseDevCon;
+import ph.devcon.android.category.db.Category;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.speaker.api.SpeakerAPI;
 import ph.devcon.android.util.Util;
@@ -52,12 +55,20 @@ public class Speaker extends BaseDevCon {
     @DatabaseField
     String panelTitle;
 
+    @DatabaseField
+    Boolean isSpeaker;
+
+    @DatabaseField
+    Boolean isPanel;
+
     @DatabaseField(foreign = true)
     Program program;
 
-    public Bitmap getSpeakerIconBitmap() {
-        return BitmapFactory.decodeByteArray(speakerIcon, 0, speakerIcon.length);
-    }
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<Talk> talks;
+
+    @ForeignCollectionField(eager = true)
+    ForeignCollection<Category> categories;
 
     public static Speaker toSpeaker(SpeakerAPI speakerAPI) {
         Speaker speaker = new Speaker();
@@ -73,12 +84,18 @@ public class Speaker extends BaseDevCon {
         for (String title : speakerAPI.getTalk()) {
             if (counter == 0) {
                 speaker.setTalkTitle(title);
+                speaker.setIsSpeaker(true);
             } else if (title.startsWith("PANEL:")) {
                 speaker.setPanelTitle(title);
+                speaker.setIsPanel(true);
             }
             counter++;
         }
         return speaker;
+    }
+
+    public Bitmap getSpeakerIconBitmap() {
+        return BitmapFactory.decodeByteArray(speakerIcon, 0, speakerIcon.length);
     }
 
     public String getMainTalkTitle() {
@@ -194,5 +211,37 @@ public class Speaker extends BaseDevCon {
 
     public void setProgram(Program program) {
         this.program = program;
+    }
+
+    public Boolean getIsSpeaker() {
+        return isSpeaker;
+    }
+
+    public void setIsSpeaker(Boolean isSpeaker) {
+        this.isSpeaker = isSpeaker;
+    }
+
+    public Boolean getIsPanel() {
+        return isPanel;
+    }
+
+    public void setIsPanel(Boolean isPanel) {
+        this.isPanel = isPanel;
+    }
+
+    public ForeignCollection<Talk> getTalks() {
+        return talks;
+    }
+
+    public void setTalks(ForeignCollection<Talk> talks) {
+        this.talks = talks;
+    }
+
+    public ForeignCollection<Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(ForeignCollection<Category> categories) {
+        this.categories = categories;
     }
 }
