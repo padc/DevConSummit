@@ -18,8 +18,8 @@ public class SponsorAPI {
     @Expose
     private String website;
 
-//    @Expose
-//    private Category category;
+    @Expose
+    private SponsorTypeAPI category;
 
     public String getName() {
         return name;
@@ -43,5 +43,13 @@ public class SponsorAPI {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public SponsorTypeAPI getCategory() {
+        return category;
+    }
+
+    public void setCategory(SponsorTypeAPI category) {
+        this.category = category;
     }
 }

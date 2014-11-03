@@ -28,6 +28,8 @@ import ph.devcon.android.speaker.db.Talk;
 import ph.devcon.android.speaker.db.TalkDao;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.db.SponsorDao;
+import ph.devcon.android.sponsor.db.SponsorType;
+import ph.devcon.android.sponsor.db.SponsorTypeDao;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.technology.db.TechnologyDao;
 import ph.devcon.android.user.db.User;
@@ -48,6 +50,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     // the DAO object we use to access the SimpleData table
     private ProgramDao programDao = null;
     private SpeakerDao speakerDao = null;
+    private SponsorTypeDao sponsorTypeDao = null;
     private SponsorDao sponsorDao = null;
     private NewsDao newsDao = null;
     private AttendeeDao attendeeDao = null;
@@ -81,6 +84,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, Technology.class);
             TableUtils.createTable(connectionSource, Program.class);
             TableUtils.createTable(connectionSource, Speaker.class);
+            TableUtils.createTable(connectionSource, SponsorType.class);
             TableUtils.createTable(connectionSource, Sponsor.class);
             TableUtils.createTable(connectionSource, News.class);
             TableUtils.createTable(connectionSource, Attendee.class);
@@ -221,4 +225,14 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         return talkDao;
     }
 
+    public SponsorTypeDao getSponsorTypeDao() {
+        if (null == sponsorTypeDao) {
+            try {
+                sponsorTypeDao = getDao(SponsorType.class);
+            } catch (java.sql.SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return sponsorTypeDao;
+    }
 }

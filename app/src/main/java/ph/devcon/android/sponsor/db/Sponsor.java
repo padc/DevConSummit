@@ -12,22 +12,21 @@ import ph.devcon.android.sponsor.api.SponsorAPI;
  */
 @DatabaseTable(daoClass = SponsorDaoImpl.class)
 public class Sponsor extends BaseDevCon {
-    public static final int TYPE_GOLD = 0;
-    public static final int TYPE_SILVER = 1;
-    public static final int TYPE_CO_PRESENTOR = 2;
 
-    @DatabaseField
-    Integer sponsorType;
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     byte[] sponsorIcon;
+
     @DatabaseField
     String name;
+
     @DatabaseField
     String photoUrl;
+
     @DatabaseField
     String website;
 
-    // TODO category
+    @DatabaseField(foreignAutoRefresh = true, foreignAutoCreate = true)
+    SponsorType sponsorType;
 
     public static Sponsor toSponsor(SponsorAPI sponsorAPI) {
         Sponsor sponsor = new Sponsor();
@@ -35,14 +34,6 @@ public class Sponsor extends BaseDevCon {
         sponsor.setWebsite(sponsorAPI.getWebsite());
         sponsor.setPhotoUrl(sponsorAPI.getPhotoUrl());
         return sponsor;
-    }
-
-    public Integer getSponsorType() {
-        return sponsorType;
-    }
-
-    public void setSponsorType(Integer sponsorType) {
-        this.sponsorType = sponsorType;
     }
 
     public byte[] getSponsorIcon() {
@@ -75,5 +66,13 @@ public class Sponsor extends BaseDevCon {
 
     public void setWebsite(String website) {
         this.website = website;
+    }
+
+    public SponsorType getSponsorType() {
+        return sponsorType;
+    }
+
+    public void setSponsorType(SponsorType sponsorType) {
+        this.sponsorType = sponsorType;
     }
 }

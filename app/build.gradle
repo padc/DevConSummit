@@ -60,6 +60,7 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.7.1'
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'de.greenrobot:eventbus:2.2.1'
+    compile 'org.apmem.tools:layouts:1.4@aar'
 
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
 

@@ -1,6 +1,7 @@
 package ph.devcon.android.sponsor.db;
 
 import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.table.TableUtils;
 
 import java.sql.SQLException;
 
@@ -16,12 +17,11 @@ public class SponsorDaoImpl extends BaseDevConDaoImpl<Sponsor, Integer> implemen
 
     @Override
     public void clear() throws SQLException {
-        // TODO
+        TableUtils.clearTable(getConnectionSource(), Sponsor.class);
     }
 
     @Override
     public boolean isCacheValid() throws SQLException {
-        // TODO
-        return false;
+        return queryForFirst(queryBuilder().prepare()) != null;
     }
 }

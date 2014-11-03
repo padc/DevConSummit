@@ -18,8 +18,10 @@ import ph.devcon.android.news.job.FetchNewsJob;
 import ph.devcon.android.sponsor.api.SponsorAPI;
 import ph.devcon.android.sponsor.api.SponsorBaseResponse;
 import ph.devcon.android.sponsor.api.SponsorContainer;
+import ph.devcon.android.sponsor.api.SponsorTypeAPI;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.db.SponsorDao;
+import ph.devcon.android.sponsor.db.SponsorType;
 import ph.devcon.android.sponsor.event.FetchedSponsorListEvent;
 import ph.devcon.android.sponsor.event.FetchedSponsorListFailedEvent;
 
@@ -59,6 +61,11 @@ public class SponsorServiceImpl implements SponsorService {
                 if (sponsorAPIOptional.isPresent()) {
                     SponsorAPI sponsorAPI = sponsorAPIOptional.get();
                     Sponsor sponsorDb = Sponsor.toSponsor(sponsorAPI);
+                    Optional<SponsorTypeAPI> sponsorTypeAPIOptional = Optional.fromNullable(sponsorAPI.getCategory());
+                    if (sponsorTypeAPIOptional.isPresent()) {
+                        SponsorType sponsorType = SponsorType.toSponsorType(sponsorTypeAPIOptional.get());
+                        sponsorDb.setSponsorType(sponsorType);
+                    }
                     sponsorDao.create(sponsorDb);
                     sponsorDBList.add(sponsorDb);
                 }

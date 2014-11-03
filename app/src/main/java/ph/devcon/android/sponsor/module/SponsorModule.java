@@ -15,6 +15,7 @@ import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.base.module.EventBusModule;
 import ph.devcon.android.sponsor.SponsorFragment;
 import ph.devcon.android.sponsor.db.SponsorDao;
+import ph.devcon.android.sponsor.db.SponsorTypeDao;
 import ph.devcon.android.sponsor.job.FetchSponsorJob;
 import ph.devcon.android.sponsor.service.SponsorService;
 import ph.devcon.android.sponsor.service.SponsorServiceImpl;
@@ -35,6 +36,12 @@ public class SponsorModule {
     @Singleton
     public SponsorDao provideSponsorDao() {
         return DatabaseHelper.getInstance(mContext).getSponsorDao();
+    }
+
+    @Provides
+    @Singleton
+    public SponsorTypeDao provideSponsorTypeDao() {
+        return DatabaseHelper.getInstance(mContext).getSponsorTypeDao();
     }
 
     @Provides
