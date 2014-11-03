@@ -9,12 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.attendee.db.Attendee;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 10/9/14.
@@ -34,6 +37,13 @@ public class AttendeeAdapter extends ArrayAdapter<Attendee> {
             convertView = inflater.inflate(R.layout.item_attendee, parent, false);
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
+        }
+        Attendee attendee = getItem(position);
+        holder.txtName.setText(attendee.getUser().getFullName());
+        holder.txtJob.setText(attendee.getUser().getPosition());
+        holder.txtLanguages.setText(attendee.getUser().getPrettyTechnologyList());
+        if (!Util.isNullOrEmpty(attendee.getUser().getPhotoUrl())) {
+            Picasso.with(getContext()).load(attendee.getUser().getPhotoUrl()).into(holder.imgAttendee);
         }
         return convertView;
     }

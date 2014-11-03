@@ -12,7 +12,7 @@ import ph.devcon.android.user.db.User;
  */
 @DatabaseTable(daoClass = AttendeeDaoImpl.class)
 public class Attendee extends BaseDevCon {
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
     User user;
 
     public static Attendee toAttendee(AttendeeAPI attendeeAPI) {

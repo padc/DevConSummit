@@ -1,5 +1,6 @@
 package ph.devcon.android.user.db;
 
+import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -8,6 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.api.UserAPI;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/13/14.
@@ -70,6 +72,36 @@ public class User extends BaseDevCon {
         return user;
     }
 
+    public String getFullName() {
+        return getFirstName() + " " + getLastName();
+    }
+
+    public String getPrettyTechnologyList() {
+        StringBuilder sb = new StringBuilder();
+        Technology primaryTechnology = getPrimaryTechnology();
+        Optional<Technology> technologyOptional = Optional.fromNullable(primaryTechnology);
+        String mainTech = "";
+        if (technologyOptional.isPresent())
+            mainTech = technologyOptional.get().getTitle();
+        if (!Util.isNullOrEmpty(mainTech)) {
+            sb.append(mainTech);
+        }
+        if (Optional.fromNullable(getTechnologies()).isPresent())
+            for (Technology technology : getTechnologies()) {
+                if (!technology.getTitle().equals(mainTech)) {
+                    sb.append(technology.getTitle());
+                    sb.append(" ");
+                }
+            }
+        return sb.toString();
+    }
+
+    public String getPrettyMainTechnology() {
+        if (!Util.isNullOrEmpty(getPrettyMainTechnology())) {
+            return getPrettyTechnologyList() + " (Primary)";
+        }
+        return "";
+    }
 
     public String getEmail() {
         return email;
