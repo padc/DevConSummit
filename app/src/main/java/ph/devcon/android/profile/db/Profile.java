@@ -11,7 +11,7 @@ import ph.devcon.android.user.db.User;
  */
 @DatabaseTable(daoClass = ProfileDaoImpl.class)
 public class Profile extends BaseDevCon {
-    @DatabaseField(foreign = true, foreignAutoRefresh = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
     private User user;
 
     public User getUser() {

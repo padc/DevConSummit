@@ -6,6 +6,9 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.api.UserAPI;
@@ -74,6 +77,23 @@ public class User extends BaseDevCon {
 
     public String getFullName() {
         return getFirstName() + " " + getLastName();
+    }
+
+    public String getMainTechnologyTitle() {
+        Technology primaryTechnology = getPrimaryTechnology();
+        Optional<Technology> technologyOptional = Optional.fromNullable(primaryTechnology);
+        String mainTech = "";
+        if (technologyOptional.isPresent())
+            mainTech = technologyOptional.get().getTitle();
+        return mainTech;
+    }
+
+    public List<String> getOtherTechnologiesTitleList() {
+        List<String> techTitles = new ArrayList<String>();
+        for (Technology technology : getTechnologies()) {
+            techTitles.add(technology.getTitle());
+        }
+        return techTitles;
     }
 
     public String getPrettyTechnologyList() {

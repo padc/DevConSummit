@@ -20,7 +20,6 @@
             <com.makeramen.RoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_user"
-                android:src="@drawable/sample_large"
                 android:layout_width="110dp"
                 android:layout_height="110dp"
                 android:layout_marginTop="8dp"
@@ -30,6 +29,7 @@
                 app:oval="false"/>
 
             <TextView
+                android:id="@+id/txt_full_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="@color/green"
@@ -38,8 +38,7 @@
                 android:layout_marginTop="4dp"
                 android:paddingBottom="8dp"
                 android:textAllCaps="true"
-                android:typeface="sans"
-                android:text="Haifa Baluyos"/>
+                android:typeface="sans"/>
 
         </LinearLayout>
 
