@@ -5,14 +5,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.applidium.headerlistview.SectionAdapter;
+import com.google.common.collect.ArrayListMultimap;
+import com.squareup.picasso.Picasso;
+
+import org.apmem.tools.layouts.FlowLayout;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
-import ph.devcon.android.util.Util;
+import ph.devcon.android.sponsor.db.Sponsor;
 
 /**
  * Created by lope on 9/21/14.
@@ -20,14 +28,20 @@ import ph.devcon.android.util.Util;
 public class SponsorSectionAdapter extends SectionAdapter {
 
     Context mContext;
+    ArrayListMultimap<String, Sponsor> mSponsorMultimap = ArrayListMultimap.create();
+    List<String> mSponsorTypeKeyList = new ArrayList<String>();
 
-    public SponsorSectionAdapter(Context context) {
+    public SponsorSectionAdapter(Context context, ArrayListMultimap<String, Sponsor> sponsorMultimap) {
         mContext = context;
+        mSponsorMultimap = sponsorMultimap;
+        for (String key : mSponsorMultimap.keySet()) {
+            mSponsorTypeKeyList.add(key);
+        }
     }
 
     @Override
     public int numberOfSections() {
-        return 4;
+        return mSponsorMultimap.keySet().size();
     }
 
     @Override
@@ -37,7 +51,7 @@ public class SponsorSectionAdapter extends SectionAdapter {
 
     @Override
     public Object getRowItem(int section, int row) {
-        return null;
+        return mSponsorMultimap.get(mSponsorTypeKeyList.get(section));
     }
 
     @Override
@@ -49,17 +63,21 @@ public class SponsorSectionAdapter extends SectionAdapter {
     public View getRowView(int section, int row, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder = null;
-//        Program program = (Program) getRowItem(section, row);
+        List<Sponsor> sponsors = (List<Sponsor>) getRowItem(section, row);
         if (convertView != null) {
             // related to a bug lol
 //            holder = (ViewHolder) convertView.getTag();
         } else if (convertView == null) {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_sponsor), null);
 //            holder = new ViewHolder(convertView);
+//            convertView.setTag(holder);
         }
-//        holder.txtSpeakerName.setText(program.getSpeaker().getName());
-//        holder.imgSpeaker.setImageBitmap(program.getSpeaker().getSpeakerIconBitmap());
-//        holder.txtProgramTitle.setText(program.getTitle());
+        FlowLayout contSponsorImages = (FlowLayout) convertView.findViewById(R.id.cont_sponsor_images);
+        for (Sponsor sponsor : sponsors) {
+            ImageView imageView = new ImageView(mContext);
+            Picasso.with(mContext).load(sponsor.getPhotoUrl()).into(imageView);
+            contSponsorImages.addView(imageView);
+        }
         return convertView;
     }
 
@@ -84,7 +102,7 @@ public class SponsorSectionAdapter extends SectionAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.txtSponsorType.setText(Util.toSponsorType(section));
+        holder.txtSponsorType.setText(mSponsorTypeKeyList.get(section));
         return convertView;
     }
 

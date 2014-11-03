@@ -1,15 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.apmem.tools.layouts.FlowLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/img_sponsor_logo"
+    <org.apmem.tools.layouts.FlowLayout
+        android:id="@+id/cont_sponsor_images"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:src="@drawable/ic_launcher"/>
-
-</org.apmem.tools.layouts.FlowLayout>
+        android:layout_gravity="center"/>
+</RelativeLayout>

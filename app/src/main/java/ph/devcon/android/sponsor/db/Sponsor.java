@@ -25,7 +25,7 @@ public class Sponsor extends BaseDevCon {
     @DatabaseField
     String website;
 
-    @DatabaseField(foreignAutoRefresh = true, foreignAutoCreate = true)
+    @DatabaseField(foreign = true, foreignAutoRefresh = true, foreignAutoCreate = true)
     SponsorType sponsorType;
 
     public static Sponsor toSponsor(SponsorAPI sponsorAPI) {

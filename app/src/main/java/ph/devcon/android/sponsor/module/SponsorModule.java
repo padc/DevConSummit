@@ -24,7 +24,8 @@ import ph.devcon.android.sponsor.service.SponsorServiceImpl;
  * Created by lope on 11/1/2014.
  */
 @Module(injects = {SponsorFragment.class, FetchSponsorJob.class},
-        includes = {APIModule.class, AuthModule.class, EventBusModule.class})
+        includes = {APIModule.class, AuthModule.class, EventBusModule.class},
+        library= true)
 public class SponsorModule {
     Context mContext;
 

@@ -6,6 +6,7 @@ import android.content.Loader;
 import android.os.Bundle;
 
 import com.google.common.base.Optional;
+import com.google.common.collect.ArrayListMultimap;
 import com.path.android.jobqueue.JobManager;
 
 import java.sql.SQLException;
@@ -14,7 +15,6 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.base.db.OrmliteListLoader;
-import ph.devcon.android.news.job.FetchNewsJob;
 import ph.devcon.android.sponsor.api.SponsorAPI;
 import ph.devcon.android.sponsor.api.SponsorBaseResponse;
 import ph.devcon.android.sponsor.api.SponsorContainer;
@@ -24,6 +24,7 @@ import ph.devcon.android.sponsor.db.SponsorDao;
 import ph.devcon.android.sponsor.db.SponsorType;
 import ph.devcon.android.sponsor.event.FetchedSponsorListEvent;
 import ph.devcon.android.sponsor.event.FetchedSponsorListFailedEvent;
+import ph.devcon.android.sponsor.job.FetchSponsorJob;
 
 /**
  * Created by lope on 10/6/14.
@@ -107,7 +108,7 @@ public class SponsorServiceImpl implements SponsorService {
 
     @Override
     public void populateFromAPI() {
-        jobManager.addJobInBackground(new FetchNewsJob());
+        jobManager.addJobInBackground(new FetchSponsorJob());
     }
 
     @Override
@@ -118,5 +119,18 @@ public class SponsorServiceImpl implements SponsorService {
             e.printStackTrace();
         }
         return false;
+    }
+
+    @Override
+    public ArrayListMultimap<String, Sponsor> buildMultimap(List<Sponsor> sponsors) {
+        ArrayListMultimap<String, Sponsor> sponsorMultimap = ArrayListMultimap.create();
+        for (Sponsor sponsor : sponsors) {
+            Optional<SponsorType> sponsorTypeOptional = Optional.fromNullable(sponsor.getSponsorType());
+            if (sponsorTypeOptional.isPresent()) {
+                SponsorType sponsorType = sponsorTypeOptional.get();
+                sponsorMultimap.put(sponsorType.getName(), sponsor);
+            }
+        }
+        return sponsorMultimap;
     }
 }
