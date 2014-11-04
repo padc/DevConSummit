@@ -13,6 +13,8 @@ import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.base.module.EventBusModule;
+import ph.devcon.android.news.NewsDetailsActivity;
+import ph.devcon.android.news.NewsDetailsFragment;
 import ph.devcon.android.news.NewsFragment;
 import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.news.job.FetchNewsJob;
@@ -22,7 +24,8 @@ import ph.devcon.android.news.service.NewsServiceImpl;
 /**
  * Created by lope on 10/29/14.
  */
-@Module(injects = {NewsFragment.class, FetchNewsJob.class},
+@Module(injects = {NewsFragment.class, FetchNewsJob.class, NewsDetailsFragment.class,
+        NewsDetailsActivity.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class})
 public class NewsModule {
     Context mContext;

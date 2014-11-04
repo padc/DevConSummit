@@ -10,4 +10,5 @@ import ph.devcon.android.news.db.News;
  * Created by lope on 10/6/14.
  */
 public interface NewsService extends BaseAPICacheService<List<News>, NewsBaseResponse> {
+    public News get(int id);
 }

@@ -1,5 +1,6 @@
 package ph.devcon.android.news.db;
 
+import com.google.common.base.Optional;
 import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -39,6 +40,15 @@ public class News extends BaseDevCon {
         news.setPhotoUrl(newsAPI.getPhotoUrl());
         news.setCategory(Category.toCategory(newsAPI.getCategory()));
         return news;
+    }
+
+    public String getTag() {
+        Optional<Category> categoryOptional = Optional.fromNullable(getCategory());
+        if (categoryOptional.isPresent()) {
+            return categoryOptional.get().getName();
+        } else {
+            return "";
+        }
     }
 
     public String getTitle() {

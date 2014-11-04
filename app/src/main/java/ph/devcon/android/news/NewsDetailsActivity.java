@@ -1,11 +1,7 @@
 package ph.devcon.android.news;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
@@ -13,31 +9,68 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.news.adapter.NewsDetailsPagerAdapter;
+import ph.devcon.android.news.db.News;
+import ph.devcon.android.news.db.NewsDao;
+import ph.devcon.android.news.event.FetchedNewsListEvent;
+import ph.devcon.android.news.service.NewsService;
 
 /**
  * Created by lope on 10/6/14.
  */
 public class NewsDetailsActivity extends BaseDevConActivity {
     NewsDetailsPagerAdapter mNewsDetailsPagerAdapter;
+
+    @InjectView(R.id.container)
     ViewPager mViewPager;
+
+    @Inject
+    EventBus eventBus;
+
+    @Inject
+    NewsService newsService;
+
+    @Inject
+    NewsDao newsDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this);
-
+        if (!eventBus.isRegistered(this)) {
+            eventBus.registerSticky(this);
+        }
+        setHomeAsUp();
+        newsService.populateFromCache(getLoaderManager(), savedInstanceState);
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mNewsDetailsPagerAdapter =
                 new NewsDetailsPagerAdapter(
-                        getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+                        getSupportFragmentManager(), new ArrayList<News>());
         mViewPager.setAdapter(mNewsDetailsPagerAdapter);
-        setHomeAsUp();
+    }
+
+    public void setNewsList(List<News> newsList) {
+        if (newsList != null && !newsList.isEmpty()) {
+            mNewsDetailsPagerAdapter.setItems(newsList);
+            mNewsDetailsPagerAdapter.notifyDataSetChanged();
+        }
+    }
+
+    public void onEventMainThread(FetchedNewsListEvent event) {
+        setNewsList(event.newsList);
     }
 
     @Override
@@ -73,33 +106,6 @@ public class NewsDetailsActivity extends BaseDevConActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    // Since this is an object collection, use a FragmentStatePagerAdapter,
-// and NOT a FragmentPagerAdapter.
-    public static class NewsDetailsPagerAdapter extends FragmentStatePagerAdapter {
-        public NewsDetailsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = new NewsDetailsFragment();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 100;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            // TODO
-            return "OBJECT " + (position + 1);
-        }
     }
 
 }

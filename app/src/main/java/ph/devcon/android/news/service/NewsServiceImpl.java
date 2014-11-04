@@ -110,4 +110,14 @@ public class NewsServiceImpl implements NewsService {
         }
         return false;
     }
+
+    @Override
+    public News get(int id) {
+        try {
+            return newsDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
