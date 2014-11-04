@@ -21,4 +21,5 @@ public interface SpeakerService extends BaseAPICacheService<List<Speaker>, Speak
 
     public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
 
+    public Speaker getSpeaker(int id);
 }

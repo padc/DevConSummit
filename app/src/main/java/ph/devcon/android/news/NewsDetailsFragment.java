@@ -31,7 +31,8 @@ import ph.devcon.android.util.Util;
 public class NewsDetailsFragment extends Fragment implements ObservableScrollView.Callbacks {
     public static final String ID = "news_id";
 
-    private TextView mStickyView;
+    @InjectView(R.id.txt_title)
+    TextView txtTitle;
     private View mPlaceholderView;
     private ObservableScrollView mObservableScrollView;
 
@@ -55,7 +56,7 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
         mObservableScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
         mObservableScrollView.setCallbacks(this);
 
-        mStickyView = (TextView) rootView.findViewById(R.id.sticky);
+        txtTitle = (TextView) rootView.findViewById(R.id.txt_title);
         mPlaceholderView = rootView.findViewById(R.id.placeholder);
 
         mObservableScrollView.getViewTreeObserver().addOnGlobalLayoutListener(
@@ -77,6 +78,7 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
 
     protected void init(News news) {
         Typeface myTypeface = Typeface.createFromAsset(getActivity().getAssets(), "fonts/Merriweather-Regular.otf");
+        txtTitle.setText(news.getTitle());
         txtContent.setTypeface(myTypeface);
         txtContent.setText(Html.fromHtml(news.getHtmlContent()));
         String tag = news.getTag();
@@ -92,7 +94,7 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
 
     @Override
     public void onScrollChanged(int scrollY) {
-        mStickyView.setTranslationY(Math.max(mPlaceholderView.getTop(), scrollY));
+        txtTitle.setTranslationY(Math.max(mPlaceholderView.getTop(), scrollY));
     }
 
     @Override

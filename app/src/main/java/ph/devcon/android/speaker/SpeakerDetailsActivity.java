@@ -1,11 +1,7 @@
 package ph.devcon.android.speaker;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
@@ -13,31 +9,66 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.speaker.adapter.SpeakerDetailsPagerAdapter;
+import ph.devcon.android.speaker.db.Speaker;
+import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
+import ph.devcon.android.speaker.service.SpeakerService;
 
 /**
  * Created by lope on 10/6/14.
  */
 public class SpeakerDetailsActivity extends BaseDevConActivity {
+    public static final String POSITION = "position";
     SpeakerDetailsPagerAdapter mSpeakerDetailsPagerAdapter;
+
+    @InjectView(R.id.container)
     ViewPager mViewPager;
+
+    @Inject
+    SpeakerService speakerService;
+
+    @Inject
+    EventBus eventBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this);
-
+        if (!eventBus.isRegistered(this)) {
+            eventBus.registerSticky(this);
+        }
+        setHomeAsUp();
+        speakerService.populateFromCache(getLoaderManager(), savedInstanceState);
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mSpeakerDetailsPagerAdapter =
                 new SpeakerDetailsPagerAdapter(
-                        getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+                        getSupportFragmentManager(), new ArrayList<Speaker>());
         mViewPager.setAdapter(mSpeakerDetailsPagerAdapter);
-        setHomeAsUp();
+    }
+
+    public void setSpeakerList(List<Speaker> speakerList) {
+        if (speakerList != null && !speakerList.isEmpty()) {
+            mSpeakerDetailsPagerAdapter.setItems(speakerList);
+            mSpeakerDetailsPagerAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(getIntent().getIntExtra(POSITION, 0));
+        }
+    }
+
+    public void onEventMainThread(FetchedSpeakerListEvent event) {
+        setSpeakerList(event.speakers);
     }
 
     @Override
@@ -75,31 +106,9 @@ public class SpeakerDetailsActivity extends BaseDevConActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Since this is an object collection, use a FragmentStatePagerAdapter,
-// and NOT a FragmentPagerAdapter.
-    public static class SpeakerDetailsPagerAdapter extends FragmentStatePagerAdapter {
-        public SpeakerDetailsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = new SpeakerDetailsFragment();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 100;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            // TODO
-            return "OBJECT " + (position + 1);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
-
 }

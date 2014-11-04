@@ -66,7 +66,7 @@
         <!--android:text="Sticky text"/>-->
 
         <TextView
-            android:id="@+id/sticky"
+            android:id="@+id/txt_title"
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:gravity="center_vertical"

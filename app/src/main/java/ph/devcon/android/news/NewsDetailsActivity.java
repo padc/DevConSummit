@@ -22,7 +22,6 @@ import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
 import ph.devcon.android.news.adapter.NewsDetailsPagerAdapter;
 import ph.devcon.android.news.db.News;
-import ph.devcon.android.news.db.NewsDao;
 import ph.devcon.android.news.event.FetchedNewsListEvent;
 import ph.devcon.android.news.service.NewsService;
 
@@ -30,6 +29,7 @@ import ph.devcon.android.news.service.NewsService;
  * Created by lope on 10/6/14.
  */
 public class NewsDetailsActivity extends BaseDevConActivity {
+    public static final String POSITION = "position";
     NewsDetailsPagerAdapter mNewsDetailsPagerAdapter;
 
     @InjectView(R.id.container)
@@ -40,9 +40,6 @@ public class NewsDetailsActivity extends BaseDevConActivity {
 
     @Inject
     NewsService newsService;
-
-    @Inject
-    NewsDao newsDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +63,7 @@ public class NewsDetailsActivity extends BaseDevConActivity {
         if (newsList != null && !newsList.isEmpty()) {
             mNewsDetailsPagerAdapter.setItems(newsList);
             mNewsDetailsPagerAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(getIntent().getIntExtra(POSITION, 0));
         }
     }
 
@@ -108,4 +106,9 @@ public class NewsDetailsActivity extends BaseDevConActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
+    }
 }

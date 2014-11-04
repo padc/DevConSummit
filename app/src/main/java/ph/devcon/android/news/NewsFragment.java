@@ -43,6 +43,7 @@ public class NewsFragment extends Fragment {
     @OnItemClick(R.id.lvw_news)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
+        intent.putExtra(NewsDetailsActivity.POSITION, position);
         startActivity(intent);
     }
 

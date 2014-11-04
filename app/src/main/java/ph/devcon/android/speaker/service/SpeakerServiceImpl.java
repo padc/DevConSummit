@@ -242,6 +242,16 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
+    public Speaker getSpeaker(int id) {
+        try {
+            return speakerDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public void populateFromAPI() {
         jobManager.addJobInBackground(new FetchSpeakerJob());
     }
@@ -255,4 +265,5 @@ public class SpeakerServiceImpl implements SpeakerService {
         }
         return false;
     }
+
 }

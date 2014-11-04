@@ -19,6 +19,10 @@ public class Util {
         return Strings.isNullOrEmpty(s);
     }
 
+    public static String nullToEmpty(String s) {
+        return Strings.nullToEmpty(s);
+    }
+
     public static String toTime(int section) {
         switch (section) {
             case 0:

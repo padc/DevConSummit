@@ -44,6 +44,7 @@ public abstract class BaseSpeakerFragment extends Fragment {
     @OnItemClick(R.id.lvw_speakers)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), SpeakerDetailsActivity.class);
+        intent.putExtra(SpeakerDetailsActivity.POSITION, position);
         startActivity(intent);
     }
 

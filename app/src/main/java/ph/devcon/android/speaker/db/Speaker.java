@@ -98,6 +98,14 @@ public class Speaker extends BaseDevCon {
         return BitmapFactory.decodeByteArray(speakerIcon, 0, speakerIcon.length);
     }
 
+    public String getPositionAndCompany() {
+        return Util.nullToEmpty(getPosition()) + " at " + Util.nullToEmpty(getCompany());
+    }
+
+    public String getAboutTitle() {
+        return "About " + getFirstName();
+    }
+
     public String getMainTalkTitle() {
         String returnTitle = "";
         Optional<Program> programOptional = Optional.fromNullable(program);
@@ -111,6 +119,20 @@ public class Speaker extends BaseDevCon {
             returnTitle = getTalkTitle();
         }
         return returnTitle;
+    }
+
+    public String getSpeakerType() {
+        Optional<ForeignCollection<Talk>> talksOptional = Optional.fromNullable(getTalks());
+        if (talksOptional.isPresent()) {
+            for (Talk talk : talksOptional.get()) {
+                if (talk.getName().startsWith("PANEL")) {
+                    return "Panel";
+                } else {
+                    return "Resource Speakers";
+                }
+            }
+        }
+        return "Resource Speakers";
     }
 
     public String getFullName() {
