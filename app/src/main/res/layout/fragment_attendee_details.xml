@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,17 +24,16 @@
                     android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"
-                    android:background="#231233"/>
+                    android:background="#231233" />
 
                 <View
                     android:src="@drawable/ic_launcher"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"
-                    android:background="@color/yellow"/>
+                    android:background="@color/yellow" />
             </LinearLayout>
 
-            <com.makeramen.RoundedImageView
-                xmlns:app="http://schemas.android.com/apk/res-auto"
+            <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_attendee"
                 android:src="@drawable/sample_large"
                 android:layout_width="110dp"
@@ -45,7 +44,7 @@
                 app:border_width="2dp"
                 app:border_color="@color/yellow"
                 app:mutate_background="true"
-                app:oval="false"/>
+                app:oval="false" />
 
             <LinearLayout
                 android:layout_centerHorizontal="true"
@@ -62,6 +61,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/txt_full_name"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAllCaps="true"
@@ -69,54 +69,56 @@
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:layout_marginBottom="4dp"
-                        android:text="HAIFA BALUYOS"/>
+                        android:text="HAIFA BALUYOS" />
 
                     <TextView
+                        android:id="@+id/txt_position"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="Executive Director at Developers Connect"/>
+                        android:text="Executive Director at Developers Connect" />
 
                     <TextView
+                        android:id="@+id/txt_twitter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="\@haifacarina"/>
+                        android:text="\@haifacarina" />
 
                     <TextView
+                        android:id="@+id/txt_website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="http://www.haifacarina.com"/>
+                        android:text="http://www.haifacarina.com" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/txt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="Location"/>
+            android:text="Location" />
 
         <View
             android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
-            android:id="@+id/txt_address"
+            android:id="@+id/txt_location"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:text="Manila, Philippines"/>
+            android:text="Manila, Philippines" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -125,14 +127,13 @@
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="E-mail Address &amp; Contact Information"/>
+            android:text="E-mail Address &amp; Contact Information" />
 
         <View
-            android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
             android:id="@+id/txt_email_and_contact"
@@ -141,30 +142,32 @@
             android:gravity="center"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text="haifa@devcon.ph . +63 916 4644 275"/>
+            android:text="haifa@devcon.ph . +63 916 4644 275" />
 
         <TextView
+            android:id="@+id/txt_about_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/green"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="About Haifa"/>
+            android:text="About Haifa" />
 
         <View
             android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
+            android:id="@+id/txt_about_content"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text="Haifa is currently managing the organization's direction Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae libero at lorem dictum interdum quis sed nunc. Aliquam at dolor eget sem fringilla semper. Nam nunc ex, lacinia."/>
+            android:text="Haifa is currently managing the organization's direction Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent vitae libero at lorem dictum interdum quis sed nunc. Aliquam at dolor eget sem fringilla semper. Nam nunc ex, lacinia." />
     </LinearLayout>
 </ScrollView>

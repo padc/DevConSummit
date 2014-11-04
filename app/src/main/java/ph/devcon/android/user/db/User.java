@@ -79,6 +79,19 @@ public class User extends BaseDevCon {
         return getFirstName() + " " + getLastName();
     }
 
+    public String getPositionAndCompany() {
+        return getPosition() + " at " + getCompany();
+    }
+
+    public String getEmailAndContact() {
+        // TODO contact number
+        return getEmail() + " · ";
+    }
+
+    public String getAboutTitle() {
+        return "About " + getFirstName();
+    }
+
     public String getMainTechnologyTitle() {
         Technology primaryTechnology = getPrimaryTechnology();
         Optional<Technology> technologyOptional = Optional.fromNullable(primaryTechnology);

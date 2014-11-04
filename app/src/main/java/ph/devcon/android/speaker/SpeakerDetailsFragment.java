@@ -10,11 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.common.base.Optional;
+import com.squareup.picasso.Picasso;
 
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.service.SpeakerService;
@@ -64,6 +66,7 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_speaker_profile, container, false);
+        DevConApplication.getInstance().injectMembers(this);
         ButterKnife.inject(this, rootView);
         Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.sample_large);
@@ -84,6 +87,8 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
             txtTalkTitle.setText(speaker.getMainTalkTitle());
             txtAboutTitle.setText(speaker.getAboutTitle());
             txtAboutContent.setText(speaker.getDescription());
+            if (!Util.isNullOrEmpty(speaker.getPhotoUrl()))
+                Picasso.with(getActivity()).load(speaker.getPhotoUrl()).into(imgSpeaker);
         }
     }
 }

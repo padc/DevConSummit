@@ -1,11 +1,7 @@
 package ph.devcon.android.attendee;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
@@ -13,32 +9,67 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.attendee.adapter.AttendeeDetailsPagerAdapter;
+import ph.devcon.android.attendee.db.Attendee;
+import ph.devcon.android.attendee.event.FetchedAttendeeListEvent;
+import ph.devcon.android.attendee.service.AttendeeService;
 import ph.devcon.android.navigation.BaseDevConActivity;
 
 /**
  * Created by lope on 10/12/14.
  */
 public class AttendeeDetailsActivity extends BaseDevConActivity {
+    public static final String POSITION = "position";
 
     AttendeeDetailsPagerAdapter mAttendeeDetailsPagerAdapter;
+
+    @InjectView(R.id.container)
     ViewPager mViewPager;
+
+    @Inject
+    EventBus eventBus;
+
+    @Inject
+    AttendeeService attendeeService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this);
-
+        if (!eventBus.isRegistered(this)) {
+            eventBus.registerSticky(this);
+        }
+        setHomeAsUp();
+        attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mAttendeeDetailsPagerAdapter =
                 new AttendeeDetailsPagerAdapter(
-                        getSupportFragmentManager());
-        mViewPager = (ViewPager) findViewById(R.id.container);
+                        getSupportFragmentManager(), new ArrayList<Attendee>());
         mViewPager.setAdapter(mAttendeeDetailsPagerAdapter);
-        setHomeAsUp();
+    }
+
+    public void setAttendeeList(List<Attendee> attendeeListList) {
+        if (attendeeListList != null && !attendeeListList.isEmpty()) {
+            mAttendeeDetailsPagerAdapter.setItems(attendeeListList);
+            mAttendeeDetailsPagerAdapter.notifyDataSetChanged();
+            mViewPager.setCurrentItem(getIntent().getIntExtra(POSITION, 0));
+        }
+    }
+
+    public void onEventMainThread(FetchedAttendeeListEvent event) {
+        setAttendeeList(event.attendees);
     }
 
     @Override
@@ -76,31 +107,10 @@ public class AttendeeDetailsActivity extends BaseDevConActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    // Since this is an object collection, use a FragmentStatePagerAdapter,
-// and NOT a FragmentPagerAdapter.
-    public static class AttendeeDetailsPagerAdapter extends FragmentStatePagerAdapter {
-        public AttendeeDetailsPagerAdapter(FragmentManager fm) {
-            super(fm);
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment fragment = new AttendeeDetailsFragment();
-            Bundle args = new Bundle();
-            fragment.setArguments(args);
-            return fragment;
-        }
-
-        @Override
-        public int getCount() {
-            return 100;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            // TODO
-            return "OBJECT " + (position + 1);
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
 }

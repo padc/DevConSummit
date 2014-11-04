@@ -41,6 +41,7 @@ public class AttendeesFragment extends Fragment {
     @OnItemClick(R.id.lvw_attendee)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), AttendeeDetailsActivity.class);
+        intent.putExtra(AttendeeDetailsActivity.POSITION, position);
         startActivity(intent);
     }
 

@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
 import de.greenrobot.event.EventBus;
+import ph.devcon.android.attendee.AttendeeDetailsActivity;
 import ph.devcon.android.attendee.AttendeesFragment;
 import ph.devcon.android.attendee.db.AttendeeDao;
 import ph.devcon.android.attendee.job.FetchAttendeeListJob;
@@ -18,12 +19,12 @@ import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.base.module.EventBusModule;
-import ph.devcon.android.speaker.db.SpeakerDao;
 
 /**
  * Created by lope on 10/31/2014.
  */
-@Module(injects = {AttendeesFragment.class, FetchAttendeeListJob.class},
+@Module(injects = {AttendeesFragment.class, FetchAttendeeListJob.class,
+        AttendeeDetailsActivity.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class})
 public class AttendeeModule {
     Context mContext;

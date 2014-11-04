@@ -10,4 +10,5 @@ import ph.devcon.android.base.service.BaseAPICacheService;
  * Created by lope on 10/29/14.
  */
 public interface AttendeeService extends BaseAPICacheService<List<Attendee>, AttendeeBaseResponse> {
+    public Attendee getAttendee(int id);
 }

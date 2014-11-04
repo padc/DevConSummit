@@ -30,6 +30,7 @@ import ph.devcon.android.news.service.NewsService;
  */
 public class NewsDetailsActivity extends BaseDevConActivity {
     public static final String POSITION = "position";
+
     NewsDetailsPagerAdapter mNewsDetailsPagerAdapter;
 
     @InjectView(R.id.container)

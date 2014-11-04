@@ -16,6 +16,7 @@ import ph.devcon.android.base.module.EventBusModule;
 import ph.devcon.android.category.db.CategoryDao;
 import ph.devcon.android.category.module.CategoryModule;
 import ph.devcon.android.speaker.SpeakerDetailsActivity;
+import ph.devcon.android.speaker.SpeakerDetailsFragment;
 import ph.devcon.android.speaker.db.SpeakerDao;
 import ph.devcon.android.speaker.db.TalkDao;
 import ph.devcon.android.speaker.fragment.AllSpeakerFragment;
@@ -29,7 +30,8 @@ import ph.devcon.android.speaker.service.SpeakerServiceImpl;
  * Created by lope on 10/29/14.
  */
 @Module(injects = {AllSpeakerFragment.class, SpeakerOnlyFragment.class,
-        PanelOnlyFragment.class, FetchSpeakerJob.class, SpeakerDetailsActivity.class},
+        PanelOnlyFragment.class, FetchSpeakerJob.class, SpeakerDetailsActivity.class,
+        SpeakerDetailsFragment.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class,
                 CategoryModule.class})
 public class SpeakerModule {

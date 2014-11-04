@@ -108,4 +108,13 @@ public class AttendeeServiceImpl implements AttendeeService {
         return false;
     }
 
+    @Override
+    public Attendee getAttendee(int id) {
+        try {
+            return attendeeDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
