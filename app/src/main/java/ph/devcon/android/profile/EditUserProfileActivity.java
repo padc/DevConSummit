@@ -1,13 +1,19 @@
 package ph.devcon.android.profile;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.common.base.Optional;
 import com.squareup.picasso.Picasso;
+
+import java.io.ByteArrayOutputStream;
 
 import javax.inject.Inject;
 
@@ -27,54 +33,39 @@ import ph.devcon.android.util.Util;
  */
 public class EditUserProfileActivity extends ActionBarActivity {
 
+    static final int REQUEST_IMAGE_CAPTURE = 1;
     @Inject
     EventBus eventBus;
-
     @Inject
     ProfileService profileService;
-
     @InjectView(R.id.img_user)
     ImageView imgUser;
-
     @InjectView(R.id.txt_full_name)
     TextView txtFullName;
-
     @InjectView(R.id.edt_company_position)
     EditText edtCompanyPosition;
-
     @InjectView(R.id.edt_company_name)
     EditText edtCompanyName;
-
     @InjectView(R.id.edt_location)
     EditText edtLocation;
-
     @InjectView(R.id.edt_email_address)
     EditText edtEmailAddress;
-
     @InjectView(R.id.edt_contact_number)
     EditText edtContactNumber;
-
     @InjectView(R.id.edt_about_me)
     EditText edtAboutMe;
-
     @InjectView(R.id.edt_tech_1)
     EditText edtTech1;
-
     @InjectView(R.id.edt_tech_2)
     EditText edtTech2;
-
     @InjectView(R.id.edt_tech_3)
     EditText edtTech3;
-
     @InjectView(R.id.edt_domain_name)
     EditText edtDomainName;
-
     @InjectView(R.id.edt_twitter)
     EditText edtTwitter;
-
     @InjectView(R.id.edt_facebook)
     EditText edtFacebook;
-
     Profile profile;
 
     @Override
@@ -132,7 +123,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
         }
     }
 
-    public void onClickSaveChanges() {
+    public void onClickSaveChanges(View view) {
         Optional<Profile> profileOptional = Optional.of(profile);
         if (profileOptional.isPresent()) {
             User user = profile.getUser();
@@ -153,4 +144,23 @@ public class EditUserProfileActivity extends ActionBarActivity {
         setProfile(event.profile);
     }
 
+    public void onClickUserProfile(View view) {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imgUser.setImageBitmap(imageBitmap);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            byte[] imageByteArray = stream.toByteArray();
+            profile.getUser().setPhotoImage(imageByteArray);
+        }
+    }
 }

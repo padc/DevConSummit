@@ -2,6 +2,7 @@ package ph.devcon.android.user.db;
 
 import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
+import com.j256.ormlite.field.DataType;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -55,6 +56,9 @@ public class User extends BaseDevCon {
 
     @DatabaseField
     private String photoUrl;
+
+    @DatabaseField(dataType = DataType.BYTE_ARRAY)
+    private byte[] photoImage;
 
     @DatabaseField(foreign = true)
     private Technology primaryTechnology;
@@ -233,6 +237,14 @@ public class User extends BaseDevCon {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    public byte[] getPhotoImage() {
+        return photoImage;
+    }
+
+    public void setPhotoImage(byte[] photoImage) {
+        this.photoImage = photoImage;
     }
 
     public Technology getPrimaryTechnology() {
