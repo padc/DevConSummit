@@ -74,6 +74,12 @@ public class AttendeesFragment extends Fragment {
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
+    }
+
+    @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
