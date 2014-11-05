@@ -17,6 +17,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.service.AttendeeService;
@@ -31,11 +32,11 @@ public class AttendeeDetailsFragment extends Fragment {
     @InjectView(R.id.img_background_top)
     ImageView imgBackgroundTop;
 
-    @InjectView(R.id.img_speaker)
-    ImageView imgSpeaker;
+    @InjectView(R.id.img_attendee)
+    ImageView imgAttendee;
 
-    @InjectView(R.id.txt_speaker_name)
-    TextView txtSpeakerName;
+    @InjectView(R.id.txt_full_name)
+    TextView txtFullName;
 
     @InjectView(R.id.txt_position)
     TextView txtPosition;
@@ -49,10 +50,10 @@ public class AttendeeDetailsFragment extends Fragment {
     @InjectView(R.id.txt_email_and_contact)
     TextView txtEmailAndContact;
 
-    @InjectView(R.id.txt_talk_title)
+    @InjectView(R.id.txt_about_title)
     TextView txtAboutTitle;
 
-    @InjectView(R.id.txt_talk_title)
+    @InjectView(R.id.txt_about_content)
     TextView txtAboutContent;
 
     @Inject
@@ -63,6 +64,7 @@ public class AttendeeDetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup rootView = (ViewGroup) inflater
                 .inflate(R.layout.fragment_attendee_details, container, false);
+        DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
         Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
                 R.drawable.sample_large);
@@ -78,7 +80,7 @@ public class AttendeeDetailsFragment extends Fragment {
             Optional<User> userOptional = Optional.of(attendeeOptional.get().getUser());
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                txtSpeakerName.setText(user.getFullName());
+                txtFullName.setText(user.getFullName());
                 txtPosition.setText(user.getPositionAndCompany());
                 txtTwitter.setText(user.getTwitterHandle());
                 txtWebsite.setText(user.getWebsite());
@@ -86,7 +88,7 @@ public class AttendeeDetailsFragment extends Fragment {
                 txtAboutTitle.setText(user.getAboutTitle());
                 txtAboutContent.setText(user.getDescription());
                 if (!Util.isNullOrEmpty(user.getPhotoUrl()))
-                    Picasso.with(getActivity()).load(user.getPhotoUrl());
+                    Picasso.with(getActivity()).load(user.getPhotoUrl()).into(imgAttendee);
             }
         }
     }

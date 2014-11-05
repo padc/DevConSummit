@@ -229,6 +229,7 @@
             android:textStyle="bold"
             android:textColor="@color/white"
             android:background="@color/green"
+            android:onClick="onClickSaveChanges"
             android:text="SAVE CHANGES"/>
     </LinearLayout>
 </ScrollView>

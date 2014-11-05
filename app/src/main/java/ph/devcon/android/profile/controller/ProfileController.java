@@ -27,5 +27,15 @@ public interface ProfileController {
                      @Part("position") TypedString position, @Part("company") TypedString company,
                      @Part("location") TypedString location, @Part("description") TypedString description,
                      @Part("website") TypedString website, @Part("facebook_url") TypedString facebookUrl,
-                     @Part("twitter_handle") TypedString twitterHandle, @Part("photo_url") TypedString photoUrl);
+                     @Part("twitter_handle") TypedString twitterHandle, Callback<EditProfileBaseResponse> callback);
+
+    @Multipart
+    @PUT("/profile")
+    void editProfile(@Part("authentication_token") TypedString token, @Part("twitter_handle") TypedString twitterHandle,
+                     @Part("email") TypedString email, @Part("primary_technology") TypedString primaryTechnology,
+                     @Part("position") TypedString position, @Part("company") TypedString company,
+                     @Part("location") TypedString location, @Part("description") TypedString description,
+                     @Part("website") TypedString website, @Part("facebook_url") TypedString facebookUrl,
+                     Callback<EditProfileBaseResponse> callback);
+
 }

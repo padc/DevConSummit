@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.api.ProfileAPI;
@@ -102,6 +103,16 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
+    public void updateAPI(Profile profile) {
+        try {
+            profileDao.update(profile);
+            jobManager.addJobInBackground(new UpdateProfileJob(profile.getUser().getId()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public boolean isCacheValid() {
         try {
             return profileDao.isCacheValid();
@@ -111,4 +122,13 @@ public class ProfileServiceImpl implements ProfileService {
         return false;
     }
 
+    @Override
+    public Profile getUserProfile(int id) {
+        try {
+            return profileDao.queryForId(id);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -36,7 +36,7 @@
             android:textColor="@color/white"
             android:textAllCaps="true"
             android:typeface="sans"
-            android:text="Lope Emano"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txt_job"
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/regular_text_size"
             android:textColor="@color/white"
-            android:text="Web Developer at Aelogica"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txt_languages"
@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:textSize="@dimen/small_text_size"
             android:textColor="@color/white"
-            android:text="Android (Primary) Javascript Java"/>
+            android:text=""/>
 
     </LinearLayout>
 </LinearLayout>

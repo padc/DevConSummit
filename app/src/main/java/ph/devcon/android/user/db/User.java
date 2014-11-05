@@ -39,6 +39,9 @@ public class User extends BaseDevCon {
     private String location;
 
     @DatabaseField
+    private String contactNumber;
+
+    @DatabaseField
     private String description;
 
     @DatabaseField
@@ -182,6 +185,14 @@ public class User extends BaseDevCon {
 
     public void setLocation(String location) {
         this.location = location;
+    }
+
+    public String getContactNumber() {
+        return contactNumber;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 
     public String getDescription() {

@@ -75,6 +75,8 @@ public class EditUserProfileActivity extends ActionBarActivity {
     @InjectView(R.id.edt_facebook)
     EditText edtFacebook;
 
+    Profile profile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,15 +101,11 @@ public class EditUserProfileActivity extends ActionBarActivity {
         eventBus.unregister(this);
     }
 
-    public Profile buildProfile() {
-        Profile profile = new Profile();
-        return profile;
-    }
-
     public void setProfile(Profile profile) {
         Optional<Profile> profileOptional = Optional.of(profile);
         if (profileOptional.isPresent()) {
             if (Optional.of(profile.getUser()).isPresent()) {
+                this.profile = profile;
                 User user = profile.getUser();
                 if (!Util.isNullOrEmpty(user.getPhotoUrl()))
                     Picasso.with(this).load(user.getPhotoUrl()).into(imgUser);
@@ -131,6 +129,23 @@ public class EditUserProfileActivity extends ActionBarActivity {
                 edtTwitter.setText(user.getTwitterHandle());
                 edtFacebook.setText(user.getFacebookUrl());
             }
+        }
+    }
+
+    public void onClickSaveChanges() {
+        Optional<Profile> profileOptional = Optional.of(profile);
+        if (profileOptional.isPresent()) {
+            User user = profile.getUser();
+            user.setPosition(edtCompanyPosition.getText().toString());
+            user.setCompany(edtCompanyName.getText().toString());
+            user.setLocation(edtCompanyPosition.getText().toString());
+            user.setEmail(edtCompanyPosition.getText().toString());
+            user.setContactNumber(edtCompanyPosition.getText().toString());
+            user.setDescription(edtCompanyPosition.getText().toString());
+            user.setWebsite(edtCompanyPosition.getText().toString());
+            user.setFacebookUrl(edtCompanyPosition.getText().toString());
+            user.setTwitterHandle(edtCompanyPosition.getText().toString());
+            profileService.updateAPI(profile);
         }
     }
 

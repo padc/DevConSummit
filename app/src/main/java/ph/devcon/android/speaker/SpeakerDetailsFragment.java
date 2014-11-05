@@ -52,10 +52,10 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
     @InjectView(R.id.txt_talk_title)
     TextView txtTalkTitle;
 
-    @InjectView(R.id.txt_talk_title)
+    @InjectView(R.id.txt_about_title)
     TextView txtAboutTitle;
 
-    @InjectView(R.id.txt_talk_title)
+    @InjectView(R.id.txt_about_content)
     TextView txtAboutContent;
 
     @Inject
