@@ -4,11 +4,16 @@ import com.google.common.base.Optional;
 import com.path.android.jobqueue.Job;
 import com.path.android.jobqueue.Params;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.controller.ProfileController;
@@ -20,6 +25,7 @@ import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import retrofit.mime.TypedFile;
 import retrofit.mime.TypedString;
 
 /**
@@ -33,13 +39,13 @@ public class UpdateProfileJob extends Job {
     private final int userId;
 
     @Inject
-    RestAdapter restAdapter;
+    transient RestAdapter restAdapter;
 
     @Inject
-    AuthService authService;
+    transient AuthService authService;
 
     @Inject
-    ProfileService profileService;
+    transient ProfileService profileService;
 
     public UpdateProfileJob(int userId) {
         super(new Params(Priority.HIGH).requireNetwork().persist());
@@ -65,15 +71,16 @@ public class UpdateProfileJob extends Job {
         TypedString token = new TypedString(authService.getCachedToken());
         TypedString twitterHandle = new TypedString(user.getTwitterHandle());
         TypedString email = new TypedString(user.getEmail());
-        TypedString primaryTechnology = new TypedString(user.getPrimaryTechnology().getTitle());
+        TypedString primaryTechnology = new TypedString(user.getMainTechnologyTitle());
         TypedString position = new TypedString(user.getPosition());
         TypedString company = new TypedString(user.getCompany());
         TypedString location = new TypedString(user.getLocation());
         TypedString description = new TypedString(user.getDescription());
         TypedString website = new TypedString(user.getWebsite());
         TypedString facebookUrl = new TypedString(user.getFacebookUrl());
-        profileController.editProfile(token, twitterHandle, email, primaryTechnology, position, company,
-                location, description, website, facebookUrl, new Callback<EditProfileBaseResponse>() {
+        TypedFile photoFile = new TypedFile("image/jpg", createTempFile(user.getPhotoImage()));
+        profileController.editProfile(token, photoFile, email, primaryTechnology, position, company,
+                location, description, website, facebookUrl, twitterHandle, new Callback<EditProfileBaseResponse>() {
 
                     @Override
                     public void success(EditProfileBaseResponse editProfileBaseResponse, Response response) {
@@ -83,6 +90,18 @@ public class UpdateProfileJob extends Job {
                     public void failure(RetrofitError retrofitError) {
                     }
                 });
+    }
+
+    public File createTempFile(byte[] data) throws IOException {
+        File outputDir = DevConApplication.getInstance().getCacheDir(); // context being the Activity pointer
+        File outputFile = File.createTempFile("tmp" + new Date(), ".jpg", outputDir);
+        Optional<byte[]> dataOptional = Optional.fromNullable(data);
+        if (dataOptional.isPresent()) {
+            FileOutputStream out = new FileOutputStream(outputFile.getPath());
+            out.write(data);
+            out.close();
+        }
+        return outputFile;
     }
 
     @Override

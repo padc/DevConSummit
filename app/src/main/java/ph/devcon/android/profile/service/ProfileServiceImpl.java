@@ -23,6 +23,7 @@ import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
 import ph.devcon.android.profile.job.FetchProfileJob;
 import ph.devcon.android.user.api.UserAPI;
 import ph.devcon.android.user.db.User;
+import ph.devcon.android.user.db.UserDao;
 
 /**
  * Created by lope on 11/1/2014.
@@ -31,17 +32,20 @@ public class ProfileServiceImpl implements ProfileService {
 
     ProfileDao profileDao;
 
+    UserDao userDao;
+
     JobManager jobManager;
 
     EventBus eventBus;
 
     Context context;
 
-    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProfileDao profileDao) {
+    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProfileDao profileDao, UserDao userDao) {
         this.context = context;
         this.jobManager = jobManager;
         this.eventBus = eventBus;
         this.profileDao = profileDao;
+        this.userDao = userDao;
     }
 
     @Override
@@ -105,8 +109,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void updateAPI(Profile profile) {
         try {
+            userDao.update(profile.getUser());
             profileDao.update(profile);
-            jobManager.addJobInBackground(new UpdateProfileJob(profile.getUser().getId()));
+            jobManager.addJobInBackground(new UpdateProfileJob(profile.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

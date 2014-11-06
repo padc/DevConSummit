@@ -7,6 +7,7 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,8 +111,11 @@ public class User extends BaseDevCon {
 
     public List<String> getOtherTechnologiesTitleList() {
         List<String> techTitles = new ArrayList<String>();
-        for (Technology technology : getTechnologies()) {
-            techTitles.add(technology.getTitle());
+        Optional<ForeignCollection<Technology>> technologiesOptional = Optional.fromNullable(getTechnologies());
+        if (technologiesOptional.isPresent()) {
+            for (Technology technology : getTechnologies()) {
+                techTitles.add(technology.getTitle());
+            }
         }
         return techTitles;
     }

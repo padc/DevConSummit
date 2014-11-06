@@ -19,6 +19,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
@@ -89,6 +90,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        eventBus.removeStickyEvent(LaunchCameraEvent.class);
         eventBus.unregister(this);
     }
 
@@ -123,6 +125,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
         }
     }
 
+    @OnClick(R.id.txt_save_changes)
     public void onClickSaveChanges(View view) {
         Optional<Profile> profileOptional = Optional.of(profile);
         if (profileOptional.isPresent()) {
@@ -147,6 +150,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
     public void onClickUserProfile(View view) {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            EventBus.getDefault().postSticky(new LaunchCameraEvent(profile));
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
@@ -160,7 +164,17 @@ public class EditUserProfileActivity extends ActionBarActivity {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             byte[] imageByteArray = stream.toByteArray();
+            profile = eventBus.getStickyEvent(LaunchCameraEvent.class).profile;
+            eventBus.removeStickyEvent(LaunchCameraEvent.class);
             profile.getUser().setPhotoImage(imageByteArray);
+        }
+    }
+
+    public static class LaunchCameraEvent {
+        public Profile profile;
+
+        public LaunchCameraEvent(Profile profile) {
+            this.profile = profile;
         }
     }
 }
