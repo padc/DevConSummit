@@ -20,11 +20,10 @@
 
                 <ImageView
                     android:id="@+id/img_background_top"
-                    android:src="@drawable/sample_large"
                     android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"
-                    android:background="#231233"/>
+                    android:background="@color/white"/>
 
                 <View
                     android:src="@drawable/ic_launcher"
@@ -35,7 +34,7 @@
 
             <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
                                             android:id="@+id/img_attendee"
-                                            android:src="@drawable/sample_large"
+                                            android:src="@drawable/ic_action_person"
                                             android:layout_width="110dp"
                                             android:layout_height="110dp"
                                             android:layout_centerInParent="true"

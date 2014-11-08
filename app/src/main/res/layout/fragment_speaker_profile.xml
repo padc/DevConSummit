@@ -20,7 +20,6 @@
 
                 <ImageView
                     android:id="@+id/img_background_top"
-                    android:src="@drawable/sample_large"
                     android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"/>
@@ -46,7 +45,7 @@
             <com.makeramen.RoundedImageView
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/img_speaker"
-                android:src="@drawable/sample_large"
+                android:src="@drawable/ic_action_person"
                 android:scaleType="centerCrop"
                 android:layout_width="110dp"
                 android:layout_height="110dp"

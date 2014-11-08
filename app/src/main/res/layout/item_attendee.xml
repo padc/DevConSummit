@@ -13,7 +13,7 @@
     <com.makeramen.RoundedImageView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/img_attendee"
-        android:src="@drawable/sample_large"
+        android:src="@drawable/ic_action_person"
         android:scaleType="centerCrop"
         android:layout_width="65dp"
         android:layout_height="65dp"

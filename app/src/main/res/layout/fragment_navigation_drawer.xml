@@ -30,7 +30,7 @@
         <com.makeramen.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/img_profile"
-            android:src="@drawable/sample_large"
+            android:src="@drawable/ic_action_person"
             android:scaleType="centerCrop"
             android:layout_width="75dp"
             android:layout_height="75dp"
