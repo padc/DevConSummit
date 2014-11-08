@@ -2,12 +2,16 @@ package ph.devcon.android.news;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.google.common.base.Optional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,16 +23,14 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
-import ph.devcon.android.navigation.BaseDevConActivity;
 import ph.devcon.android.news.adapter.NewsDetailsPagerAdapter;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.event.FetchedNewsListEvent;
-import ph.devcon.android.news.service.NewsService;
 
 /**
  * Created by lope on 10/6/14.
  */
-public class NewsDetailsActivity extends BaseDevConActivity {
+public class NewsDetailsActivity extends ActionBarActivity {
     public static final String POSITION = "position";
 
     NewsDetailsPagerAdapter mNewsDetailsPagerAdapter;
@@ -39,19 +41,23 @@ public class NewsDetailsActivity extends BaseDevConActivity {
     @Inject
     EventBus eventBus;
 
-    @Inject
-    NewsService newsService;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_news_details);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this);
-        if (!eventBus.isRegistered(this)) {
-            eventBus.registerSticky(this);
-        }
         setHomeAsUp();
-        newsService.populateFromCache(getLoaderManager(), savedInstanceState);
+        //We use a handler so that the activity starts very fast
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                delayedInit();
+            }
+        }, 100);
+    }
+
+    protected void delayedInit() {
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mNewsDetailsPagerAdapter =
@@ -74,6 +80,14 @@ public class NewsDetailsActivity extends BaseDevConActivity {
 
             }
         });
+        if (!eventBus.isRegistered(this)) {
+            eventBus.registerSticky(this);
+        }
+    }
+
+    protected void setHomeAsUp() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     public void setNewsList(List<News> newsList) {
@@ -85,16 +99,10 @@ public class NewsDetailsActivity extends BaseDevConActivity {
     }
 
     public void onEventMainThread(FetchedNewsListEvent event) {
-        setNewsList(event.newsList);
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.activity_news_details;
-    }
-
-    protected View buildFooterView(LayoutInflater inflater) {
-        return inflater.inflate(R.layout.footer_standard, null);
+        if (Optional.of(event).isPresent()) {
+            eventBus.removeStickyEvent(event);
+            setNewsList(event.newsList);
+        }
     }
 
     @Override

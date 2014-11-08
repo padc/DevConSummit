@@ -49,6 +49,7 @@ public class NewsFragment extends Fragment {
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), NewsDetailsActivity.class);
         intent.putExtra(NewsDetailsActivity.POSITION, position);
+        eventBus.postSticky(new FetchedNewsListEvent(newsAdapter.getItems()));
         startActivity(intent);
     }
 
@@ -59,7 +60,7 @@ public class NewsFragment extends Fragment {
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
         if (!eventBus.isRegistered(this)) {
-            eventBus.registerSticky(this);
+            eventBus.register(this);
         }
         lvwNews.setEmptyView(pbrLoading);
         lvwNews.addFooterView(buildFooterView(inflater));
@@ -80,6 +81,12 @@ public class NewsFragment extends Fragment {
 
     public void onEventMainThread(FetchedNewsListEvent event) {
         setNewsList(event.newsList);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     @Override

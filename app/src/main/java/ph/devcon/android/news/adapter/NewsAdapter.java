@@ -26,10 +26,16 @@ import ph.devcon.android.util.Util;
  */
 public class NewsAdapter extends ArrayAdapter<News> {
     Context mContext;
+    List<News> mNewsList;
 
     public NewsAdapter(Context context, List<News> newsList) {
         super(context, R.layout.item_news, newsList);
         mContext = context;
+        mNewsList = newsList;
+    }
+
+    public List<News> getItems() {
+        return mNewsList;
     }
 
     @Override
