@@ -73,6 +73,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_edit_profile);
+        setTitle(getString(R.string.edit_profile));
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

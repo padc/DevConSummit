@@ -18,6 +18,8 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.program.adapter.ProgramSectionAdapter;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.program.event.FetchedProgramListEvent;
@@ -27,7 +29,6 @@ import ph.devcon.android.program.service.ProgramService;
  * Created by lope on 9/16/14.
  */
 public class ProgramFragment extends Fragment {
-
     @InjectView(R.id.lvw_programs)
     HeaderListView lvwPrograms;
 
@@ -76,7 +77,7 @@ public class ProgramFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        ((MainActivity) activity).onSectionAttached(
-//                getArguments().getInt(ARG_SECTION_NUMBER));
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 }

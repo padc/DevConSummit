@@ -18,6 +18,8 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.sponsor.adapter.SponsorSectionAdapter;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.event.FetchedSponsorListEvent;
@@ -74,6 +76,8 @@ public class SponsorFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
 }

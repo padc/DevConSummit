@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.speaker.fragment.AllSpeakerFragment;
 import ph.devcon.android.speaker.fragment.PanelOnlyFragment;
 import ph.devcon.android.speaker.fragment.SpeakerOnlyFragment;
@@ -45,8 +46,8 @@ public class SpeakerTabFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        ((MainActivity) activity).onSectionAttached(
-//                getArguments().getInt(ARG_SECTION_NUMBER));
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
     class ViewSpeakerTypesAdapter extends FragmentPagerAdapter {

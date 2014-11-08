@@ -19,6 +19,8 @@ import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.news.adapter.NewsAdapter;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.event.FetchedNewsListEvent;
@@ -28,7 +30,6 @@ import ph.devcon.android.news.service.NewsService;
  * Created by lope on 10/6/14.
  */
 public class NewsFragment extends Fragment {
-
     @InjectView(R.id.lvw_news)
     ListView lvwNews;
 
@@ -79,9 +80,12 @@ public class NewsFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
     }
+
 }

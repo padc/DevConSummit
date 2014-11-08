@@ -23,6 +23,8 @@ import ph.devcon.android.attendee.adapter.AttendeeAdapter;
 import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.event.FetchedAttendeeListEvent;
 import ph.devcon.android.attendee.service.AttendeeService;
+import ph.devcon.android.navigation.BaseDevConActivity;
+import ph.devcon.android.navigation.MainActivity;
 
 /**
  * Created by lope on 10/9/14.
@@ -82,6 +84,8 @@ public class AttendeesFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
+        ((MainActivity) activity).onSectionAttached(
+                getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
     protected View buildFooterView(LayoutInflater inflater) {
