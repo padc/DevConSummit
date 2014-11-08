@@ -15,10 +15,13 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.profile.event.FetchedProfileEvent;
+import ph.devcon.android.profile.service.ProfileService;
 
 /**
  * Created by lope on 9/16/14.
@@ -37,30 +40,46 @@ public class LoginActivity extends Activity {
     @Inject
     AuthService authService;
 
+    @Inject
+    ProfileService profileService;
+
+    @Inject
+    EventBus eventBus;
+
+    ProgressDialog authProgressDialog;
+
     @OnClick(R.id.btn_login)
     public void onClickLogin(View view) {
         String email = String.valueOf(edtEmailAddress.getText());
         String password = String.valueOf(edtPassword.getText());
         email = "haifa@devcon.ph";
         password = "password";
-        final ProgressDialog authenticatingProgressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
-        authenticatingProgressDialog.setIndeterminate(false);
-        authenticatingProgressDialog.setProgressStyle(ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        authenticatingProgressDialog.setMessage(getString(R.string.authenticating));
-        authenticatingProgressDialog.show();
+        authProgressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
+        authProgressDialog.setIndeterminate(false);
+        authProgressDialog.setProgressStyle(ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        authProgressDialog.setMessage(getString(R.string.authenticating));
+        authProgressDialog.show();
         authService.authenticate(email, password, new AuthService.AuthCallback() {
             @Override
             public void onAuthenticated(String token) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                authenticatingProgressDialog.dismiss();
-                finish();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        authProgressDialog.setMessage("Fetching user profile..");
+                        profileService.populateFromAPI();
+                    }
+                });
             }
 
             @Override
-            public void onAuthenticationFailed(Integer statusCode, String message) {
-                Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
-                authenticatingProgressDialog.dismiss();
+            public void onAuthenticationFailed(Integer statusCode, final String message) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                        authProgressDialog.dismiss();
+                    }
+                });
             }
         });
     }
@@ -74,9 +93,25 @@ public class LoginActivity extends Activity {
             startActivity(intent);
             finish();
         }
+        if (!eventBus.isRegistered(this)) {
+            eventBus.register(this);
+        }
         setContentView(R.layout.activity_login);
         ButterKnife.inject(this);
         init();
+    }
+
+    public void onEventMainThread(FetchedProfileEvent fetchedProfileEvent) {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+        startActivity(intent);
+        authProgressDialog.dismiss();
+        finish();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     protected void init() {

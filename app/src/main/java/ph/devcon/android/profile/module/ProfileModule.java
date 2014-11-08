@@ -13,6 +13,7 @@ import ph.devcon.android.auth.module.AuthModule;
 import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.base.module.EventBusModule;
+import ph.devcon.android.login.LoginActivity;
 import ph.devcon.android.profile.EditUserProfileActivity;
 import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.profile.job.FetchProfileJob;
@@ -23,7 +24,8 @@ import ph.devcon.android.speaker.module.SpeakerModule;
 /**
  * Created by lope on 11/1/2014.
  */
-@Module(injects = {EditUserProfileActivity.class, FetchProfileJob.class},
+@Module(injects = {EditUserProfileActivity.class, FetchProfileJob.class,
+        LoginActivity.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class,
                 SpeakerModule.class})
 public class ProfileModule {
