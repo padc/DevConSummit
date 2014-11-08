@@ -1,7 +1,5 @@
 package ph.devcon.android.attendee;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -66,9 +64,6 @@ public class AttendeeDetailsFragment extends Fragment {
                 .inflate(R.layout.fragment_attendee_details, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                R.drawable.sample_large);
-        imgBackgroundTop.setImageBitmap(Util.blurBitmap(getActivity(), icon));
         Attendee attendee = attendeeService.getAttendee(getArguments().getInt(ID));
         init(attendee);
         return rootView;
@@ -87,8 +82,10 @@ public class AttendeeDetailsFragment extends Fragment {
                 txtEmailAndContact.setText(user.getEmailAndContact());
                 txtAboutTitle.setText(user.getAboutTitle());
                 txtAboutContent.setText(user.getDescription());
-                if (!Util.isNullOrEmpty(user.getPhotoUrl()))
+                if (!Util.isNullOrEmpty(user.getPhotoUrl())) {
                     Picasso.with(getActivity()).load(user.getPhotoUrl()).into(imgAttendee);
+                    Picasso.with(getActivity()).load(user.getPhotoUrl()).transform(new Util.BlurTransformation(getActivity().getApplicationContext())).into(imgBackgroundTop);
+                }
             }
         }
     }

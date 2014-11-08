@@ -58,6 +58,22 @@ public class NewsDetailsActivity extends BaseDevConActivity {
                 new NewsDetailsPagerAdapter(
                         getSupportFragmentManager(), new ArrayList<News>());
         mViewPager.setAdapter(mNewsDetailsPagerAdapter);
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int i, float v, int i2) {
+
+            }
+
+            @Override
+            public void onPageSelected(int i) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int i) {
+
+            }
+        });
     }
 
     public void setNewsList(List<News> newsList) {
@@ -79,6 +95,16 @@ public class NewsDetailsActivity extends BaseDevConActivity {
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        int currentItem = mViewPager.getCurrentItem();
+        if (currentItem != 0) {
+            mViewPager.setCurrentItem(currentItem - 1);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

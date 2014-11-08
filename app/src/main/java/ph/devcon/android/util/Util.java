@@ -10,6 +10,7 @@ import android.text.Html;
 
 import com.google.common.base.Strings;
 import com.google.common.html.HtmlEscapers;
+import com.squareup.picasso.Transformation;
 
 /**
  * Created by lope on 10/6/14.
@@ -106,5 +107,23 @@ public class Util {
             return Html.fromHtml(htmlString).toString();
         else
             return "";
+    }
+
+    public static class BlurTransformation implements Transformation {
+        Context context;
+
+        public BlurTransformation(Context context) {
+            this.context = context;
+        }
+
+        @Override
+        public Bitmap transform(Bitmap bitmap) {
+            return blurBitmap(context, bitmap);
+        }
+
+        @Override
+        public String key() {
+            return "blur()";
+        }
     }
 }

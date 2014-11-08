@@ -17,7 +17,7 @@ import ph.devcon.android.speaker.SpeakerTabFragment;
 import ph.devcon.android.sponsor.SponsorFragment;
 
 public abstract class BaseDevConActivity extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks, SectionAttachedListener {
     protected static final int NEWS = 1;
     protected static final int PROGRAMS = 2;
     protected static final int SPEAKERS = 3;
@@ -71,6 +71,7 @@ public abstract class BaseDevConActivity extends ActionBarActivity
                 .commit();
     }
 
+    @Override
     public void onSectionAttached(int number) {
         switch (number) {
             case NEWS:

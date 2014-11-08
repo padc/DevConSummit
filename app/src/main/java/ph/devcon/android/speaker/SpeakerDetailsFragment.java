@@ -1,7 +1,5 @@
 package ph.devcon.android.speaker;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,9 +66,6 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
                 .inflate(R.layout.fragment_speaker_profile, container, false);
         DevConApplication.getInstance().injectMembers(this);
         ButterKnife.inject(this, rootView);
-        Bitmap icon = BitmapFactory.decodeResource(getActivity().getResources(),
-                R.drawable.sample_large);
-        imgBackgroundTop.setImageBitmap(Util.blurBitmap(getActivity(), icon));
         Speaker speaker = speakerService.getSpeaker(getArguments().getInt(ID));
         init(speaker);
         return rootView;
@@ -87,8 +82,10 @@ public class SpeakerDetailsFragment extends android.support.v4.app.Fragment {
             txtTalkTitle.setText(speaker.getMainTalkTitle());
             txtAboutTitle.setText(speaker.getAboutTitle());
             txtAboutContent.setText(speaker.getDescription());
-            if (!Util.isNullOrEmpty(speaker.getPhotoUrl()))
+            if (!Util.isNullOrEmpty(speaker.getPhotoUrl())) {
                 Picasso.with(getActivity()).load(speaker.getPhotoUrl()).into(imgSpeaker);
+                Picasso.with(getActivity()).load(speaker.getPhotoUrl()).transform(new Util.BlurTransformation(getActivity().getApplicationContext())).into(imgBackgroundTop);
+            }
         }
     }
 }

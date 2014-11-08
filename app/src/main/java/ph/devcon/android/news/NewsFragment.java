@@ -20,7 +20,7 @@ import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.navigation.BaseDevConActivity;
-import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.navigation.SectionAttachedListener;
 import ph.devcon.android.news.adapter.NewsAdapter;
 import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.event.FetchedNewsListEvent;
@@ -80,7 +80,7 @@ public class NewsFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity) activity).onSectionAttached(
+        ((SectionAttachedListener) activity).onSectionAttached(
                 getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
