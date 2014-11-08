@@ -23,7 +23,6 @@ public interface ProfileController {
     @PUT("/profile")
     void editProfile(@Part("authentication_token") TypedString token, @Part("photo") TypedFile photo,
                      @Part("email") TypedString email, @Part("primary_technology") TypedString primaryTechnology,
-                     @Part("first_name") TypedString firstName, @Part("last_name") TypedString lastName,
                      @Part("position") TypedString position, @Part("company") TypedString company,
                      @Part("location") TypedString location, @Part("description") TypedString description,
                      @Part("website") TypedString website, @Part("facebook_url") TypedString facebookUrl,
