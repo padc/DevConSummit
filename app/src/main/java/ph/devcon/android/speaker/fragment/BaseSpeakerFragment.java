@@ -24,6 +24,7 @@ import ph.devcon.android.speaker.SpeakerDetailsActivity;
 import ph.devcon.android.speaker.adapter.SpeakerAdapter;
 import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.speaker.event.FetchedAllSpeakerListEvent;
+import ph.devcon.android.speaker.event.FetchedSpeakerListEvent;
 import ph.devcon.android.speaker.event.FetchedSpeakerListFailedEvent;
 import ph.devcon.android.speaker.service.SpeakerService;
 
@@ -49,6 +50,7 @@ public abstract class BaseSpeakerFragment extends Fragment {
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), SpeakerDetailsActivity.class);
         intent.putExtra(SpeakerDetailsActivity.POSITION, position);
+        eventBus.postSticky(new FetchedSpeakerListEvent(speakerAdapter.getItems()));
         startActivity(intent);
     }
 

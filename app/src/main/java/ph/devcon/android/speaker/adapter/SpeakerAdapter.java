@@ -25,9 +25,16 @@ import ph.devcon.android.util.Util;
 public class SpeakerAdapter extends ArrayAdapter<Speaker> {
     boolean isShouldDisplayTalkTitle = true;
 
-    public SpeakerAdapter(Context context, List<Speaker> logs, boolean isShouldDisplayTalkTitle) {
-        super(context, R.layout.item_program, logs);
+    List<Speaker> speakers;
+
+    public SpeakerAdapter(Context context, List<Speaker> speakers, boolean isShouldDisplayTalkTitle) {
+        super(context, R.layout.item_program, speakers);
         this.isShouldDisplayTalkTitle = isShouldDisplayTalkTitle;
+        this.speakers = speakers;
+    }
+
+    public List<Speaker> getItems() {
+        return this.speakers;
     }
 
     @Override

@@ -64,22 +64,6 @@ public class NewsDetailsActivity extends ActionBarActivity {
                 new NewsDetailsPagerAdapter(
                         getSupportFragmentManager(), new ArrayList<News>());
         mViewPager.setAdapter(mNewsDetailsPagerAdapter);
-        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int i, float v, int i2) {
-
-            }
-
-            @Override
-            public void onPageSelected(int i) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int i) {
-
-            }
-        });
         if (!eventBus.isRegistered(this)) {
             eventBus.registerSticky(this);
         }
