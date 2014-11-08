@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class AttendeesFragment extends Fragment {
 
     @InjectView(R.id.lvw_attendee)
     ListView lvwAttendee;
+
+    @InjectView(R.id.pbr_loading)
+    ProgressBar pbrLoading;
 
     @Inject
     AttendeeService attendeeService;
@@ -62,6 +66,7 @@ public class AttendeesFragment extends Fragment {
             attendeeService.populateFromAPI();
         }
         lvwAttendee.addFooterView(buildFooterView(inflater));
+        lvwAttendee.setEmptyView(pbrLoading);
         return rootView;
     }
 

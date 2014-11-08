@@ -189,7 +189,7 @@ public class NavigationDrawerFragment extends Fragment {
         txtMainTechnology.setText(currentUser.getMainTechnologyTitle());
         txtLocation.setText(currentUser.getLocation());
         if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
-            Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).into(imgProfile);
+            Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).placeholder(R.drawable.ic_action_person).into(imgProfile);
     }
 
     public boolean isDrawerOpen() {

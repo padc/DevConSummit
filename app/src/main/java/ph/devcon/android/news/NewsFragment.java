@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -33,6 +34,9 @@ public class NewsFragment extends Fragment {
     @InjectView(R.id.lvw_news)
     ListView lvwNews;
 
+    @InjectView(R.id.pbr_loading)
+    ProgressBar pbrLoading;
+
     @Inject
     EventBus eventBus;
 
@@ -57,6 +61,7 @@ public class NewsFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.registerSticky(this);
         }
+        lvwNews.setEmptyView(pbrLoading);
         lvwNews.addFooterView(buildFooterView(inflater));
         if (newsService.isCacheValid()) {
             newsService.populateFromCache(getLoaderManager(), savedInstanceState);

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -32,6 +33,9 @@ import ph.devcon.android.speaker.service.SpeakerService;
 public abstract class BaseSpeakerFragment extends Fragment {
     @InjectView(R.id.lvw_speakers)
     ListView lvwSpeaker;
+
+    @InjectView(R.id.pbr_loading)
+    ProgressBar pbrLoading;
 
     @Inject
     SpeakerService speakerService;
@@ -63,6 +67,7 @@ public abstract class BaseSpeakerFragment extends Fragment {
         } else {
             executePopulateFromAPI();
         }
+        lvwSpeaker.setEmptyView(pbrLoading);
         return rootView;
     }
 

@@ -54,6 +54,7 @@ public class ProgramFragment extends Fragment {
         } else {
             programService.populateFromAPI();
         }
+        lvwPrograms.setVisibility(View.GONE);
         return rootView;
     }
 
@@ -72,6 +73,7 @@ public class ProgramFragment extends Fragment {
 
     public void onEventMainThread(FetchedProgramListEvent event) {
         setProgramList(event.programs);
+        lvwPrograms.setVisibility(View.VISIBLE);
     }
 
     @Override
