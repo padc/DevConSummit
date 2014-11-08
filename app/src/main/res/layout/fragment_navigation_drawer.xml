@@ -29,7 +29,7 @@
 
         <com.makeramen.RoundedImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/img_news"
+            android:id="@+id/img_profile"
             android:src="@drawable/sample_large"
             android:scaleType="centerCrop"
             android:layout_width="75dp"
@@ -40,6 +40,7 @@
             app:oval="true"/>
 
         <TextView
+            android:id="@+id/txt_profile_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAllCaps="true"
@@ -49,17 +50,20 @@
             android:text="ERICSON LUCIANO"/>
 
         <TextView
+            android:id="@+id/txt_profile_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Junior Designer at Thousand Minds"/>
 
         <TextView
+            android:id="@+id/txt_main_technology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:text="Ruby on Rails"/>
 
         <TextView
+            android:id="@+id/txt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Navotas City, Metro Manila"/>

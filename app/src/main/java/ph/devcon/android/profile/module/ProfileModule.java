@@ -15,6 +15,7 @@ import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.base.module.APIModule;
 import ph.devcon.android.base.module.EventBusModule;
 import ph.devcon.android.login.LoginActivity;
+import ph.devcon.android.navigation.NavigationDrawerFragment;
 import ph.devcon.android.profile.EditUserProfileActivity;
 import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.profile.job.FetchProfileJob;
@@ -27,7 +28,7 @@ import ph.devcon.android.user.db.UserDao;
  * Created by lope on 11/1/2014.
  */
 @Module(injects = {EditUserProfileActivity.class, FetchProfileJob.class,
-        UpdateProfileJob.class, LoginActivity.class},
+        UpdateProfileJob.class, LoginActivity.class, NavigationDrawerFragment.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class,
                 SpeakerModule.class})
 public class ProfileModule {

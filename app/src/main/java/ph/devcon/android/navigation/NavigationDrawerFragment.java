@@ -19,11 +19,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.common.base.Optional;
+import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.profile.EditUserProfileActivity;
+import ph.devcon.android.profile.event.FetchedProfileEvent;
+import ph.devcon.android.profile.service.ProfileService;
+import ph.devcon.android.user.db.User;
+import ph.devcon.android.util.Util;
 
 /**
  * Fragment used for managing interactions for and presentation of a navigation drawer.
@@ -62,13 +77,34 @@ public class NavigationDrawerFragment extends Fragment {
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
 
+    @Inject
+    ProfileService profileService;
+
+    @Inject
+    EventBus eventBus;
+
+    @InjectView(R.id.img_profile)
+    ImageView imgProfile;
+
+    @InjectView(R.id.txt_profile_name)
+    TextView txtProfileName;
+
+    @InjectView(R.id.txt_profile_position)
+    TextView txtProfilePosition;
+
+    @InjectView(R.id.txt_main_technology)
+    TextView txtMainTechnology;
+
+    @InjectView(R.id.txt_location)
+    TextView txtLocation;
+
     public NavigationDrawerFragment() {
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        DevConApplication.injectMembers(this);
         // Read in the flag indicating whether or not the user has demonstrated awareness of the
         // drawer. See PREF_USER_LEARNED_DRAWER for details.
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
@@ -95,6 +131,13 @@ public class NavigationDrawerFragment extends Fragment {
                              Bundle savedInstanceState) {
         mContainerListView = (ViewGroup) inflater.inflate(
                 R.layout.fragment_navigation_drawer, null);
+        ButterKnife.inject(this, mContainerListView);
+        if (profileService.isCacheValid())
+            profileService.populateFromCache(getLoaderManager(), savedInstanceState);
+        else
+            profileService.populateFromAPI();
+        if (!eventBus.isRegistered(this))
+            eventBus.register(this);
         mDrawerListView = (ListView) mContainerListView.findViewById(R.id.lvw_drawer_items);
         mDrawerListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -124,6 +167,21 @@ public class NavigationDrawerFragment extends Fragment {
             }
         });
         return mContainerListView;
+    }
+
+    public void onEventMainThread(FetchedProfileEvent event) {
+        if (Optional.of(event.profile).isPresent()) {
+            if (Optional.of(event.profile.getUser()).isPresent()) {
+                User currentUser = event.profile.getUser();
+                txtProfileName.setText(currentUser.getFullName());
+                txtProfilePosition.setText(currentUser.getPositionAndCompany());
+                txtMainTechnology.setText(currentUser.getMainTechnologyTitle());
+                txtLocation.setText(currentUser.getLocation());
+                if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
+                    Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).into(imgProfile);
+            }
+
+        }
     }
 
     public boolean isDrawerOpen() {
@@ -236,6 +294,12 @@ public class NavigationDrawerFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mCallbacks = null;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        eventBus.unregister(this);
     }
 
     @Override
