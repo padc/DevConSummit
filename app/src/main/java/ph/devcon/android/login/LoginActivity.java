@@ -88,7 +88,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DevConApplication.injectMembers(this);
-        if (!authService.isAuthenticated()) {
+        if (authService.isAuthenticated()) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();

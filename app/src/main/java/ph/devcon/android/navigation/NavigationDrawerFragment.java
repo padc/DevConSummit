@@ -35,6 +35,7 @@ import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.profile.EditUserProfileActivity;
+import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.settings.SettingsService;
@@ -176,16 +177,19 @@ public class NavigationDrawerFragment extends Fragment {
     public void onEventMainThread(FetchedProfileEvent event) {
         if (Optional.of(event.profile).isPresent()) {
             if (Optional.of(event.profile.getUser()).isPresent()) {
-                User currentUser = event.profile.getUser();
-                txtProfileName.setText(currentUser.getFullName());
-                txtProfilePosition.setText(currentUser.getPositionAndCompany());
-                txtMainTechnology.setText(currentUser.getMainTechnologyTitle());
-                txtLocation.setText(currentUser.getLocation());
-                if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
-                    Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).into(imgProfile);
+                setProfileHeader(event.profile);
             }
-
         }
+    }
+
+    protected void setProfileHeader(Profile profile) {
+        User currentUser = profile.getUser();
+        txtProfileName.setText(currentUser.getFullName());
+        txtProfilePosition.setText(currentUser.getPositionAndCompany());
+        txtMainTechnology.setText(currentUser.getMainTechnologyTitle());
+        txtLocation.setText(currentUser.getLocation());
+        if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
+            Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).into(imgProfile);
     }
 
     public boolean isDrawerOpen() {
