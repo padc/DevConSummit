@@ -1,6 +1,7 @@
 package ph.devcon.android.login;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -42,17 +43,24 @@ public class LoginActivity extends Activity {
         String password = String.valueOf(edtPassword.getText());
         email = "haifa@devcon.ph";
         password = "password";
+        final ProgressDialog authenticatingProgressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
+        authenticatingProgressDialog.setIndeterminate(false);
+        authenticatingProgressDialog.setProgressStyle(ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+        authenticatingProgressDialog.setMessage(getString(R.string.authenticating));
+        authenticatingProgressDialog.show();
         authService.authenticate(email, password, new AuthService.AuthCallback() {
             @Override
             public void onAuthenticated(String token) {
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
+                authenticatingProgressDialog.dismiss();
                 finish();
             }
 
             @Override
             public void onAuthenticationFailed(Integer statusCode, String message) {
                 Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                authenticatingProgressDialog.dismiss();
             }
         });
     }
@@ -61,7 +69,7 @@ public class LoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DevConApplication.injectMembers(this);
-        if (authService.isAuthenticated()) {
+        if (!authService.isAuthenticated()) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
