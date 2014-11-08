@@ -65,7 +65,7 @@ public abstract class BaseDevConActivity extends ActionBarActivity
     @Override
     public void onNavigationDrawerItemSelected(int position) {
         // update the main content by replacing fragments
-        FragmentManager fragmentManager = getFragmentManager();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction()
                 .replace(R.id.container, PlaceholderFragment.newInstance(position + 1))
                 .commit();
@@ -139,8 +139,8 @@ public abstract class BaseDevConActivity extends ActionBarActivity
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static Fragment newInstance(int sectionNumber) {
-            Fragment fragment = null;
+        public static android.support.v4.app.Fragment newInstance(int sectionNumber) {
+            android.support.v4.app.Fragment fragment = null;
             switch (sectionNumber) {
                 case NEWS:
                     fragment = new NewsFragment();

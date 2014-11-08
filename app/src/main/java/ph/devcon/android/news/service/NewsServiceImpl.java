@@ -14,6 +14,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.base.db.OrmliteListLoader;
+import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.news.api.NewsAPI;
 import ph.devcon.android.news.api.NewsAPIContainer;
 import ph.devcon.android.news.api.NewsBaseResponse;
@@ -91,6 +92,36 @@ public class NewsServiceImpl implements NewsService {
 
                     @Override
                     public void onLoaderReset(Loader<List<News>> loader) {
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<News>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<News>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport<News, Integer>(context, newsDao, newsDao.queryBuilder().prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<News>> loader, List<News> data) {
+                        if (data != null) {
+                            eventBus.post(new FetchedNewsListEvent(data));
+                        } else {
+                            eventBus.post(new FetchedNewsListFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<News>> loader) {
                     }
                 }
         );

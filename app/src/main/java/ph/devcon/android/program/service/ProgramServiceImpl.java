@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.base.db.OrmliteListLoader;
+import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.program.api.ProgramAPI;
 import ph.devcon.android.program.api.ProgramAPIContainer;
 import ph.devcon.android.program.api.ProgramBaseResponse;
@@ -103,6 +104,36 @@ public class ProgramServiceImpl implements ProgramService {
 
                     @Override
                     public void onLoaderReset(Loader<List<Program>> loader) {
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<Program>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<Program>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport<Program, Integer>(context, programDao, programDao.queryBuilder().prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<Program>> loader, List<Program> data) {
+                        if (data != null) {
+                            eventBus.post(new FetchedProgramListEvent(data));
+                        } else {
+                            eventBus.post(new FetchedProgramListFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<Program>> loader) {
                     }
                 }
         );

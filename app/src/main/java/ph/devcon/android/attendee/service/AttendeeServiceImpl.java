@@ -21,6 +21,7 @@ import ph.devcon.android.attendee.event.FetchedAttendeeListEvent;
 import ph.devcon.android.attendee.event.FetchedAttendeeListFailedEvent;
 import ph.devcon.android.attendee.job.FetchAttendeeListJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
+import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 
 /**
  * Created by lope on 10/29/14.
@@ -88,6 +89,36 @@ public class AttendeeServiceImpl implements AttendeeService {
 
                     @Override
                     public void onLoaderReset(Loader<List<Attendee>> loader) {
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<Attendee>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<Attendee>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport(context, attendeeDao, attendeeDao.queryBuilder().prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<Attendee>> loader, List<Attendee> data) {
+                        if (data != null) {
+                            eventBus.post(new FetchedAttendeeListEvent(data));
+                        } else {
+                            eventBus.post(new FetchedAttendeeListFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<Attendee>> loader) {
                     }
                 }
         );

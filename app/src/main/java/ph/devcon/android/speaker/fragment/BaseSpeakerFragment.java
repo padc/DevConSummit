@@ -76,6 +76,11 @@ public abstract class BaseSpeakerFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
     protected abstract void executePopulateFromCache(Bundle savedInstanceStat);
 
     protected abstract void executePopulateFromAPI();

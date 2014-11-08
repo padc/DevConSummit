@@ -11,6 +11,8 @@ public interface BaseAPICacheService<CacheObject, BaseResponse> {
 
     public void populateFromCache(LoaderManager loaderManager, Bundle savedInstanceState);
 
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState);
+
     public void populateFromAPI();
 
     public boolean isCacheValid();

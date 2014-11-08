@@ -14,6 +14,7 @@ import java.util.List;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
+import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.api.ProfileAPI;
 import ph.devcon.android.profile.db.Profile;
@@ -96,6 +97,36 @@ public class ProfileServiceImpl implements ProfileService {
 
                     @Override
                     public void onLoaderReset(Loader<List<Profile>> loader) {
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<Profile>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<Profile>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport<Profile, Integer>(context, profileDao, profileDao.queryBuilder().prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<Profile>> loader, List<Profile> data) {
+                        if ((data != null) && (data.size() > 0)) {
+                            eventBus.post(new FetchedProfileEvent(data.get(0)));
+                        } else {
+                            eventBus.post(new FetchedProfileFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<Profile>> loader) {
                     }
                 }
         );

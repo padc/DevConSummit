@@ -24,7 +24,7 @@ import ph.devcon.android.speaker.fragment.SpeakerOnlyFragment;
 /**
  * Created by lope on 9/13/14.
  */
-public class SpeakerTabFragment extends Fragment {
+public class SpeakerTabFragment extends android.support.v4.app.Fragment {
 
     @InjectView(R.id.pager)
     ViewPager pager;
@@ -37,7 +37,7 @@ public class SpeakerTabFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_speaker, container, false);
         ButterKnife.inject(this, rootView);
 
-        FragmentPagerAdapter adapter = new ViewSpeakerTypesAdapter(((BaseDevConActivity) getActivity()).getSupportFragmentManager());
+        FragmentPagerAdapter adapter = new ViewSpeakerTypesAdapter(getChildFragmentManager());
         pager.setAdapter(adapter);
         indicator.setViewPager(pager);
         return rootView;

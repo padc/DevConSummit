@@ -15,6 +15,7 @@ import java.util.List;
 
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.base.db.OrmliteListLoader;
+import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.sponsor.api.SponsorAPI;
 import ph.devcon.android.sponsor.api.SponsorBaseResponse;
 import ph.devcon.android.sponsor.api.SponsorContainer;
@@ -101,6 +102,36 @@ public class SponsorServiceImpl implements SponsorService {
 
                     @Override
                     public void onLoaderReset(Loader<List<Sponsor>> loader) {
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void populateFromCache(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<Sponsor>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<Sponsor>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport<Sponsor, Integer>(context, sponsorDao, sponsorDao.queryBuilder().prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<Sponsor>> loader, List<Sponsor> data) {
+                        if (data != null) {
+                            eventBus.postSticky(new FetchedSponsorListEvent(data));
+                        } else {
+                            eventBus.postSticky(new FetchedSponsorListFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<Sponsor>> loader) {
                     }
                 }
         );
