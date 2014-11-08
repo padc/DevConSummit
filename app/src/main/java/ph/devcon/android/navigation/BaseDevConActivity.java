@@ -18,11 +18,11 @@ import ph.devcon.android.sponsor.SponsorFragment;
 
 public abstract class BaseDevConActivity extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks, SectionAttachedListener {
-    protected static final int NEWS = 1;
-    protected static final int PROGRAMS = 2;
-    protected static final int SPEAKERS = 3;
-    protected static final int ATTENDEES = 4;
-    protected static final int SPONSORS = 5;
+    public static final int NEWS = 1;
+    public static final int PROGRAMS = 2;
+    public static final int SPEAKERS = 3;
+    public static final int ATTENDEES = 4;
+    public static final int SPONSORS = 5;
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
@@ -31,7 +31,7 @@ public abstract class BaseDevConActivity extends ActionBarActivity
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence mTitle;
+    protected CharSequence mTitle;
 
     protected DrawerLayout mDrawerLayout;
 

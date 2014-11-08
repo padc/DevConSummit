@@ -59,6 +59,11 @@ public class SpeakerDetailsActivity extends BaseDevConActivity {
         mViewPager.setAdapter(mSpeakerDetailsPagerAdapter);
     }
 
+    @Override
+    public void onSectionAttached(int number) {
+        mTitle = getString(R.string.title_speakers);
+    }
+
     public void setSpeakerList(List<Speaker> speakerList) {
         if (speakerList != null && !speakerList.isEmpty()) {
             mSpeakerDetailsPagerAdapter.setItems(speakerList);
@@ -78,6 +83,16 @@ public class SpeakerDetailsActivity extends BaseDevConActivity {
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        int currentItem = mViewPager.getCurrentItem();
+        if (currentItem != 0) {
+            mViewPager.setCurrentItem(currentItem - 1);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override

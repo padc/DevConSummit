@@ -60,6 +60,11 @@ public class AttendeeDetailsActivity extends BaseDevConActivity {
         mViewPager.setAdapter(mAttendeeDetailsPagerAdapter);
     }
 
+    @Override
+    public void onSectionAttached(int number) {
+        mTitle = getString(R.string.title_attendees);
+    }
+
     public void setAttendeeList(List<Attendee> attendeeListList) {
         if (attendeeListList != null && !attendeeListList.isEmpty()) {
             mAttendeeDetailsPagerAdapter.setItems(attendeeListList);
@@ -79,6 +84,16 @@ public class AttendeeDetailsActivity extends BaseDevConActivity {
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
+    }
+
+    @Override
+    public void onBackPressed() {
+        int currentItem = mViewPager.getCurrentItem();
+        if (currentItem != 0) {
+            mViewPager.setCurrentItem(currentItem - 1);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
