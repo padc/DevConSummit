@@ -21,6 +21,7 @@ import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.profile.job.FetchProfileJob;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.profile.service.ProfileServiceImpl;
+import ph.devcon.android.settings.SettingsModule;
 import ph.devcon.android.speaker.module.SpeakerModule;
 import ph.devcon.android.user.db.UserDao;
 
@@ -30,7 +31,7 @@ import ph.devcon.android.user.db.UserDao;
 @Module(injects = {EditUserProfileActivity.class, FetchProfileJob.class,
         UpdateProfileJob.class, LoginActivity.class, NavigationDrawerFragment.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class,
-                SpeakerModule.class})
+                SpeakerModule.class, SettingsModule.class})
 public class ProfileModule {
     Context mContext;
 

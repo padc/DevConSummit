@@ -13,6 +13,7 @@ import ph.devcon.android.category.module.CategoryModule;
 import ph.devcon.android.news.module.NewsModule;
 import ph.devcon.android.profile.module.ProfileModule;
 import ph.devcon.android.program.module.ProgramModule;
+import ph.devcon.android.settings.SettingsModule;
 import ph.devcon.android.speaker.module.SpeakerModule;
 import ph.devcon.android.sponsor.module.SponsorModule;
 import ph.devcon.android.technology.module.TechnologyModule;
@@ -61,6 +62,7 @@ public class DevConApplication extends Application {
 
     protected List<Object> getModules() {
         List<Object> objectList = new ArrayList<Object>();
+        objectList.add(new SettingsModule(this));
         objectList.add(new AuthModule(this));
         objectList.add(new APIModule(this));
         objectList.add(new ProgramModule(this));

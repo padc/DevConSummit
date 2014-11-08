@@ -37,6 +37,7 @@ import ph.devcon.android.R;
 import ph.devcon.android.profile.EditUserProfileActivity;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.service.ProfileService;
+import ph.devcon.android.settings.SettingsService;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.util.Util;
 
@@ -79,6 +80,9 @@ public class NavigationDrawerFragment extends Fragment {
 
     @Inject
     ProfileService profileService;
+
+    @Inject
+    SettingsService settingsService;
 
     @Inject
     EventBus eventBus;
@@ -247,8 +251,9 @@ public class NavigationDrawerFragment extends Fragment {
 
         // If the user hasn't 'learned' about the drawer, open it to introduce them to the drawer,
         // per the navigation drawer design guidelines.
-        if (!mUserLearnedDrawer && !mFromSavedInstanceState) {
+        if (!mUserLearnedDrawer && !mFromSavedInstanceState && !settingsService.isOnboardingDone()) {
             mDrawerLayout.openDrawer(mFragmentContainerView);
+            settingsService.setIsOnboardingDone(true);
         }
 
         // Defer code dependent on restoration of previous instance state.
