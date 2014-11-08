@@ -47,7 +47,7 @@ public class SponsorServiceImpl implements SponsorService {
     }
 
     @Override
-    public List<Sponsor> createCacheObject(SponsorBaseResponse baseResponse) {
+    public synchronized List<Sponsor> createCacheObject(SponsorBaseResponse baseResponse) {
         try {
             sponsorDao.clear();
         } catch (SQLException e) {

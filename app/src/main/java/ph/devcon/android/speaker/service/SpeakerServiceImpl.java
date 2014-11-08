@@ -58,7 +58,7 @@ public class SpeakerServiceImpl implements SpeakerService {
     }
 
     @Override
-    public List<Speaker> createCacheObject(SpeakerBaseResponse baseResponse) {
+    public synchronized List<Speaker> createCacheObject(SpeakerBaseResponse baseResponse) {
         try {
             speakerDao.clear();
         } catch (SQLException e) {

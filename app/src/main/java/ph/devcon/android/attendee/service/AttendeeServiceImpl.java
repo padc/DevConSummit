@@ -43,7 +43,7 @@ public class AttendeeServiceImpl implements AttendeeService {
     }
 
     @Override
-    public List<Attendee> createCacheObject(AttendeeBaseResponse baseResponse) {
+    public synchronized List<Attendee> createCacheObject(AttendeeBaseResponse baseResponse) {
         try {
             attendeeDao.clear();
         } catch (SQLException e) {

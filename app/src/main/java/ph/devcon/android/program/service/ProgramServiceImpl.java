@@ -50,7 +50,7 @@ public class ProgramServiceImpl implements ProgramService {
         this.speakerDao = speakerDao;
     }
 
-    public List<Program> createCacheObject(ProgramBaseResponse baseResponse) {
+    public synchronized List<Program> createCacheObject(ProgramBaseResponse baseResponse) {
         try {
             programDao.clear();
         } catch (SQLException e) {

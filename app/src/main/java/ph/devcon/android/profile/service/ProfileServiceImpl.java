@@ -49,7 +49,7 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Override
-    public Profile createCacheObject(EditProfileBaseResponse baseResponse) {
+    public synchronized Profile createCacheObject(EditProfileBaseResponse baseResponse) {
         try {
             profileDao.clear();
         } catch (SQLException e) {
