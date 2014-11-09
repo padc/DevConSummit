@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/gray_light_light"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+    <TextView
+        android:id="@+id/txt_leaderboard_top_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/green"
+        android:textStyle="bold"
+        android:layout_marginTop="6dp"
+        android:text="TOP 3 USERS" />
+
+    <RelativeLayout
+        android:id="@+id/cont_top_3_images"
+        android:layout_below="@+id/txt_leaderboard_top_3"
+        android:layout_marginTop="6dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:scaleType="centerCrop"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="11dp"
+            android:layout_toLeftOf="@+id/img_top_1"
+            android:src="@drawable/facebook_icon" />
+
+        <ImageView
+            android:id="@+id/img_top_1"
+            android:layout_width="85dp"
+            android:layout_height="85dp"
+            android:scaleType="centerCrop"
+            android:layout_centerInParent="true"
+            android:src="@drawable/facebook_icon" />
+
+        <ImageView
+            android:layout_width="58dp"
+            android:layout_height="58dp"
+            android:scaleType="centerCrop"
+            android:layout_marginLeft="11dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/img_top_1"
+            android:src="@drawable/facebook_icon" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/cont_lvw_header"
+        android:layout_below="@+id/cont_top_3_images"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:padding="4dp"
+        android:background="@color/green">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="8dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="RANK" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="USER" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="8dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="POINTS" />
+    </RelativeLayout>
+
+    <ListView
+        android:layout_below="@+id/cont_lvw_header"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:orientation="horizontal"
+        android:background="@color/green">
+
+        <TextView
+            android:id="@+id/txt_rank_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:text="201" />
+
+        <ImageView
+            android:id="@+id/img_user"
+            android:layout_toRightOf="@id/txt_rank_no"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:src="@drawable/facebook_icon" />
+
+        <TextView
+            android:id="@+id/txt_name"
+            android:layout_toRightOf="@id/img_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Ericson Luciano" />
+
+        <TextView
+            android:id="@+id/txt_points"
+            android:layout_alignParentRight="true"
+            android:layout_width="85dp"
+            android:layout_height="wrap_content"
+            android:padding="6dp"
+            android:background="@color/white"
+            android:textStyle="bold"
+            android:textColor="@color/green"
+            android:gravity="center"
+            android:layout_centerVertical="true"
+            android:text="5 pts." />
+
+    </RelativeLayout>
+</RelativeLayout>

@@ -52,4 +52,16 @@
         <item name="android:paddingBottom">8dp</item>
         <item name="android:background">@color/white</item>
     </style>
+
+    <style name="EngageHeaderTextView">
+        <item name="android:layout_marginTop">1dp</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:paddingTop">16dp</item>
+        <item name="android:paddingBottom">16dp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:typeface">sans</item>
+    </style>
 </resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/modal"
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
+
+
+    <ImageView
+        android:layout_marginTop="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/congrats_ribbon" />
+
+    <ImageView
+        android:layout_marginTop="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rewards" />
+
+    <TextView
+        android:layout_marginTop="19dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="20dp"
+        android:text="You earned 3 points for sharing! \n You now rank #200" />
+
+    <Button
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="@color/white"
+        android:layout_marginTop="21dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        android:textStyle="bold"
+        android:text="CHECK LEADERBOARD" />
+</LinearLayout>

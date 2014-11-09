@@ -12,7 +12,7 @@
     <string name="title_speakers">Speakers</string>
     <string name="title_sponsors">Sponsors</string>
     <string name="about_me">About Me</string>
-    <string name="company_position">Company Role/Position</string>
+    <string name="company_position">Company Role or Position</string>
     <string name="company_name">Company Name</string>
     <string name="location">Location</string>
     <string name="primary">(Primary)</string>
@@ -28,4 +28,8 @@
     <string name="action_settings">Settings</string>
     <string name="authenticating">Authenticating..</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="engage_help">Share photos, add hashtags, and get points during the event. Win surprise gifts. You can also check and compare your current points at Leaderboard.</string>
+    <string name="engage_make_sure">Note: Please make sure your account is public so our servers can verify your posts</string>
+    <string name="check_leaderboard">Check Leaderboard</string>
+    <string name="share">Share</string>
 </resources>
