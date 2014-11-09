@@ -64,4 +64,23 @@
         <item name="android:textStyle">bold</item>
         <item name="android:typeface">sans</item>
     </style>
+
+    <style name="TourTitle">
+        <item name="android:layout_marginTop">25dp</item>
+        <item name="android:layout_marginLeft">40dp</item>
+        <item name="android:layout_marginRight">40dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/green</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">20dp</item>
+    </style>
+
+    <style name="TourContent">
+        <item name="android:layout_marginTop">9dp</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:layout_marginRight">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">17dp</item>
+    </style>
+
 </resources>
