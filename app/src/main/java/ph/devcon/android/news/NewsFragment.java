@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -30,13 +31,14 @@ import ph.devcon.android.news.service.NewsService;
 /**
  * Created by lope on 10/6/14.
  */
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.lvw_news)
     ListView lvwNews;
 
-    @InjectView(R.id.pbr_loading)
-    ProgressBar pbrLoading;
-
+    //    @InjectView(R.id.pbr_loading)
+//    ProgressBar pbrLoading;
+    @InjectView(R.id.swipe_container)
+    SwipeRefreshLayout swipeLayout;
     @Inject
     EventBus eventBus;
 
@@ -62,13 +64,15 @@ public class NewsFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        lvwNews.setEmptyView(pbrLoading);
+        onRefresh();
+        newsAdapter = new NewsAdapter(getActivity(), new ArrayList<News>());
+        lvwNews.setAdapter(newsAdapter);
         lvwNews.addFooterView(buildFooterView(inflater));
-        if (newsService.isCacheValid()) {
-            newsService.populateFromCache(getLoaderManager(), savedInstanceState);
-        } else {
-            newsService.populateFromAPI();
-        }
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorScheme(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
         return rootView;
     }
 
@@ -76,11 +80,12 @@ public class NewsFragment extends Fragment {
         if (newsList != null && !newsList.isEmpty()) {
             newsAdapter = new NewsAdapter(getActivity(), newsList);
             lvwNews.setAdapter(newsAdapter);
+            newsAdapter.notifyDataSetChanged();
         }
     }
 
     public void onEventMainThread(FetchedNewsListEvent event) {
-        setNewsList(event.newsList);
+        swipeLayout.setRefreshing(false);
     }
 
     @Override
@@ -100,4 +105,13 @@ public class NewsFragment extends Fragment {
         return inflater.inflate(R.layout.footer_standard, null);
     }
 
+    @Override
+    public void onRefresh() {
+        swipeLayout.setRefreshing(true);
+        if (newsService.isCacheValid()) {
+            newsService.populateFromCache(getLoaderManager(), getArguments());
+        } else {
+            newsService.populateFromAPI();
+        }
+    }
 }
