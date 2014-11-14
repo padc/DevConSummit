@@ -1,3 +1,5 @@
+![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC")
+
 DevCon Summit 2014 Android App
 ============
 
