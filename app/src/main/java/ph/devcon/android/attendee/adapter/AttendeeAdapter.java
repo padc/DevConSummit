@@ -43,8 +43,9 @@ public class AttendeeAdapter extends ArrayAdapter<Attendee> {
         holder.txtJob.setText(attendee.getUser().getPosition());
         holder.txtLanguages.setText(attendee.getUser().getPrettyTechnologyList());
         if (!Util.isNullOrEmpty(attendee.getUser().getPhotoUrl())) {
-            Picasso.with(getContext()).load(attendee.getUser().getPhotoUrl()).into(holder.imgAttendee);
+            Picasso.with(getContext()).load(attendee.getUser().getPhotoUrl()).placeholder(R.drawable.ic_action_person).into(holder.imgAttendee);
         }
+        Util.emptyToGone(holder.txtName, holder.txtJob, holder.txtLanguages);
         return convertView;
     }
 

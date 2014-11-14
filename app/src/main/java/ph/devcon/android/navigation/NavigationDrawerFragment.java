@@ -59,49 +59,37 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
+    @Inject
+    ProfileService profileService;
+    @Inject
+    SettingsService settingsService;
+    @Inject
+    EventBus eventBus;
+    @InjectView(R.id.img_profile)
+    ImageView imgProfile;
+    @InjectView(R.id.txt_profile_name)
+    TextView txtProfileName;
+    @InjectView(R.id.txt_profile_position)
+    TextView txtProfilePosition;
+    @InjectView(R.id.txt_main_technology)
+    TextView txtMainTechnology;
+    @InjectView(R.id.txt_location)
+    TextView txtLocation;
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
     private NavigationDrawerCallbacks mCallbacks;
-
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
     private ViewGroup mContainerListView;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
-
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
-    @Inject
-    ProfileService profileService;
-
-    @Inject
-    SettingsService settingsService;
-
-    @Inject
-    EventBus eventBus;
-
-    @InjectView(R.id.img_profile)
-    ImageView imgProfile;
-
-    @InjectView(R.id.txt_profile_name)
-    TextView txtProfileName;
-
-    @InjectView(R.id.txt_profile_position)
-    TextView txtProfilePosition;
-
-    @InjectView(R.id.txt_main_technology)
-    TextView txtMainTechnology;
-
-    @InjectView(R.id.txt_location)
-    TextView txtLocation;
 
     public NavigationDrawerFragment() {
     }
@@ -190,6 +178,7 @@ public class NavigationDrawerFragment extends Fragment {
         txtLocation.setText(currentUser.getLocation());
         if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
             Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).placeholder(R.drawable.ic_action_person).into(imgProfile);
+        Util.emptyToGone(txtProfilePosition, txtMainTechnology, txtLocation);
     }
 
     public boolean isDrawerOpen() {

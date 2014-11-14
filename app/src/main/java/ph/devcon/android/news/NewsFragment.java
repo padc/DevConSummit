@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -62,6 +63,8 @@ public class NewsFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
+        newsAdapter = new NewsAdapter(getActivity(), new ArrayList<News>());
+        lvwNews.setAdapter(newsAdapter);
         lvwNews.setEmptyView(pbrLoading);
         lvwNews.addFooterView(buildFooterView(inflater));
         if (newsService.isCacheValid()) {
@@ -74,8 +77,7 @@ public class NewsFragment extends Fragment {
 
     public void setNewsList(List<News> newsList) {
         if (newsList != null && !newsList.isEmpty()) {
-            newsAdapter = new NewsAdapter(getActivity(), newsList);
-            lvwNews.setAdapter(newsAdapter);
+            newsAdapter.notifyDataSetChanged();
         }
     }
 

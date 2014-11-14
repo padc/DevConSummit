@@ -7,6 +7,9 @@ import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
 
 import com.google.common.base.Strings;
 import com.google.common.html.HtmlEscapers;
@@ -107,6 +110,18 @@ public class Util {
             return Html.fromHtml(htmlString).toString();
         else
             return "";
+    }
+
+    public static void emptyToGone(TextView textView) {
+        if (TextUtils.isEmpty(textView.getText())) {
+            textView.setVisibility(View.GONE);
+        }
+    }
+
+    public static void emptyToGone(TextView... textViews) {
+        for (TextView textView : textViews) {
+            emptyToGone(textView);
+        }
     }
 
     public static class BlurTransformation implements Transformation {
