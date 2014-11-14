@@ -36,6 +36,21 @@ Tools used for the project
 [Picasso](http://square.github.io/picasso/) by Square
     <p>Picasso is an image downloading and caching library for Android. It helps a lot in managing and setting bitmaps for our ImageViews and provides support for RenderScript commands that helps in making the app look aesthetically pleasant</p>
 
+Want to contribute?
+--------
+
+#### Code Review/Refactoring
+See something you want to improve? Want to merge loadFromAPI() and loadFromCache() into one service call instead of doing the validation check in the activity? Want to improve how the listview gets populated? Want to change that context to mContext? Make a pull request! 
+
+#### Testing
+App crashed on your device? File a report or write a fix and make a pull request!
+
+#### Unit Testing
+The app needs it! Make a pull request :)
+
+#### Integration tests and CI server
+Want to make the app run in travis-ci? Let's do it! :)
+
 <h2>Copyright</h2>
 
     Copyright (C) 2014 Philippine Android Developers Community
