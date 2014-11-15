@@ -83,6 +83,12 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void setCachedToken(String token) {
+        if (!Util.isNullOrEmpty(token))
+            mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();
+    }
+
+    @Override
     public boolean isAuthenticated() {
         Boolean isAuthenticated = false;
         try {
@@ -93,11 +99,5 @@ public class AuthServiceImpl implements AuthService {
             e.printStackTrace();
         }
         return isAuthenticated;
-    }
-
-    @Override
-    public void setCachedToken(String token) {
-        if (!Util.isNullOrEmpty(token))
-            mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();
     }
 }

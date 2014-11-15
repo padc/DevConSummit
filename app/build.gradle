@@ -46,6 +46,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
     compile 'com.android.support:support-v4:+'
     compile 'com.applidium.headerlistview:headerlistview:1.0.2-SNAPSHOT'
+    compile 'com.facebook.android:facebook-android-sdk:+'
     compile 'com.google.guava:guava:18.0'
     compile 'com.j256.ormlite:ormlite-android:4.48'
     compile 'com.jakewharton:butterknife:5.0.0'
@@ -61,6 +62,7 @@ dependencies {
     compile 'com.viewpagerindicator:library:2.4.1@aar'
     compile 'de.greenrobot:eventbus:2.2.1'
     compile 'org.apmem.tools:layouts:1.4@aar'
+    compile 'org.twitter4j:twitter4j-core:4.0.2'
 
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
 

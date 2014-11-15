@@ -63,26 +63,26 @@
             android:textColor="@color/green"
             android:textSize="21sp"
             android:typeface="sans"
-            android:text="ERICSON LUCIANO"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txt_profile_position"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Junior Designer at Thousand Minds"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txt_main_technology"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Ruby on Rails"/>
+            android:text=""/>
 
         <TextView
             android:id="@+id/txt_location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Navotas City, Metro Manila"/>
+            android:text=""/>
 
     </LinearLayout>
 

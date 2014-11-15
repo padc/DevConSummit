@@ -16,6 +16,8 @@
 
 package ph.devcon.android.attendee;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -31,6 +33,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.attendee.db.Attendee;
@@ -70,6 +73,18 @@ public class AttendeeDetailsFragment extends Fragment {
     @InjectView(R.id.txt_about_content)
     TextView txtAboutContent;
 
+    @InjectView(R.id.txt_technology_stack)
+    TextView txtTechnologyStack;
+
+    @InjectView(R.id.btn_profile_website)
+    ImageView btnProfileWebsite;
+
+    @InjectView(R.id.btn_profile_twitter)
+    ImageView btnProfileTwitter;
+
+    @InjectView(R.id.btn_profile_facebook)
+    ImageView btnProfileFacebook;
+
     @Inject
     AttendeeService attendeeService;
 
@@ -102,8 +117,58 @@ public class AttendeeDetailsFragment extends Fragment {
                     Picasso.with(getActivity()).load(user.getPhotoUrl()).into(imgAttendee);
                     Picasso.with(getActivity()).load(user.getPhotoUrl()).transform(new Util.BlurTransformation(getActivity().getApplicationContext())).into(imgBackgroundTop);
                 }
+                txtTechnologyStack.setText(user.getPrettyTechnologyList());
+                btnProfileWebsite.setTag(user.getWebsite());
+                btnProfileTwitter.setTag(user.getTwitterHandle());
+                btnProfileFacebook.setTag(user.getFacebookUrl());
             }
         }
+    }
+
+    @OnClick(R.id.btn_profile_website)
+    public void onClickProfileWebsite(View view) {
+        String webUrl = (String) view.getTag();
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse(webUrl));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.btn_profile_twitter)
+    public void onClickProfileTwitter(View view) {
+        String twitterHandle = (String) view.getTag();
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + twitterHandle)));
+        } catch (Exception e) {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + twitterHandle)));
+        }
+    }
+
+    /**
+     * use this solution:
+     * http://stackoverflow.com/questions/4810803/open-facebook-page-from-android-app
+     * <p/>
+     * 1) Go to https://graph.facebook.com/<user_name_here> (https://graph.facebook.com/fsintents for instance)
+     * 2) Copy your id
+     * <p/>
+     * Use this method
+     *
+     * @param view
+     */
+    @OnClick(R.id.btn_profile_facebook)
+    public void onClickProfileFacebook(View view) {
+        String facebookUrl = (String) view.getTag();
+        Intent intent;
+        // TODO extract facebook id
+        try {
+            getActivity().getPackageManager()
+                    .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+            intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(facebookUrl)); //Trys to make intent with FB's URI
+        } catch (Exception e) {
+            intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(facebookUrl)); //catches and opens a url to the desired page
+        }
+        startActivity(intent);
     }
 
     protected View buildFooterView(LayoutInflater inflater) {

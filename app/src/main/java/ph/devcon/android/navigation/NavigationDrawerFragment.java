@@ -34,7 +34,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,6 +49,7 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.navigation.adapter.NavigationAdapter;
 import ph.devcon.android.profile.EditUserProfileActivity;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
@@ -154,17 +154,18 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                R.layout.item_navigation_drawer,
-                android.R.id.text1,
-                new String[]{
-                        "News",
-                        "Programs",
-                        "Speakers",
-                        "Attendees",
-                        "Sponsors",
-                }));
+//        mDrawerListView.setAdapter(new ArrayAdapter<String>(
+//                getActionBar().getThemedContext(),
+//                R.layout.item_navigation_drawer,
+//                android.R.id.text1,
+//                new String[]{
+//                        "News",
+//                        "Programs",
+//                        "Speakers",
+//                        "Attendees",
+//                        "Sponsors",
+//                }));
+        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
         ViewGroup contUserProfile = (ViewGroup) mContainerListView.findViewById(R.id.cont_user_profile);

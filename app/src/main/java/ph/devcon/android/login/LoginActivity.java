@@ -37,6 +37,7 @@ import ph.devcon.android.R;
 import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
+import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
 
 /**
@@ -122,6 +123,10 @@ public class LoginActivity extends Activity {
         startActivity(intent);
         authProgressDialog.dismiss();
         finish();
+    }
+
+    public void onEventMainThread(FetchedProfileFailedEvent fetchedProfileFailedEvent) {
+        Toast.makeText(LoginActivity.this, String.valueOf(fetchedProfileFailedEvent), Toast.LENGTH_LONG).show();
     }
 
     @Override
