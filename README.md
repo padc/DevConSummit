@@ -5,7 +5,7 @@ DevCon Summit 2014 Android App
 
 DevCon Summit is the biggest annual developer conference in the Philippines featuring a collaboration of major developer groups in the country. For [DevCon Summit 2014](http://summit.devcon.ph/#agenda), the day long conference holds quiz bees for student participants, a keynote from one of our industry leaders, and lightning talks for mobile, web, and developer tools.
 
-As one of DevCon Summit's partners, the Philippine Android Developers Community ([PADC](https://www.facebook.com/groups/339892436056451/)) has built an open source android app to not only showcase talks, speakers and program schedules but also to help attendees socialize with one another. The project also aims to be a community driven end-point for android development tools and best practices being used today.
+As one of DevCon Summit's partners, the Philippine Android Developers Community ([PADC](https://www.facebook.com/groups/padc.you/)) has built an open source android app to not only showcase talks, speakers and program schedules but also to help attendees socialize with one another. The project also aims to be a community driven end-point for android development tools and best practices being used today.
 
 Requirements
 --------
