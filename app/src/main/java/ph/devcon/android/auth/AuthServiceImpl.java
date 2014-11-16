@@ -52,8 +52,8 @@ public class AuthServiceImpl implements AuthService {
                     if (authResponse.getStatusCode().equals(STATUS_CODE_OK)) {
                         if (!Util.isNullOrEmpty(authResponse.getAuthenticationToken())) {
                             String token = authResponse.getAuthenticationToken();
-                            authCallback.onAuthenticated(token);
                             setCachedToken(token);
+                            authCallback.onAuthenticated(token);
                         } else {
                             authCallback.onAuthenticationFailed(STATUS_CODE_UNKNOWN, "Received null auth token");
                         }

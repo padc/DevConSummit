@@ -76,7 +76,7 @@ public class DevConApplication extends Application {
         return ObjectGraph.create(objectList.toArray());
     }
 
-    protected List<Object> getModules() {
+    public List<Object> getModules() {
         List<Object> objectList = new ArrayList<Object>();
         objectList.add(new SettingsModule(this));
         objectList.add(new AuthModule(this));
@@ -91,4 +91,14 @@ public class DevConApplication extends Application {
         objectList.add(new TechnologyModule(this));
         return objectList;
     }
+
+
+    public ObjectGraph getGraph() {
+        return graph;
+    }
+
+    public void setGraph(ObjectGraph graph) {
+        this.graph = graph;
+    }
+
 }

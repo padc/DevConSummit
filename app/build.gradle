@@ -35,6 +35,12 @@ android {
         exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'LICENSE.txt'
     }
+
+    sourceSets {
+        androidTest {
+            java.srcDirs = ['src/main/java', 'src/androidTest/java']
+        }
+    }
 }
 
 repositories {
@@ -67,6 +73,9 @@ dependencies {
     compile 'org.twitter4j:twitter4j-core:4.0.2'
     compile 'se.emilsjolander:stickylistheaders:2.5.0'
 
+    androidTestCompile 'org.mockito:mockito-core:1.9.5'
+    androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
+    androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
