@@ -6,12 +6,9 @@ import com.squareup.okhttp.Cache;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 
-import java.io.IOException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-
-import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
@@ -23,22 +20,11 @@ import retrofit.client.OkClient;
 /**
  * Created by lope on 11/16/14.
  */
-@Module(library = true,
+@Module(includes = MockerTestModule.class,
+        library = true,
         complete = true,
         overrides = true)
-public class APITestModule {
-
-    @Provides
-    @Singleton
-    public MockWebServer provideMockWebServer() {
-        MockWebServer mockWebServer = new MockWebServer();
-        try {
-            mockWebServer.play();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return mockWebServer;
-    }
+public class FakeAPITestModule {
 
     @Provides
     public RestAdapter provideRestAdapter(MockWebServer mockWebServer) {

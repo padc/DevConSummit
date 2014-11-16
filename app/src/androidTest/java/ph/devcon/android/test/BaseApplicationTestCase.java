@@ -33,7 +33,7 @@ public abstract class BaseApplicationTestCase extends ApplicationTestCase {
 
     protected List<Object> getModules() {
         List<Object> appModules = mApplication.getModules();
-        appModules.add(new DevConTestModule(mApplication));
+        appModules.add(new DevConTestModule());
         return appModules;
     }
 }

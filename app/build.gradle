@@ -83,8 +83,10 @@ dependencies {
     androidTestCompile 'org.mockito:mockito-core:1.9.5'
     androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
-    androidTestCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
-
+    // https://github.com/square/okhttp/issues/679
+    androidTestCompile('com.squareup.okhttp:mockwebserver:2.0.0') {
+        exclude group: 'com.squareup.okhttp', module: 'okhttp'
+    }
     provided 'com.jakewharton.espresso:espresso:1.1-r3'
     provided 'org.mockito:mockito-all:1.9.5'
 

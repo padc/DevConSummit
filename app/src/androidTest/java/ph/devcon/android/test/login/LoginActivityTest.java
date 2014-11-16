@@ -5,7 +5,7 @@ import android.test.suitebuilder.annotation.MediumTest;
 
 import ph.devcon.android.R;
 import ph.devcon.android.login.LoginActivity;
-import ph.devcon.android.test.auth.Mocker;
+import ph.devcon.android.test.base.Mocker;
 
 import static com.google.android.apps.common.testing.ui.espresso.Espresso.onView;
 import static com.google.android.apps.common.testing.ui.espresso.action.ViewActions.click;

@@ -2,17 +2,19 @@ package ph.devcon.android.test.auth;
 
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
+import com.squareup.okhttp.mockwebserver.RecordedRequest;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 
 import javax.inject.Inject;
 
-import dagger.ObjectGraph;
-import ph.devcon.android.DevConApplication;
+import dagger.Module;
 import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.test.BaseApplicationTestCase;
-import ph.devcon.android.test.base.APITestModule;
+import ph.devcon.android.test.base.DevConTestModule;
+import ph.devcon.android.test.base.FakeAPITestModule;
+import ph.devcon.android.test.base.Mocker;
 
 /**
  * Created by lope on 11/11/14.
@@ -25,13 +27,16 @@ public class AuthTestCase extends BaseApplicationTestCase {
     @Inject
     AuthService authService;
 
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        mockWebServer.shutdown();
+    }
+
     public void testShouldReturnTokenFromResponseString() {
-        // use fake api
-        mApplication.setGraph(ObjectGraph.create(getFakeAPIModule().toArray()));
-        DevConApplication.injectMembers(this);
         final CountDownLatch signal = new CountDownLatch(1);
         mockWebServer.enqueue(new MockResponse().setBody("{status_code: 200, message: " +
-                "“Successfully authenticated”, authentication_token: “" + Mocker.TOKEN + "“}"));
+                "\"Successfully authenticated\", authentication_token: \"" + Mocker.TOKEN + "\"}"));
         authService.authenticate(Mocker.USERNAME_VALID, Mocker.PASSWORD_VALID,
                 new AuthService.AuthCallback() {
                     @Override
@@ -48,6 +53,12 @@ public class AuthTestCase extends BaseApplicationTestCase {
                 });
         try {
             signal.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
+            RecordedRequest request1 = mockWebServer.takeRequest();
+            assertEquals("/tokens", request1.getPath());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -63,36 +74,19 @@ public class AuthTestCase extends BaseApplicationTestCase {
         }
     }
 
-    public void testShouldAuthenticateValidAccount() {
-        // use real api
-        mApplication.setGraph(ObjectGraph.create(getModules().toArray()));
-        DevConApplication.injectMembers(this);
-        final CountDownLatch signal = new CountDownLatch(1);
-        authService.authenticate(Mocker.USERNAME_VALID, Mocker.PASSWORD_VALID,
-                new AuthService.AuthCallback() {
-                    @Override
-                    public void onAuthenticated(String token) {
-                        signal.countDown();
-                        assertEquals(Mocker.TOKEN, token);
-                    }
-
-                    @Override
-                    public void onAuthenticationFailed(Integer statusCode, String message) {
-                        signal.countDown();
-                        assertFalse();
-                    }
-                });
-        try {
-            signal.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    @Override
+    protected List<Object> getModules() {
+        List<Object> objects = super.getModules();
+        objects.add(new AuthFakeAPITestModule());
+        return objects;
     }
 
-    public List<Object> getFakeAPIModule() {
-        List<Object> objects = super.getModules();
-        objects.add(new APITestModule());
-        return objects;
+    @Module(injects = {AuthTestCase.class},
+            includes = {FakeAPITestModule.class, DevConTestModule.class},
+            library = true,
+            complete = true,
+            overrides = true)
+    static class AuthFakeAPITestModule {
     }
 
 }

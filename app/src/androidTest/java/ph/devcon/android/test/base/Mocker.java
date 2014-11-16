@@ -1,4 +1,4 @@
-package ph.devcon.android.test.auth;
+package ph.devcon.android.test.base;
 
 /**
  * Created by lope on 11/11/14.
