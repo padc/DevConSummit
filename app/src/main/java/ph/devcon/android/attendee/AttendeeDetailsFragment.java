@@ -20,7 +20,12 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v7.widget.ShareActionProvider;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -87,6 +92,7 @@ public class AttendeeDetailsFragment extends Fragment {
 
     @Inject
     AttendeeService attendeeService;
+    ShareActionProvider mShareActionProvider;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -98,6 +104,26 @@ public class AttendeeDetailsFragment extends Fragment {
         Attendee attendee = attendeeService.getAttendee(getArguments().getInt(ID));
         init(attendee);
         return rootView;
+    }
+
+    /**
+     * http://android-developers.blogspot.com/2012/02/share-with-intents.html
+     *
+     * @param menu
+     * @param inflater
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate menu resource file.
+        getActivity().getMenuInflater().inflate(R.menu.news, menu);
+
+        // Locate MenuItem with ShareActionProvider
+        MenuItem item = menu.findItem(R.id.menu_item_share);
+
+        // Fetch and store ShareActionProvider
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        mShareActionProvider.setShareHistoryFileName("custom_share_history.xml");
     }
 
     public void init(Attendee attendee) {

@@ -26,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 
+import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -88,6 +90,9 @@ public class NewsFragment extends Fragment {
         } else {
             newsService.populateFromAPI();
         }
+        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(newsAdapter);
+        animationAdapter.setAbsListView(lvwNews);
+        lvwNews.setAdapter(animationAdapter);
         return rootView;
     }
 

@@ -20,6 +20,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -100,6 +101,24 @@ public class LoginActivity extends Activity {
             }
         });
     }
+
+    @OnClick(R.id.txt_forgot_password)
+    public void onClickForgotPassword(View view) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://summit.devcon.ph/"));
+        startActivity(intent);
+    }
+
+    @OnClick(R.id.txt_support)
+    public void onClickContactSupport(View view) {
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setData(Uri.parse("mailto:"));
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_EMAIL, "support@devcon.ph");
+        intent.putExtra(Intent.EXTRA_SUBJECT, "User Registration");
+        intent.putExtra(Intent.EXTRA_TEXT, "Hi! I'd like a new account for DevCon Summit");
+        startActivity(Intent.createChooser(intent, "Send Email"));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
