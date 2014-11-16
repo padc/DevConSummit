@@ -20,6 +20,13 @@ android {
         }
     }
 
+    defaultConfig {
+        testPackageName "ph.devcon.android.test"
+        testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
+        testHandleProfiling true
+        testFunctionalTest true
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -77,6 +84,14 @@ dependencies {
     androidTestCompile 'com.google.dexmaker:dexmaker:1.0'
     androidTestCompile 'com.google.dexmaker:dexmaker-mockito:1.0'
     androidTestCompile 'com.squareup.okhttp:mockwebserver:2.0.0'
+
+    provided 'com.jakewharton.espresso:espresso:1.1-r3'
+    provided 'org.mockito:mockito-all:1.9.5'
+
+    androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3') {
+        exclude group: 'com.squareup.dagger'
+        exclude group: 'com.google.guava', module: 'guava'
+    }
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
 }
