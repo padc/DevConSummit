@@ -15,13 +15,13 @@ android {
 
     buildTypes {
         release {
-            runProguard false
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 
     defaultConfig {
-        testPackageName "ph.devcon.android.test"
+        testApplicationId "ph.devcon.android.test"
         testInstrumentationRunner "com.google.android.apps.common.testing.testrunner.GoogleInstrumentationTestRunner"
         testHandleProfiling true
         testFunctionalTest true
@@ -90,7 +90,7 @@ dependencies {
 
     androidTestCompile('com.jakewharton.espresso:espresso:1.1-r3') {
         exclude group: 'com.squareup.dagger'
-        exclude group: 'com.google.guava', module: 'guava'
+        exclude group: 'com.google.guava'
     }
 
     compile fileTree(dir: 'libs', include: ['*.jar'])
