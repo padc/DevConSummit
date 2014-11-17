@@ -1,6 +1,6 @@
-![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC")
-
 [![Build Status](https://travis-ci.org/padc/DevConSummit.svg)](https://travis-ci.org/padc/DevConSummit)
+<br />
+![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC")
 
 DevCon Summit 2014 Android App
 ============
