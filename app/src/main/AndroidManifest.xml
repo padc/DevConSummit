@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2014 Philippine Android Developers Community
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -27,22 +26,11 @@
         <activity
             android:name=".navigation.MainActivity"
             android:label="@string/app_name"
-            android:launchMode="singleTop">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
-        </activity>
+            android:launchMode="singleTop"></activity>
         <activity
             android:name=".login.LoginActivity"
             android:theme="@android:style/Theme.Black.NoTitleBar"
             android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -52,11 +40,6 @@
         <activity
             android:name=".news.NewsDetailsActivity"
             android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".navigation.MainActivity" />
@@ -64,11 +47,6 @@
         <activity
             android:name=".attendee.AttendeeDetailsActivity"
             android:label="@string/app_name">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN"/>-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".navigation.MainActivity" />

@@ -41,29 +41,35 @@ public class NavigationAdapter extends ArrayAdapter<String> {
         }
         holder.txtTitle.setText(getItem(position));
         setColor(position, holder.txtTitle);
-        return null;
+        return convertView;
 
     }
 
+    /**
+     * active_* is a color selector, not just a color so we'll use getColorStateList
+     *
+     * @param position
+     * @param txtTitle
+     */
     public void setColor(int position, TextView txtTitle) {
         switch (position) {
             case 0:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_green));
                 break;
             case 1:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.orange));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_orange));
                 break;
             case 2:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.purple));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_purple));
                 break;
             case 3:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.yellow));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_yellow));
                 break;
             case 4:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.blue));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_blue));
                 break;
             default:
-                txtTitle.setBackgroundColor(getContext().getResources().getColor(R.color.green));
+                txtTitle.setTextColor(getContext().getResources().getColorStateList(R.color.active_green));
                 break;
         }
     }
