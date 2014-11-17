@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2014 Philippine Android Developers Community
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,10 +15,10 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="horizontal"
-              android:gravity="left|center_vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:gravity="left|center_vertical">
 
 
     <ImageView
@@ -27,10 +26,10 @@
         android:layout_width="110dp"
         android:layout_height="110dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/ic_action_picture"/>
+        android:src="@drawable/ic_action_picture" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="@color/gray_light_greenish"
@@ -47,7 +46,7 @@
             android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="@dimen/regular_text_size"
-            android:text="Speakers"/>
+            android:text="Speakers" />
 
         <TextView
             android:id="@+id/txt_title"
@@ -57,7 +56,7 @@
             android:textColor="@color/green"
             android:typeface="sans"
             android:maxLines="1"
-            android:text="Early bird promo for DevCon Summit 2014"/>
+            android:text="Early bird promo for DevCon Summit 2014" />
 
         <TextView
             android:id="@+id/txt_preview"
@@ -67,7 +66,7 @@
             android:layout_height="wrap_content"
             android:maxLines="2"
             android:textSize="@dimen/small_text_size"
-            android:text="The speaker is a well known programmer The speaker is a well known programmer The speaker is a well known programmer"/>
+            android:text="The speaker is a well known programmer The speaker is a well known programmer The speaker is a well known programmer" />
 
     </LinearLayout>
 </LinearLayout>

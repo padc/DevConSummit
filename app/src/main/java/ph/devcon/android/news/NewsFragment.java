@@ -81,7 +81,8 @@ public class NewsFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        newsAdapter = new NewsAdapter(getActivity(), new ArrayList<News>());
+        List<News> newsList = new ArrayList<News>();
+        newsAdapter = new NewsAdapter(getActivity(), newsList);
         lvwNews.setAdapter(newsAdapter);
         lvwNews.setEmptyView(pbrLoading);
         lvwNews.addFooterView(buildFooterView(inflater));
