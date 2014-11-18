@@ -30,6 +30,9 @@ import ph.devcon.android.util.Util;
  */
 @DatabaseTable(daoClass = CategoryDaoImpl.class)
 public class Category extends BaseDevCon {
+    public static final String SPEAKERS = "Speakers";
+    public static final String PROMOS = "Promos";
+    public static final String PROGRAM = "Program";
 
     @DatabaseField
     String name;

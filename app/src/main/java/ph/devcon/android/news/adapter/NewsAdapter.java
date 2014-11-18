@@ -87,13 +87,25 @@ public class NewsAdapter extends BaseAdapter {
         holder.txtTitle.setText(newsItem.getTitle());
         holder.txtPreview.setText(Util.stripHtml(newsItem.getHtmlContent()));
         Optional<Category> categoryOptional = Optional.fromNullable(newsItem.getCategory());
-        if (categoryOptional.isPresent())
+        if (categoryOptional.isPresent()) {
             holder.txtTag.setText(categoryOptional.get().getName());
+            setColor(categoryOptional.get().getName(), holder.txtTag);
+        }
         if (!Util.isNullOrEmpty(newsItem.getPhotoUrl())) {
             Picasso.with(mContext).setIndicatorsEnabled(true);
             Picasso.with(mContext).load(newsItem.getPhotoUrl()).into(holder.imgIcon);
         }
         return convertView;
+    }
+
+    protected void setColor(String tagName, TextView txtTag) {
+        if (tagName.equals(Category.SPEAKERS)) {
+            txtTag.setBackgroundResource(R.color.blue);
+        } else if (tagName.equals(Category.PROMOS)) {
+            txtTag.setBackgroundResource(R.color.yellow);
+        } else if (tagName.equals(Category.PROGRAM)) {
+            txtTag.setBackgroundResource(R.color.purple);
+        }
     }
 
     static class ViewHolder {
