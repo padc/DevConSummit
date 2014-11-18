@@ -21,7 +21,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -40,12 +40,11 @@ import ph.devcon.android.util.Util;
 /**
  * Created by lope on 10/6/14.
  */
-public class NewsAdapter extends ArrayAdapter<News> {
+public class NewsAdapter extends BaseAdapter {
     Context mContext;
     List<News> mNewsList;
 
     public NewsAdapter(Context context, List<News> newsList) {
-        super(context, R.layout.item_news, newsList);
         mContext = context;
         mNewsList = newsList;
     }
@@ -54,9 +53,28 @@ public class NewsAdapter extends ArrayAdapter<News> {
         return mNewsList;
     }
 
+    public void setItems(List<News> newsList) {
+        mNewsList = newsList;
+    }
+
+    @Override
+    public int getCount() {
+        return mNewsList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mNewsList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         ViewHolder holder;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -65,7 +83,7 @@ public class NewsAdapter extends ArrayAdapter<News> {
             holder = new ViewHolder(convertView, mContext);
             convertView.setTag(holder);
         }
-        News newsItem = getItem(position);
+        News newsItem = (News) getItem(position);
         holder.txtTitle.setText(newsItem.getTitle());
         holder.txtPreview.setText(Util.stripHtml(newsItem.getHtmlContent()));
         Optional<Category> categoryOptional = Optional.fromNullable(newsItem.getCategory());

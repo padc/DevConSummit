@@ -57,7 +57,7 @@ repositories {
 
 dependencies {
     compile 'com.android.support:appcompat-v7:19.1.0'
-    compile 'com.android.support:support-v4:+'
+    compile 'com.android.support:support-v4:19.1.0'
     compile 'com.applidium.headerlistview:headerlistview:1.0.2-SNAPSHOT'
     compile 'com.facebook.android:facebook-android-sdk:+'
     compile 'com.google.guava:guava:18.0'

@@ -20,11 +20,11 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.nhaarman.listviewanimations.appearance.simple.SwingBottomInAnimationAdapter;
 
@@ -49,20 +49,22 @@ import ph.devcon.android.news.service.NewsService;
 /**
  * Created by lope on 10/6/14.
  */
-public class NewsFragment extends Fragment {
+public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
     @InjectView(R.id.lvw_news)
     ListView lvwNews;
-
-    @InjectView(R.id.pbr_loading)
-    ProgressBar pbrLoading;
 
     @Inject
     EventBus eventBus;
 
     NewsAdapter newsAdapter;
 
+    SwingBottomInAnimationAdapter animationAdapter;
+
     @Inject
     NewsService newsService;
+
+    @InjectView(R.id.cont_news)
+    SwipeRefreshLayout swipeLayout;
 
     @OnItemClick(R.id.lvw_news)
     public void onItemClick(int position) {
@@ -84,23 +86,30 @@ public class NewsFragment extends Fragment {
         List<News> newsList = new ArrayList<News>();
         newsAdapter = new NewsAdapter(getActivity(), newsList);
         lvwNews.setAdapter(newsAdapter);
-        lvwNews.setEmptyView(pbrLoading);
-        lvwNews.addFooterView(buildFooterView(inflater));
         if (newsService.isCacheValid()) {
             newsService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             newsService.populateFromAPI();
         }
-        SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(newsAdapter);
+        animationAdapter = new SwingBottomInAnimationAdapter(newsAdapter);
         animationAdapter.setAbsListView(lvwNews);
         lvwNews.setAdapter(animationAdapter);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
         return rootView;
     }
 
     public void setNewsList(List<News> newsList) {
-        if (newsList != null && !newsList.isEmpty()) {
+        swipeLayout.setRefreshing(false);
+        if (newsList != null) {
+            newsAdapter.setItems(newsList);
             newsAdapter.notifyDataSetChanged();
         }
+        if (lvwNews.getFooterViewsCount() == 0)
+            lvwNews.addFooterView(buildFooterView(getLayoutInflater(getArguments())));
     }
 
     public void onEventMainThread(FetchedNewsListEvent event) {
@@ -124,4 +133,8 @@ public class NewsFragment extends Fragment {
         return inflater.inflate(R.layout.footer_standard, null);
     }
 
+    @Override
+    public void onRefresh() {
+        newsService.populateFromAPI();
+    }
 }

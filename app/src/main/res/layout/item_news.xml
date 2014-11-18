@@ -14,7 +14,7 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="horizontal"
@@ -31,6 +31,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/img_news"
         android:padding="8dp"
         android:background="@color/gray_light_greenish"
         android:orientation="vertical">
@@ -69,4 +70,10 @@
             android:text="The speaker is a well known programmer The speaker is a well known programmer The speaker is a well known programmer" />
 
     </LinearLayout>
-</LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/img_news"
+        android:background="?android:listDivider" />
+</RelativeLayout>
