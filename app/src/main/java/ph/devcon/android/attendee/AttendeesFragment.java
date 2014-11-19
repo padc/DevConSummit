@@ -20,12 +20,15 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -46,19 +49,23 @@ import ph.devcon.android.navigation.MainActivity;
 /**
  * Created by lope on 10/9/14.
  */
-public class AttendeesFragment extends Fragment {
+public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     @InjectView(R.id.lvw_attendee)
     ListView lvwAttendee;
-
-    @InjectView(R.id.pbr_loading)
-    ProgressBar pbrLoading;
 
     @Inject
     AttendeeService attendeeService;
 
     @Inject
     EventBus eventBus;
+
+    @InjectView(R.id.cont_attendee)
+    SwipeRefreshLayout swipeLayout;
+
+    AttendeeAdapter attendeeAdapter;
+
+    AlphaInAnimationAdapter animationAdapter;
 
     @OnItemClick(R.id.lvw_attendee)
     public void onItemClick(int position) {
@@ -76,20 +83,32 @@ public class AttendeesFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
+        List<Attendee> attendeeList = new ArrayList<Attendee>();
+        attendeeAdapter = new AttendeeAdapter(getActivity(), attendeeList);
         if (attendeeService.isCacheValid()) {
             attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             attendeeService.populateFromAPI();
         }
         lvwAttendee.addFooterView(buildFooterView(inflater));
-        lvwAttendee.setEmptyView(pbrLoading);
+        animationAdapter = new AlphaInAnimationAdapter(attendeeAdapter);
+        animationAdapter.setAbsListView(lvwAttendee);
+        lvwAttendee.setAdapter(animationAdapter);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
+        swipeLayout.setRefreshing(true);
         return rootView;
     }
 
     public void setAttendeeList(List<Attendee> attendeeList) {
-        if (attendeeList != null && !attendeeList.isEmpty()) {
-            lvwAttendee.setAdapter(new AttendeeAdapter(getActivity(), attendeeList));
+        if (attendeeList != null) {
+            attendeeAdapter.setItems(attendeeList);
+            attendeeAdapter.notifyDataSetChanged();
         }
+        swipeLayout.setRefreshing(false);
     }
 
     public void onEventMainThread(FetchedAttendeeListEvent event) {
@@ -111,5 +130,10 @@ public class AttendeesFragment extends Fragment {
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
+    }
+
+    @Override
+    public void onRefresh() {
+        attendeeService.populateFromAPI();
     }
 }

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2014 Philippine Android Developers Community
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,12 +14,10 @@
   limitations under the License.
   -->
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/cont_news"
-    android:layout_height="fill_parent"
-    android:layout_width="fill_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/cont_attendee"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <ListView
         android:id="@+id/lvw_attendee"
@@ -29,10 +26,4 @@
         android:divider="@color/white"
         android:dividerHeight="@dimen/small_padding" />
 
-    <ProgressBar
-        android:id="@+id/pbr_loading"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse" />
-</LinearLayout>
+</android.support.v4.widget.SwipeRefreshLayout>
