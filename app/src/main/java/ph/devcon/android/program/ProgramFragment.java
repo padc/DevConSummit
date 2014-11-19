@@ -19,6 +19,7 @@ package ph.devcon.android.program;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +48,11 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 /**
  * Created by lope on 9/16/14.
  */
-public class ProgramFragment extends Fragment {
+public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    @InjectView(R.id.swp_programs)
+    SwipeRefreshLayout swipeLayout;
+
     @InjectView(R.id.lvw_programs)
     StickyListHeadersListView lvwPrograms;
 
@@ -79,6 +84,11 @@ public class ProgramFragment extends Fragment {
         StickyListHeadersAdapterDecorator stickyListHeadersAdapterDecorator = new StickyListHeadersAdapterDecorator(animationAdapter);
         stickyListHeadersAdapterDecorator.setStickyListHeadersListView(lvwPrograms);
         lvwPrograms.setAdapter(stickyListHeadersAdapterDecorator);
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
         return rootView;
     }
 
@@ -104,5 +114,10 @@ public class ProgramFragment extends Fragment {
         super.onAttach(activity);
         ((MainActivity) activity).onSectionAttached(
                 getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
+    }
+
+    @Override
+    public void onRefresh() {
+        programService.populateFromAPI();
     }
 }
