@@ -19,6 +19,7 @@ package ph.devcon.android.sponsor;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,7 +45,10 @@ import ph.devcon.android.sponsor.service.SponsorService;
 /**
  * Created by lope on 9/16/14.
  */
-public class SponsorFragment extends Fragment {
+public class SponsorFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    @InjectView(R.id.cont_sponsors)
+    SwipeRefreshLayout swipeLayout;
 
     @InjectView(R.id.lvw_sponsors)
     HeaderListView lvwSponsors;
@@ -64,12 +68,22 @@ public class SponsorFragment extends Fragment {
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
+        initSwipeLayout();
         if (sponsorService.isCacheValid()) {
             sponsorService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             sponsorService.populateFromAPI();
         }
         return rootView;
+    }
+
+    protected void initSwipeLayout() {
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
+        swipeLayout.setRefreshing(true);
     }
 
     @Override
@@ -79,10 +93,11 @@ public class SponsorFragment extends Fragment {
     }
 
     public void setSponsorList(List<Sponsor> sponsorList) {
-        if (sponsorList != null && !sponsorList.isEmpty()) {
+        if (sponsorList != null) {
             lvwSponsors.setAdapter(new SponsorSectionAdapter(getActivity(),
                     sponsorService.buildMultimap(sponsorList)));
         }
+        swipeLayout.setRefreshing(false);
     }
 
     public void onEventMainThread(FetchedSponsorListEvent event) {
@@ -96,4 +111,8 @@ public class SponsorFragment extends Fragment {
                 getArguments().getInt(BaseDevConActivity.PlaceholderFragment.ARG_SECTION_NUMBER));
     }
 
+    @Override
+    public void onRefresh() {
+        sponsorService.populateFromAPI();
+    }
 }
