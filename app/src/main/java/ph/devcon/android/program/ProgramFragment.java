@@ -70,6 +70,8 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         View rootView = inflater.inflate(R.layout.fragment_program, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
+        initAnimation();
+        initSwipeLayout();
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
@@ -78,18 +80,25 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
         } else {
             programService.populateFromAPI();
         }
+        return rootView;
+    }
+
+    protected void initAnimation() {
         List<Program> programList = new ArrayList<Program>();
         programSectionAdapter = new ProgramSectionAdapter(getActivity(), programList);
         SwingBottomInAnimationAdapter animationAdapter = new SwingBottomInAnimationAdapter(programSectionAdapter);
         StickyListHeadersAdapterDecorator stickyListHeadersAdapterDecorator = new StickyListHeadersAdapterDecorator(animationAdapter);
         stickyListHeadersAdapterDecorator.setStickyListHeadersListView(lvwPrograms);
         lvwPrograms.setAdapter(stickyListHeadersAdapterDecorator);
+    }
+
+    protected void initSwipeLayout() {
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(R.color.yellow,
                 R.color.orange,
                 R.color.purple,
                 R.color.blue);
-        return rootView;
+        swipeLayout.setRefreshing(true);
     }
 
     @Override

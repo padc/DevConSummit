@@ -47,7 +47,6 @@ public class AttendeeAdapter extends BaseAdapter {
         mAttendeeList = attendeeList;
     }
 
-
     public void setItems(List<Attendee> attendeeList) {
         mAttendeeList = attendeeList;
     }

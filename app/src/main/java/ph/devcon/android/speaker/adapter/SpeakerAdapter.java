@@ -21,7 +21,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -38,25 +38,44 @@ import ph.devcon.android.util.Util;
 /**
  * Created by lope on 9/17/14.
  */
-public class SpeakerAdapter extends ArrayAdapter<Speaker> {
+public class SpeakerAdapter extends BaseAdapter {
     boolean isShouldDisplayTalkTitle = true;
-
-    List<Speaker> speakers;
+    Context mContext;
+    List<Speaker> mSpeakerList;
 
     public SpeakerAdapter(Context context, List<Speaker> speakers, boolean isShouldDisplayTalkTitle) {
-        super(context, R.layout.item_program, speakers);
+        mContext = context;
         this.isShouldDisplayTalkTitle = isShouldDisplayTalkTitle;
-        this.speakers = speakers;
+        mSpeakerList = speakers;
     }
 
     public List<Speaker> getItems() {
-        return this.speakers;
+        return this.mSpeakerList;
+    }
+
+    public void setItems(List<Speaker> speakerList) {
+        mSpeakerList = speakerList;
+    }
+
+    @Override
+    public int getCount() {
+        return mSpeakerList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mSpeakerList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Speaker speaker = getItem(position);
-        LayoutInflater inflater = ((Activity) getContext()).getLayoutInflater();
+        Speaker speaker = (Speaker) getItem(position);
+        LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
         ViewHolder holder = null;
         if (convertView != null) {
             holder = (ViewHolder) convertView.getTag();
@@ -72,7 +91,7 @@ public class SpeakerAdapter extends ArrayAdapter<Speaker> {
         holder.txtSpeakerName.setText(speaker.getFullName());
         holder.txtPosition.setText(speaker.getPosition());
         if (!Util.isNullOrEmpty(speaker.getPhotoUrl())) {
-            Picasso.with(getContext()).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
+            Picasso.with(mContext).load(speaker.getPhotoUrl()).into(holder.imgSpeaker);
         }
         return convertView;
     }

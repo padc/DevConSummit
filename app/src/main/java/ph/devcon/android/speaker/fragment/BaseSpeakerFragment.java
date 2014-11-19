@@ -20,12 +20,16 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 
+import com.google.common.base.Optional;
+import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -47,12 +51,13 @@ import ph.devcon.android.speaker.service.SpeakerService;
 /**
  * Created by lope on 9/29/14.
  */
-public abstract class BaseSpeakerFragment extends Fragment {
+public abstract class BaseSpeakerFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+
+    @InjectView(R.id.cont_speakers)
+    SwipeRefreshLayout swipeLayout;
+
     @InjectView(R.id.lvw_speakers)
     ListView lvwSpeaker;
-
-    @InjectView(R.id.pbr_loading)
-    ProgressBar pbrLoading;
 
     @Inject
     SpeakerService speakerService;
@@ -61,6 +66,8 @@ public abstract class BaseSpeakerFragment extends Fragment {
     EventBus eventBus;
 
     SpeakerAdapter speakerAdapter;
+
+    AlphaInAnimationAdapter animationAdapter;
 
     @OnItemClick(R.id.lvw_speakers)
     public void onItemClick(int position) {
@@ -81,17 +88,35 @@ public abstract class BaseSpeakerFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_speakers_all, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
+        initSwipeLayout();
+        initAnimation();
         if (!eventBus.isRegistered(this)) {
             eventBus.registerSticky(this);
         }
-        lvwSpeaker.addFooterView(buildFooterView(inflater));
         if (speakerService.isCacheValid()) {
             executePopulateFromCache(savedInstanceState);
         } else {
             executePopulateFromAPI();
         }
-        lvwSpeaker.setEmptyView(pbrLoading);
         return rootView;
+    }
+
+    protected void initAnimation() {
+        List<Speaker> speakerList = new ArrayList<Speaker>();
+        speakerAdapter = new SpeakerAdapter(getActivity(), speakerList, shouldDisplayTalkAsTitle());
+        lvwSpeaker.setAdapter(speakerAdapter);
+        animationAdapter = new AlphaInAnimationAdapter(speakerAdapter);
+        animationAdapter.setAbsListView(lvwSpeaker);
+        lvwSpeaker.setAdapter(animationAdapter);
+    }
+
+    protected void initSwipeLayout() {
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
+        swipeLayout.setRefreshing(true);
     }
 
     @Override
@@ -106,9 +131,11 @@ public abstract class BaseSpeakerFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        eventBus.unregister(this);
-        eventBus.removeStickyEvent(FetchedAllSpeakerListEvent.class);
-        eventBus.removeStickyEvent(FetchedSpeakerListFailedEvent.class);
+        if (Optional.fromNullable(eventBus).isPresent()) {
+            eventBus.unregister(this);
+            eventBus.removeStickyEvent(FetchedAllSpeakerListEvent.class);
+            eventBus.removeStickyEvent(FetchedSpeakerListFailedEvent.class);
+        }
     }
 
     @Override
@@ -117,15 +144,23 @@ public abstract class BaseSpeakerFragment extends Fragment {
     }
 
     public void setSpeakerList(List<Speaker> speakerList) {
-        if (speakerList != null && !speakerList.isEmpty()) {
-            speakerAdapter = new SpeakerAdapter(getActivity(), speakerList, shouldDisplayTalkAsTitle());
-            lvwSpeaker.setAdapter(speakerAdapter);
+        if (speakerList != null) {
+            speakerAdapter.setItems(speakerList);
+            speakerAdapter.notifyDataSetChanged();
         }
+        if (lvwSpeaker.getFooterViewsCount() == 0)
+            lvwSpeaker.addFooterView(buildFooterView(getLayoutInflater(getArguments())));
+        swipeLayout.setRefreshing(false);
     }
 
     public abstract boolean shouldDisplayTalkAsTitle();
 
     protected View buildFooterView(LayoutInflater inflater) {
         return inflater.inflate(R.layout.footer_standard, null);
+    }
+
+    @Override
+    public void onRefresh() {
+        executePopulateFromAPI();
     }
 }

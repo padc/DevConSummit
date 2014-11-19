@@ -80,36 +80,44 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
+        initSwipeLayout();
+        initAnimation();
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        List<News> newsList = new ArrayList<News>();
-        newsAdapter = new NewsAdapter(getActivity(), newsList);
-        lvwNews.setAdapter(newsAdapter);
         if (newsService.isCacheValid()) {
             newsService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             newsService.populateFromAPI();
         }
+        return rootView;
+    }
+
+    protected void initAnimation() {
+        List<News> newsList = new ArrayList<News>();
+        newsAdapter = new NewsAdapter(getActivity(), newsList);
         animationAdapter = new SwingBottomInAnimationAdapter(newsAdapter);
         animationAdapter.setAbsListView(lvwNews);
         lvwNews.setAdapter(animationAdapter);
+    }
+
+    protected void initSwipeLayout() {
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(R.color.yellow,
                 R.color.orange,
                 R.color.purple,
                 R.color.blue);
-        return rootView;
+        swipeLayout.setRefreshing(true);
     }
 
     public void setNewsList(List<News> newsList) {
-        swipeLayout.setRefreshing(false);
         if (newsList != null) {
             newsAdapter.setItems(newsList);
             newsAdapter.notifyDataSetChanged();
         }
         if (lvwNews.getFooterViewsCount() == 0)
             lvwNews.addFooterView(buildFooterView(getLayoutInflater(getArguments())));
+        swipeLayout.setRefreshing(false);
     }
 
     public void onEventMainThread(FetchedNewsListEvent event) {

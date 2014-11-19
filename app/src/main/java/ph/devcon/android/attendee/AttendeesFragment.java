@@ -83,24 +83,31 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
-        List<Attendee> attendeeList = new ArrayList<Attendee>();
-        attendeeAdapter = new AttendeeAdapter(getActivity(), attendeeList);
+        initSwipeLayout();
+        initAnimation();
         if (attendeeService.isCacheValid()) {
             attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             attendeeService.populateFromAPI();
         }
-        lvwAttendee.addFooterView(buildFooterView(inflater));
+        return rootView;
+    }
+
+    protected void initAnimation() {
+        List<Attendee> attendeeList = new ArrayList<Attendee>();
+        attendeeAdapter = new AttendeeAdapter(getActivity(), attendeeList);
         animationAdapter = new AlphaInAnimationAdapter(attendeeAdapter);
         animationAdapter.setAbsListView(lvwAttendee);
         lvwAttendee.setAdapter(animationAdapter);
+    }
+
+    protected void initSwipeLayout() {
         swipeLayout.setOnRefreshListener(this);
         swipeLayout.setColorSchemeResources(R.color.yellow,
                 R.color.orange,
                 R.color.purple,
                 R.color.blue);
         swipeLayout.setRefreshing(true);
-        return rootView;
     }
 
     public void setAttendeeList(List<Attendee> attendeeList) {
@@ -108,6 +115,8 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             attendeeAdapter.setItems(attendeeList);
             attendeeAdapter.notifyDataSetChanged();
         }
+        if (lvwAttendee.getFooterViewsCount() == 0)
+            lvwAttendee.addFooterView(buildFooterView(getLayoutInflater(getArguments())));
         swipeLayout.setRefreshing(false);
     }
 
