@@ -16,6 +16,7 @@
 
 package ph.devcon.android.program.db;
 
+import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
@@ -56,9 +57,10 @@ public class Program extends BaseDevCon {
     }
 
     public Speaker getMainSpeaker() {
-        for (Speaker speaker : getSpeakers()) {
-            return speaker;
-        }
+        if (Optional.fromNullable(getSpeakers()).isPresent())
+            for (Speaker speaker : getSpeakers()) {
+                return speaker;
+            }
         return null;
     }
 

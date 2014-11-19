@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2014 Philippine Android Developers Community
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,19 +15,19 @@
   -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:gravity="center"
-                android:background="@color/orange"
-                android:padding="6dp">
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:gravity="center"
+    android:background="@color/orange">
 
     <TextView
         android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/white"
-        android:textSize="@dimen/small_text_size"
+        android:textSize="@dimen/regular_text_size"
+        android:layout_margin="4dp"
         android:text="saample"
-        android:layout_centerInParent="true"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>
