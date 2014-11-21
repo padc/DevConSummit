@@ -112,6 +112,7 @@ public class ProgramFragment extends Fragment implements SwipeRefreshLayout.OnRe
             programSectionAdapter.setItems(programList);
             programSectionAdapter.notifyDataSetChanged();
         }
+        swipeLayout.setRefreshing(false);
     }
 
     public void onEventMainThread(FetchedProgramListEvent event) {
