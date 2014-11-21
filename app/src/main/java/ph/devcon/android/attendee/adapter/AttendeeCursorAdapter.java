@@ -89,13 +89,27 @@ public class AttendeeCursorAdapter extends SimpleCursorAdapter {
         String technologyMain = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_TECH_PRIMARY));
         String imgUrl = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_PHOTO_URL));
         holder.txtName.setText(fullName);
-        holder.txtJob.setText(companyPosition + " at " + company);
+        holder.txtJob.setText(getJobLabel(company, companyPosition));
         holder.txtLanguages.setText(technologyMain);
         if (!Util.isNullOrEmpty(imgUrl)) {
             Picasso.with(mContext).load(imgUrl).placeholder(R.drawable.ic_action_person).into(holder.imgAttendee);
         }
         Util.emptyToGone(holder.txtName, holder.txtJob, holder.txtLanguages);
         return convertView;
+    }
+
+    private String getJobLabel(String company, String companyPosition) {
+        String label = "";
+        if (Util.isNullOrEmpty(company) || Util.isNullOrEmpty(companyPosition)) {
+            if (!Util.isNullOrEmpty(company)) {
+                label = company;
+            } else if (!Util.isNullOrEmpty(companyPosition)) {
+                label = companyPosition;
+            }
+        } else {
+            label = companyPosition + " at " + company;
+        }
+        return label;
     }
 
     static class ViewHolder {
