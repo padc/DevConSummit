@@ -27,9 +27,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.common.base.Optional;
+import com.j256.ormlite.dao.ForeignCollection;
 import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
+import java.sql.SQLException;
 
 import javax.inject.Inject;
 
@@ -42,7 +44,9 @@ import ph.devcon.android.R;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.service.ProfileService;
+import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.db.User;
+import ph.devcon.android.user.db.UserDao;
 import ph.devcon.android.util.Util;
 
 /**
@@ -84,6 +88,8 @@ public class EditUserProfileActivity extends ActionBarActivity {
     @InjectView(R.id.edt_facebook)
     EditText edtFacebook;
     Profile profile;
+    @Inject
+    UserDao userDao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,6 +140,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
                         edtTech2.setText(title);
                     else if (counter == 1)
                         edtTech3.setText(title);
+                    counter++;
                 }
                 edtDomainName.setText(user.getWebsite());
                 edtTwitter.setText(user.getTwitterHandle());
@@ -149,13 +156,26 @@ public class EditUserProfileActivity extends ActionBarActivity {
             User user = profile.getUser();
             user.setPosition(edtCompanyPosition.getText().toString());
             user.setCompany(edtCompanyName.getText().toString());
-            user.setLocation(edtCompanyPosition.getText().toString());
-            user.setEmail(edtCompanyPosition.getText().toString());
-            user.setContactNumber(edtCompanyPosition.getText().toString());
-            user.setDescription(edtCompanyPosition.getText().toString());
-            user.setWebsite(edtCompanyPosition.getText().toString());
-            user.setFacebookUrl(edtCompanyPosition.getText().toString());
-            user.setTwitterHandle(edtCompanyPosition.getText().toString());
+            user.setLocation(edtLocation.getText().toString());
+            user.setEmail(edtEmailAddress.getText().toString());
+            user.setContactNumber(edtContactNumber.getText().toString());
+            user.setDescription(edtAboutMe.getText().toString());
+            user.setWebsite(edtDomainName.getText().toString());
+            user.setFacebookUrl(edtFacebook.getText().toString());
+            user.setTwitterHandle(edtTwitter.getText().toString());
+            String primaryTech = edtTech1.getText().toString();
+            user.setPrimaryTechnology(Technology.toTechnology(user, primaryTech));
+            try {
+                ForeignCollection<Technology> technologies =
+                        userDao.getEmptyForeignCollection("technologies");
+                String tech2 = edtTech2.getText().toString();
+                technologies.add(Technology.toTechnology(user, tech2));
+                String tech3 = edtTech3.getText().toString();
+                technologies.add(Technology.toTechnology(user, tech3));
+                user.setTechnologies(technologies);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
             profileService.updateAPI(profile);
         }
     }

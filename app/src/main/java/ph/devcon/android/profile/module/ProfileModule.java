@@ -39,6 +39,8 @@ import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.profile.service.ProfileServiceImpl;
 import ph.devcon.android.settings.SettingsModule;
 import ph.devcon.android.speaker.module.SpeakerModule;
+import ph.devcon.android.technology.db.TechnologyDao;
+import ph.devcon.android.technology.module.TechnologyModule;
 import ph.devcon.android.user.db.UserDao;
 
 /**
@@ -47,7 +49,7 @@ import ph.devcon.android.user.db.UserDao;
 @Module(injects = {EditUserProfileActivity.class, FetchProfileJob.class,
         UpdateProfileJob.class, LoginActivity.class, NavigationDrawerFragment.class},
         includes = {APIModule.class, AuthModule.class, EventBusModule.class,
-                SpeakerModule.class, SettingsModule.class})
+                SpeakerModule.class, SettingsModule.class, TechnologyModule.class})
 public class ProfileModule {
     Context mContext;
 
@@ -69,8 +71,12 @@ public class ProfileModule {
 
     @Provides
     @Singleton
-    public ProfileService provideProfileService(JobManager jobManager, EventBus eventBus, ProfileDao profileDao, UserDao userDao) {
-        return new ProfileServiceImpl(mContext, jobManager, eventBus, profileDao, userDao);
+    public ProfileService provideProfileService(
+            JobManager jobManager, EventBus eventBus,
+            ProfileDao profileDao, UserDao userDao,
+            TechnologyDao technologyDao) {
+        return new ProfileServiceImpl(mContext, jobManager,
+                eventBus, profileDao, userDao, technologyDao);
     }
 
 }

@@ -245,7 +245,7 @@
             android:textSize="20sp"
             android:textStyle="bold"
             android:textColor="@color/white"
-            android:background="@color/green"
+            android:background="@drawable/selectable_green"
             android:onClick="onClickSaveChanges"
             android:text="SAVE CHANGES" />
     </LinearLayout>

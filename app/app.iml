@@ -128,6 +128,7 @@
     <orderEntry type="library" exported="" scope="TEST" name="objenesis-1.0" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.2" level="project" />
+    <orderEntry type="library" exported="" name="slugify-2.1.2" level="project" />
     <orderEntry type="library" exported="" name="hamcrest-integration-1.1" level="project" />
     <orderEntry type="library" exported="" name="javawriter-2.5.0" level="project" />
   </component>

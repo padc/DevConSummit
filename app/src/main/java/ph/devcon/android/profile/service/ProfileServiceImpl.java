@@ -28,7 +28,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
-import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
@@ -38,6 +37,7 @@ import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
 import ph.devcon.android.profile.job.FetchProfileJob;
+import ph.devcon.android.technology.db.TechnologyDao;
 import ph.devcon.android.user.api.UserAPI;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.user.db.UserDao;
@@ -49,6 +49,8 @@ public class ProfileServiceImpl implements ProfileService {
 
     ProfileDao profileDao;
 
+    TechnologyDao technologyDao;
+
     UserDao userDao;
 
     JobManager jobManager;
@@ -57,12 +59,14 @@ public class ProfileServiceImpl implements ProfileService {
 
     Context context;
 
-    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProfileDao profileDao, UserDao userDao) {
+    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus,
+                              ProfileDao profileDao, UserDao userDao, TechnologyDao technologyDao) {
         this.context = context;
         this.jobManager = jobManager;
         this.eventBus = eventBus;
         this.profileDao = profileDao;
         this.userDao = userDao;
+        this.technologyDao = technologyDao;
     }
 
     @Override
@@ -156,9 +160,20 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void updateAPI(Profile profile) {
         try {
+            if (Optional.fromNullable(profile.getUser().getPrimaryTechnology()).isPresent()) {
+                technologyDao.updateOrCreateUserTechnologies(profile.getUser());
+            }
             userDao.update(profile.getUser());
             profileDao.update(profile);
-            jobManager.addJobInBackground(new UpdateProfileJob(profile.getId()));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void refresh(Profile profile) {
+        try {
+            profileDao.refresh(profile);
         } catch (SQLException e) {
             e.printStackTrace();
         }

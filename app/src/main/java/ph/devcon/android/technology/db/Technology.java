@@ -16,6 +16,7 @@
 
 package ph.devcon.android.technology.db;
 
+import com.github.slugify.Slugify;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -37,6 +38,15 @@ public class Technology extends BaseDevCon {
     @DatabaseField(foreign = true)
     User user;
 
+    public static Technology toTechnology(User user, String title) {
+        Technology technology = new Technology();
+        Slugify slugger = new Slugify();
+        technology.setCode(slugger.slugify(title));
+        technology.setTitle(title);
+        technology.setUser(user);
+        return technology;
+    }
+
     public String getCode() {
         return code;
     }
@@ -51,5 +61,13 @@ public class Technology extends BaseDevCon {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

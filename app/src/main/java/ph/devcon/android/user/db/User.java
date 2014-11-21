@@ -23,7 +23,6 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,10 +76,10 @@ public class User extends BaseDevCon {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] photoImage;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true)
     private Technology primaryTechnology;
 
-    @ForeignCollectionField
+    @ForeignCollectionField(eager = true)
     private ForeignCollection<Technology> technologies;
 
     public static User toUser(UserAPI userAPI) {
@@ -127,13 +126,22 @@ public class User extends BaseDevCon {
 
     public List<String> getOtherTechnologiesTitleList() {
         List<String> techTitles = new ArrayList<String>();
+        for (Technology technology : getOtherTechnologies()) {
+            techTitles.add(technology.getTitle());
+        }
+        return techTitles;
+    }
+
+    public List<Technology> getOtherTechnologies() {
+        List<Technology> technologyList = new ArrayList<Technology>();
         Optional<ForeignCollection<Technology>> technologiesOptional = Optional.fromNullable(getTechnologies());
         if (technologiesOptional.isPresent()) {
             for (Technology technology : getTechnologies()) {
-                techTitles.add(technology.getTitle());
+                if (technology.getId() != getPrimaryTechnology().getId())
+                    technologyList.add(technology);
             }
         }
-        return techTitles;
+        return technologyList;
     }
 
     public String getPrettyTechnologyList() {

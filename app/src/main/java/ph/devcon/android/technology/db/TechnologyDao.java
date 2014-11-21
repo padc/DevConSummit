@@ -16,10 +16,14 @@
 
 package ph.devcon.android.technology.db;
 
+import java.sql.SQLException;
+
 import ph.devcon.android.base.db.BaseDevConDao;
+import ph.devcon.android.user.db.User;
 
 /**
  * Created by lope on 10/12/14.
  */
 public interface TechnologyDao extends BaseDevConDao<Technology, Integer> {
+    public void updateOrCreateUserTechnologies(User user) throws SQLException;
 }

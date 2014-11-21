@@ -27,4 +27,6 @@ public interface ProfileService extends BaseAPICacheService<Profile, EditProfile
     public Profile getUserProfile(int id);
 
     public void updateAPI(Profile profile);
+
+    public void refresh(Profile profile);
 }
