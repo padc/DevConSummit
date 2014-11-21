@@ -18,8 +18,10 @@ package ph.devcon.android.attendee;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,11 +39,14 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnItemClick;
 import de.greenrobot.event.EventBus;
+import de.greenrobot.event.util.AsyncExecutor;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.attendee.adapter.AttendeeAdapter;
 import ph.devcon.android.attendee.db.Attendee;
+import ph.devcon.android.attendee.db.FTSAttendee;
 import ph.devcon.android.attendee.event.FetchedAttendeeListEvent;
+import ph.devcon.android.attendee.event.SearchedAttendeeListEvent;
 import ph.devcon.android.attendee.service.AttendeeService;
 import ph.devcon.android.navigation.BaseDevConActivity;
 import ph.devcon.android.navigation.MainActivity;
@@ -59,6 +64,9 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
 
     @Inject
     EventBus eventBus;
+
+    @Inject
+    FTSAttendee ftsAttendee;
 
     @InjectView(R.id.cont_attendee)
     SwipeRefreshLayout swipeLayout;
@@ -91,6 +99,25 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             attendeeService.populateFromAPI();
         }
         return rootView;
+    }
+
+    public void search(final String query) {
+        AsyncExecutor.Builder builder = AsyncExecutor.builder();
+        AsyncExecutor executor = builder.build();
+        executor.execute(
+                new AsyncExecutor.RunnableEx() {
+                    @Override
+                    public void run() throws Exception {
+                        Cursor cursor = ftsAttendee.search(query);
+                        EventBus.getDefault().post(new SearchedAttendeeListEvent(cursor));
+                    }
+                }
+        );
+    }
+
+    public void onEventMainThread(SearchedAttendeeListEvent event) {
+        CardSearchAdapter searchAdapter = new CardSearchAdapter(this, event.attendees), SimpleCursorAdapter.NO_SELECTION);
+        lvwCardList.setAdapter(searchAdapter);
     }
 
     protected void initAnimation() {
