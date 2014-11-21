@@ -24,7 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.applidium.headerlistview.HeaderListView;
+import com.google.common.collect.ArrayListMultimap;
 
 import java.util.List;
 
@@ -41,6 +41,7 @@ import ph.devcon.android.sponsor.adapter.SponsorSectionAdapter;
 import ph.devcon.android.sponsor.db.Sponsor;
 import ph.devcon.android.sponsor.event.FetchedSponsorListEvent;
 import ph.devcon.android.sponsor.service.SponsorService;
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 /**
  * Created by lope on 9/16/14.
@@ -51,13 +52,15 @@ public class SponsorFragment extends Fragment implements SwipeRefreshLayout.OnRe
     SwipeRefreshLayout swipeLayout;
 
     @InjectView(R.id.lvw_sponsors)
-    HeaderListView lvwSponsors;
+    StickyListHeadersListView lvwSponsors;
 
     @Inject
     EventBus eventBus;
 
     @Inject
     SponsorService sponsorService;
+
+    SponsorSectionAdapter sponsorSectionAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -69,6 +72,9 @@ public class SponsorFragment extends Fragment implements SwipeRefreshLayout.OnRe
             eventBus.register(this);
         }
         initSwipeLayout();
+        ArrayListMultimap<String, Sponsor> sponsorMultimap = ArrayListMultimap.create();
+        sponsorSectionAdapter = new SponsorSectionAdapter(getActivity(), sponsorMultimap);
+        lvwSponsors.setAdapter(sponsorSectionAdapter);
         if (sponsorService.isCacheValid()) {
             sponsorService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
@@ -94,8 +100,8 @@ public class SponsorFragment extends Fragment implements SwipeRefreshLayout.OnRe
 
     public void setSponsorList(List<Sponsor> sponsorList) {
         if (sponsorList != null) {
-            lvwSponsors.setAdapter(new SponsorSectionAdapter(getActivity(),
-                    sponsorService.buildMultimap(sponsorList)));
+            sponsorSectionAdapter.setItems(sponsorService.buildMultimap(sponsorList));
+            sponsorSectionAdapter.notifyDataSetChanged();
         }
         swipeLayout.setRefreshing(false);
     }

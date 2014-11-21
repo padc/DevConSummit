@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="We would like to thank our sponsors"
-        android:src="@drawable/ic_launcher"/>
+        android:src="@drawable/ic_summit_logo"/>
 
     <LinearLayout
         android:id="@+id/cont_sponsors"

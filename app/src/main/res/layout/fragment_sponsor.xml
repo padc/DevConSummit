@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.applidium.headerlistview.HeaderListView
+    <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/lvw_sponsors"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
