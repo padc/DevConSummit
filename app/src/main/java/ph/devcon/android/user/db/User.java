@@ -157,7 +157,7 @@ public class User extends BaseDevCon {
     }
 
     public String getPrettyMainTechnology() {
-        if (!Util.isNullOrEmpty(getPrettyMainTechnology())) {
+        if (!Util.isNullOrEmpty(getPrettyTechnologyList())) {
             return getPrettyTechnologyList() + " (Primary)";
         }
         return "";

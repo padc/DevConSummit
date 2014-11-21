@@ -19,18 +19,25 @@ package ph.devcon.android.attendee;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.SearchView;
+import android.text.Html;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -42,7 +49,7 @@ import de.greenrobot.event.EventBus;
 import de.greenrobot.event.util.AsyncExecutor;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
-import ph.devcon.android.attendee.adapter.AttendeeAdapter;
+import ph.devcon.android.attendee.adapter.AttendeeCursorAdapter;
 import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.db.FTSAttendee;
 import ph.devcon.android.attendee.event.FetchedAttendeeListEvent;
@@ -50,6 +57,7 @@ import ph.devcon.android.attendee.event.SearchedAttendeeListEvent;
 import ph.devcon.android.attendee.service.AttendeeService;
 import ph.devcon.android.navigation.BaseDevConActivity;
 import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 10/9/14.
@@ -71,15 +79,23 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
     @InjectView(R.id.cont_attendee)
     SwipeRefreshLayout swipeLayout;
 
-    AttendeeAdapter attendeeAdapter;
+    AttendeeCursorAdapter attendeeAdapter;
 
     AlphaInAnimationAdapter animationAdapter;
+
+    String lastQuery = "";
 
     @OnItemClick(R.id.lvw_attendee)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), AttendeeDetailsActivity.class);
         intent.putExtra(AttendeeDetailsActivity.POSITION, position);
         startActivity(intent);
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -115,14 +131,76 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
         );
     }
 
+    public void displayAll() {
+        AsyncExecutor.Builder builder = AsyncExecutor.builder();
+        AsyncExecutor executor = builder.build();
+        executor.execute(
+                new AsyncExecutor.RunnableEx() {
+                    @Override
+                    public void run() throws Exception {
+                        Cursor cursor = ftsAttendee.queryForAll();
+                        EventBus.getDefault().post(new SearchedAttendeeListEvent(cursor));
+                    }
+                }
+        );
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getActivity().getMenuInflater().inflate(R.menu.attendee, menu);
+        MenuItem menuItem = menu.findItem(R.id.action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
+        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>Find name, address, company, etc..</font>"));
+        int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
+        View searchPlate = searchView.findViewById(searchPlateId);
+        if (searchPlate != null) {
+            searchPlate.setBackgroundColor(Color.DKGRAY);
+            int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+            TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
+            if (searchText != null) {
+                searchText.setTextColor(Color.WHITE);
+                searchText.setHintTextColor(Color.WHITE);
+            }
+        }
+        MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                return true;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                search(s);
+                lastQuery = s;
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                if (!Util.isNullOrEmpty(s)) {
+                    search(s);
+                    lastQuery = s;
+                }
+                return false;
+            }
+        });
+    }
+
     public void onEventMainThread(SearchedAttendeeListEvent event) {
-        CardSearchAdapter searchAdapter = new CardSearchAdapter(this, event.attendees), SimpleCursorAdapter.NO_SELECTION);
-        lvwCardList.setAdapter(searchAdapter);
+        attendeeAdapter.changeCursor(event.attendees);
+        attendeeAdapter.notifyDataSetChanged();
     }
 
     protected void initAnimation() {
-        List<Attendee> attendeeList = new ArrayList<Attendee>();
-        attendeeAdapter = new AttendeeAdapter(getActivity(), attendeeList);
+        attendeeAdapter = new AttendeeCursorAdapter(getActivity(), null, SimpleCursorAdapter.NO_SELECTION);
         animationAdapter = new AlphaInAnimationAdapter(attendeeAdapter);
         animationAdapter.setAbsListView(lvwAttendee);
         lvwAttendee.setAdapter(animationAdapter);
@@ -139,8 +217,7 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
 
     public void setAttendeeList(List<Attendee> attendeeList) {
         if (attendeeList != null) {
-            attendeeAdapter.setItems(attendeeList);
-            attendeeAdapter.notifyDataSetChanged();
+            displayAll();
         }
         if (lvwAttendee.getFooterViewsCount() == 0)
             lvwAttendee.addFooterView(buildFooterView(getLayoutInflater(getArguments())));

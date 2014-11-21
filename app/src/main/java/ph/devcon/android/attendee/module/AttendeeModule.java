@@ -29,6 +29,7 @@ import ph.devcon.android.attendee.AttendeeDetailsActivity;
 import ph.devcon.android.attendee.AttendeeDetailsFragment;
 import ph.devcon.android.attendee.AttendeesFragment;
 import ph.devcon.android.attendee.db.AttendeeDao;
+import ph.devcon.android.attendee.db.FTSAttendee;
 import ph.devcon.android.attendee.job.FetchAttendeeListJob;
 import ph.devcon.android.attendee.service.AttendeeService;
 import ph.devcon.android.attendee.service.AttendeeServiceImpl;
@@ -58,7 +59,14 @@ public class AttendeeModule {
 
     @Provides
     @Singleton
+    public FTSAttendee provideFTSAttendee() {
+        return DatabaseHelper.getInstance(mContext).getFTSAttendeeDao();
+    }
+
+    @Provides
+    @Singleton
     public AttendeeService provideAttendeeService(JobManager jobManager, EventBus eventBus, AttendeeDao attendeeDao) {
         return new AttendeeServiceImpl(mContext, jobManager, eventBus, attendeeDao);
     }
+
 }

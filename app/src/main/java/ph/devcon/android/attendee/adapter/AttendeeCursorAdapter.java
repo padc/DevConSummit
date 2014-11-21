@@ -52,18 +52,24 @@ public class AttendeeCursorAdapter extends SimpleCursorAdapter {
             R.id.txt_main_technology,
     };
     protected Context mContext;
-    protected Cursor c;
+    protected Cursor cursor;
 
-    public AttendeeCursorAdapter(Context context, Cursor c, int flags) {
-        super(context, R.layout.item_attendee, c, columns, to, flags);
+    public AttendeeCursorAdapter(Context context, Cursor cursor, int flags) {
+        super(context, R.layout.item_attendee, cursor, columns, to, flags);
         mContext = context;
-        this.c = c;
+        this.cursor = cursor;
     }
 
-    public AttendeeCursorAdapter(Context context, int layout, Cursor c, String[] from, int[] to, int flags) {
-        super(context, layout, c, from, to, flags);
+    public AttendeeCursorAdapter(Context context, int layout, Cursor cursor, String[] from, int[] to, int flags) {
+        super(context, layout, cursor, from, to, flags);
         mContext = context;
-        this.c = c;
+        this.cursor = cursor;
+    }
+
+    @Override
+    public void changeCursor(Cursor cursor) {
+        this.cursor = cursor;
+        super.changeCursor(cursor);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -76,12 +82,12 @@ public class AttendeeCursorAdapter extends SimpleCursorAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        this.c.moveToPosition(position);
-        String fullName = this.c.getString(this.c.getColumnIndex(FTSAttendee.COL_FULL_NAME));
-        String companyPosition = this.c.getString(this.c.getColumnIndex(FTSAttendee.COL_POSITION));
-        String company = this.c.getString(this.c.getColumnIndex(FTSAttendee.COL_COMPANY));
-        String technologyMain = this.c.getString(this.c.getColumnIndex(FTSAttendee.COL_TECH_PRIMARY));
-        String imgUrl = this.c.getString(this.c.getColumnIndex(FTSAttendee.COL_PHOTO_URL));
+        this.cursor.moveToPosition(position);
+        String fullName = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_FULL_NAME));
+        String companyPosition = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_POSITION));
+        String company = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_COMPANY));
+        String technologyMain = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_TECH_PRIMARY));
+        String imgUrl = this.cursor.getString(this.cursor.getColumnIndex(FTSAttendee.COL_PHOTO_URL));
         holder.txtName.setText(fullName);
         holder.txtJob.setText(companyPosition + " at " + company);
         holder.txtLanguages.setText(technologyMain);

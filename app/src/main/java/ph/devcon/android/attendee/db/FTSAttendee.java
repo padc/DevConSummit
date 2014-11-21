@@ -8,8 +8,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 
-import java.sql.SQLException;
-
 import ph.devcon.android.base.DatabaseHelper;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.util.Util;
@@ -18,7 +16,7 @@ import ph.devcon.android.util.Util;
  * Created by lope on 11/21/14.
  */
 public class FTSAttendee {
-    public static final String TABLE_CARDS_FTS = "CARDS_FTS";
+    public static final String TABLE_ATTENDEE_FTS = "ATTENDEE_FTS";
     public static final String COL_ID = "_id";
     public static final String COL_EMAIL = "COL_EMAIL";
     public static final String COL_FULL_NAME = "COL_FULL_NAME";
@@ -36,18 +34,16 @@ public class FTSAttendee {
     public static final String COL_PHOTO_URL = "COL_PHOTO_URL";
     private static final String TAG = FTSAttendee.class.getName();
     private static FTSAttendee mInstance;
-    protected AttendeeDao attendeeDao;
     DatabaseHelper helper;
 
     private FTSAttendee() {
     }
 
-    private FTSAttendee(DatabaseHelper helper, AttendeeDao attendeeDao) {
+    private FTSAttendee(DatabaseHelper helper) {
         this.helper = helper;
-        this.attendeeDao = attendeeDao;
     }
 
-    public static FTSAttendee getInstance(DatabaseHelper helper, AttendeeDao attendeeDao) {
+    public static FTSAttendee getInstance(DatabaseHelper helper) {
         /**
          * use the application context as suggested by CommonsWare.
          * this will ensure that you dont accidentally leak an Activitys
@@ -55,13 +51,13 @@ public class FTSAttendee {
          * http://developer.android.com/resources/articles/avoiding-memory-leaks.html)
          */
         if (mInstance == null) {
-            mInstance = new FTSAttendee(helper, attendeeDao);
+            mInstance = new FTSAttendee(helper);
         }
         return mInstance;
     }
 
     public static String buildTable() {
-        return "CREATE VIRTUAL TABLE " + TABLE_CARDS_FTS + " USING fts3("
+        return "CREATE VIRTUAL TABLE " + TABLE_ATTENDEE_FTS + " USING fts3("
                 + COL_ID + ", "
                 + COL_EMAIL + ", "
                 + COL_FULL_NAME + ", "
@@ -81,18 +77,11 @@ public class FTSAttendee {
     }
 
     public static String dropTable() {
-        return "DROP TABLE " + TABLE_CARDS_FTS + ";";
+        return "DROP TABLE " + TABLE_ATTENDEE_FTS + ";";
     }
 
-    public void rebuildIndex(SQLiteDatabase database) {
-        try {
-            for (Attendee attendee : attendeeDao.queryForAll()) {
-                delete(database, attendee);
-                create(database, attendee);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public static void clear() {
+        // TODO
     }
 
     public void create(Attendee attendee) {
@@ -117,7 +106,7 @@ public class FTSAttendee {
             contentValues.put(COL_TECH_2, user.getPrettyTechnologyList());
             contentValues.put(COL_TECH_3, user.getPrettyTechnologyList());
             contentValues.put(COL_PHOTO_URL, user.getPhotoUrl());
-            database.insert(TABLE_CARDS_FTS, null, contentValues);
+            database.insert(TABLE_ATTENDEE_FTS, null, contentValues);
         }
     }
 
@@ -143,8 +132,8 @@ public class FTSAttendee {
             contentValues.put(COL_TECH_2, user.getPrettyTechnologyList());
             contentValues.put(COL_TECH_3, user.getPrettyTechnologyList());
             contentValues.put(COL_PHOTO_URL, user.getPhotoUrl());
-            database.insert(TABLE_CARDS_FTS, null, contentValues);
-            database.update(TABLE_CARDS_FTS, contentValues, "_id = " + String.valueOf(attendee.getId()), null);
+            database.insert(TABLE_ATTENDEE_FTS, null, contentValues);
+            database.update(TABLE_ATTENDEE_FTS, contentValues, "_id = " + String.valueOf(attendee.getId()), null);
         }
     }
 
@@ -153,13 +142,13 @@ public class FTSAttendee {
     }
 
     public void delete(SQLiteDatabase database, Attendee attendee) {
-        database.delete(TABLE_CARDS_FTS, "_id = " + String.valueOf(attendee.getId()), null);
+        database.delete(TABLE_ATTENDEE_FTS, "_id = " + String.valueOf(attendee.getId()), null);
     }
 
     public Cursor search(String query) {
         assert !Util.isNullOrEmpty(query) : "query must not be an empty string!";
         SQLiteDatabase database = helper.getReadableDatabase();
-        Cursor cursor = database.query(TABLE_CARDS_FTS,
+        Cursor cursor = database.query(TABLE_ATTENDEE_FTS,
                 new String[]{
                         COL_ID,
                         COL_FULL_NAME,
@@ -167,13 +156,47 @@ public class FTSAttendee {
                         COL_COMPANY,
                         COL_PHOTO_URL,
                         COL_TECH_PRIMARY},
-                TABLE_CARDS_FTS + " MATCH ?",
-                new String[]{appendWildattendee(query)},
+                TABLE_ATTENDEE_FTS + " MATCH ?",
+                new String[]{appendWildcard(query)},
                 null, null, null);
         return cursor;
     }
 
-    private String appendWildattendee(String query) {
+    public Cursor queryForAll() {
+        SQLiteDatabase database = helper.getReadableDatabase();
+        Cursor cursor = database.query(TABLE_ATTENDEE_FTS,
+                new String[]{
+                        COL_ID,
+                        COL_FULL_NAME,
+                        COL_POSITION,
+                        COL_COMPANY,
+                        COL_PHOTO_URL,
+                        COL_TECH_PRIMARY},
+                COL_ID + "=?", new String[]{"*"},
+                null, null, null);
+        String countQuery = "SELECT  * FROM " + TABLE_ATTENDEE_FTS;
+        cursor = database.rawQuery(countQuery, null);
+        return cursor;
+    }
+
+    public Cursor queryEmpty() {
+        SQLiteDatabase database = helper.getReadableDatabase();
+        Cursor cursor = database.query(TABLE_ATTENDEE_FTS,
+                new String[]{
+                        COL_ID,
+                        COL_FULL_NAME,
+                        COL_POSITION,
+                        COL_COMPANY,
+                        COL_PHOTO_URL,
+                        COL_TECH_PRIMARY},
+                COL_ID + "=?", new String[]{"0"},
+                null, null, null);
+//        String countQuery = "SELECT  * FROM " + TABLE_ATTENDEE_FTS;
+//        cursor = database.rawQuery(countQuery, null);
+        return cursor;
+    }
+
+    private String appendWildcard(String query) {
         if (Util.isNullOrEmpty(query)) return query;
         final StringBuilder builder = new StringBuilder();
         final String[] splits = Iterables.toArray(Splitter.on(" ").split(query), String.class);

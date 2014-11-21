@@ -24,12 +24,21 @@ import android.support.v8.renderscript.RenderScript;
 import android.support.v8.renderscript.ScriptIntrinsicBlur;
 import android.text.Html;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.google.common.base.Strings;
 import com.google.common.html.HtmlEscapers;
+import com.j256.ormlite.db.DatabaseType;
+import com.j256.ormlite.field.FieldType;
+import com.j256.ormlite.stmt.StatementBuilder;
+import com.j256.ormlite.support.CompiledStatement;
+import com.j256.ormlite.support.ConnectionSource;
+import com.j256.ormlite.support.DatabaseConnection;
 import com.squareup.picasso.Transformation;
+
+import java.sql.SQLException;
 
 /**
  * Created by lope on 10/6/14.
@@ -137,6 +146,33 @@ public class Util {
     public static void emptyToGone(TextView... textViews) {
         for (TextView textView : textViews) {
             emptyToGone(textView);
+        }
+    }
+
+    public static int clearTable(ConnectionSource connectionSource, String tableName) throws SQLException {
+        FieldType[] noFieldTypes = new FieldType[0];
+        DatabaseType databaseType = connectionSource.getDatabaseType();
+        StringBuilder sb = new StringBuilder(48);
+        if (databaseType.isTruncateSupported()) {
+            sb.append("TRUNCATE TABLE ");
+        } else {
+            sb.append("DELETE FROM ");
+        }
+        databaseType.appendEscapedEntityName(sb, tableName);
+        String statement = sb.toString();
+        Log.i("DatabaseHelper", "clearing table '" + tableName + "' with '" + statement + "'");
+        CompiledStatement compiledStmt = null;
+        DatabaseConnection connection = connectionSource.getReadWriteConnection();
+        try {
+            compiledStmt =
+                    connection.compileStatement(statement, StatementBuilder.StatementType.EXECUTE, noFieldTypes,
+                            DatabaseConnection.DEFAULT_RESULT_FLAGS);
+            return compiledStmt.runExecute();
+        } finally {
+            if (compiledStmt != null) {
+                compiledStmt.close();
+            }
+            connectionSource.releaseConnection(connection);
         }
     }
 
