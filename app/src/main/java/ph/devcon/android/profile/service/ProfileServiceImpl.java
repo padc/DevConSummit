@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.base.db.OrmliteListLoaderSupport;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
@@ -165,6 +166,7 @@ public class ProfileServiceImpl implements ProfileService {
             }
             userDao.update(profile.getUser());
             profileDao.update(profile);
+            jobManager.addJob(new UpdateProfileJob(profile.getId()));
         } catch (SQLException e) {
             e.printStackTrace();
         }

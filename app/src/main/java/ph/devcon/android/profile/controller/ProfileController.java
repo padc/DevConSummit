@@ -42,7 +42,9 @@ public interface ProfileController {
                      @Part("position") TypedString position, @Part("company") TypedString company,
                      @Part("location") TypedString location, @Part("description") TypedString description,
                      @Part("website") TypedString website, @Part("facebook_url") TypedString facebookUrl,
-                     @Part("twitter_handle") TypedString twitterHandle, Callback<EditProfileBaseResponse> callback);
+                     @Part("twitter_handle") TypedString twitterHandle,
+                     @Part("technologies") TypedString technologies,
+                     Callback<EditProfileBaseResponse> callback);
 
     @Multipart
     @PUT("/profile")

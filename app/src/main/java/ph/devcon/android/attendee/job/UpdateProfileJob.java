@@ -52,7 +52,7 @@ public class UpdateProfileJob extends Job {
 
     private final int id;
 
-    private final int userId;
+    private final int profileId;
 
     @Inject
     transient RestAdapter restAdapter;
@@ -63,10 +63,10 @@ public class UpdateProfileJob extends Job {
     @Inject
     transient ProfileService profileService;
 
-    public UpdateProfileJob(int userId) {
+    public UpdateProfileJob(int profileId) {
         super(new Params(Priority.HIGH).requireNetwork().persist());
         id = jobCounter.incrementAndGet();
-        this.userId = userId;
+        this.profileId = profileId;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class UpdateProfileJob extends Job {
             //many times, cancel me, let the other one fetch tweets.
             return;
         }
-        Profile profile = profileService.getUserProfile(userId);
+        Profile profile = profileService.getUserProfile(profileId);
         Optional<User> userOptional = Optional.of(profile.getUser());
         User user = userOptional.get();
         ProfileController profileController = restAdapter.create(ProfileController.class);
@@ -94,9 +94,11 @@ public class UpdateProfileJob extends Job {
         TypedString description = new TypedString(user.getDescription());
         TypedString website = new TypedString(user.getWebsite());
         TypedString facebookUrl = new TypedString(user.getFacebookUrl());
+        TypedString technologies = new TypedString(user.getCSVTechnologies());
         TypedFile photoFile = new TypedFile("image/jpg", createTempFile(user.getPhotoImage()));
         profileController.editProfile(token, photoFile, email, primaryTechnology, position, company,
-                location, description, website, facebookUrl, twitterHandle, new Callback<EditProfileBaseResponse>() {
+                location, description, website, facebookUrl, twitterHandle,
+                technologies, new Callback<EditProfileBaseResponse>() {
 
                     @Override
                     public void success(EditProfileBaseResponse editProfileBaseResponse, Response response) {

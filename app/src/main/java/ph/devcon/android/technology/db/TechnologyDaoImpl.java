@@ -46,14 +46,16 @@ public class TechnologyDaoImpl extends BaseDevConDaoImpl<Technology, Integer> im
         return queryForFirst(queryBuilder().prepare()) != null;
     }
 
+    /**
+     * remove existing technologies and reattach new ones
+     * @param user
+     * @throws SQLException
+     */
     @Override
     public void updateOrCreateUserTechnologies(User user) throws SQLException {
         // clear technologies attached to user
         Where<Technology, Integer> where = deleteBuilder().where();
         where = where.eq("user_id", user.getId());
-//        if (Optional.fromNullable(user.getPrimaryTechnology()).isPresent()) {
-//            where = where.and().not().eq("code", user.getPrimaryTechnology().getCode());
-//        }
         PreparedDelete<Technology> preparedDelete =
                 (PreparedDelete<Technology>) where.prepare();
         delete(preparedDelete);

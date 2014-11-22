@@ -16,6 +16,7 @@
 
 package ph.devcon.android.user.db;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -142,6 +143,14 @@ public class User extends BaseDevCon {
             }
         }
         return technologyList;
+    }
+
+    public String getCSVTechnologies() {
+        List<String> technologyTitles = new ArrayList<String>();
+        for (Technology technology : getOtherTechnologies()) {
+            technologyTitles.add(technology.getCode());
+        }
+        return Joiner.on(", ").join(technologyTitles);
     }
 
     public String getPrettyTechnologyList() {
