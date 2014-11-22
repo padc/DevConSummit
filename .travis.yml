@@ -20,6 +20,12 @@ android:
     - sys-img-armeabi-v7a-android-19
     - sys-img-x86-android-17
 
+before_install:
+  - sudo rm -r /usr/local/gradle
+  - curl -LO http://services.gradle.org/distributions/gradle-2.1-bin.zip
+  - unzip -q gradle-2.1-bin.zip
+  - sudo mv gradle-2.1 /usr/local/gradle
+  
 # Emulator Management: Create, Start and Wait
 before_script:
   - wget http://services.gradle.org/distributions/gradle-2.1-bin.zip
