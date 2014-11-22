@@ -75,7 +75,7 @@
                 android:padding="8dp"
                 android:hint="Password"
                 android:drawablePadding="8dp"
-                android:inputType="textVisiblePassword"
+                android:inputType="textPassword"
                 android:background="@color/white" />
 
             <View

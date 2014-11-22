@@ -18,6 +18,7 @@
 <resources>
 
     <string name="app_name">DevCon Summit</string>
+    <string name="hockeyapp_api">bf65db0463c54a1c836f0c7798726aa4</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>
@@ -44,4 +45,5 @@
     <string name="action_settings">Settings</string>
     <string name="authenticating">Authenticating..</string>
     <string name="edit_profile">Edit Profile</string>
+    <string name="save_changes">SAVE CHANGES</string>
 </resources>

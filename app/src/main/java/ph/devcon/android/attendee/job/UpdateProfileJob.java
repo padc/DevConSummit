@@ -29,11 +29,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.auth.AuthService;
-import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.controller.ProfileController;
 import ph.devcon.android.profile.db.Profile;
+import ph.devcon.android.profile.event.UpdatedProfileEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.program.job.Priority;
 import ph.devcon.android.user.db.User;
@@ -62,6 +63,9 @@ public class UpdateProfileJob extends Job {
 
     @Inject
     transient ProfileService profileService;
+
+    @Inject
+    transient EventBus eventBus;
 
     public UpdateProfileJob(int profileId) {
         super(new Params(Priority.HIGH).requireNetwork().persist());
@@ -98,14 +102,17 @@ public class UpdateProfileJob extends Job {
         TypedFile photoFile = new TypedFile("image/jpg", createTempFile(user.getPhotoImage()));
         profileController.editProfile(token, photoFile, email, primaryTechnology, position, company,
                 location, description, website, facebookUrl, twitterHandle,
-                technologies, new Callback<EditProfileBaseResponse>() {
+                technologies, new Callback<Void>() {
 
                     @Override
-                    public void success(EditProfileBaseResponse editProfileBaseResponse, Response response) {
+                    public void success(Void editProfileBaseResponse, Response response) {
+                        eventBus.post(new UpdatedProfileEvent());
                     }
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
+                        // TODO error handling
+                        System.out.println("error");
                     }
                 });
     }

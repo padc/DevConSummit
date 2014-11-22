@@ -21,7 +21,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +29,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.UiLifecycleHelper;
-import com.facebook.widget.FacebookDialog;
 import com.google.common.base.Optional;
 import com.squareup.picasso.Picasso;
 
@@ -44,7 +42,6 @@ import ph.devcon.android.news.db.News;
 import ph.devcon.android.news.service.NewsService;
 import ph.devcon.android.news.view.ObservableScrollView;
 import ph.devcon.android.util.Util;
-import twitter4j.Twitter;
 
 /**
  * Created by lope on 10/9/14.
@@ -62,7 +59,7 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
     ImageView imgNewsBig;
     @Inject
     NewsService newsService;
-    UiLifecycleHelper uiHelper;
+
     private View mPlaceholderView;
     private ObservableScrollView mObservableScrollView;
 
@@ -73,9 +70,6 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
                 .inflate(R.layout.fragment_news_details, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
-
-        uiHelper = new UiLifecycleHelper(getActivity(), null);
-        uiHelper.onCreate(savedInstanceState);
 
         mObservableScrollView = (ObservableScrollView) rootView.findViewById(R.id.scroll_view);
         mObservableScrollView.setCallbacks(this);
@@ -92,52 +86,32 @@ public class NewsDetailsFragment extends Fragment implements ObservableScrollVie
                 });
         News news = getNewsObject(getArguments().getInt(ID));
         init(news);
-        FacebookDialog shareDialog = new FacebookDialog.ShareDialogBuilder(getActivity())
-                .setLink("https://developers.facebook.com/android")
-                .build();
-        uiHelper.trackPendingDialogCall(shareDialog.present());
         return rootView;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        uiHelper.onActivityResult(requestCode, resultCode, data, new FacebookDialog.Callback() {
-            @Override
-            public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-                Log.e("Activity", String.format("Error: %s", error.toString()));
-            }
-
-            @Override
-            public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-                Log.i("Activity", "Success!");
-            }
-        });
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        uiHelper.onResume();
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        uiHelper.onSaveInstanceState(outState);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        uiHelper.onPause();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        uiHelper.onDestroy();
     }
 
     protected News getNewsObject(int id) {

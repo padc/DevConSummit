@@ -44,7 +44,7 @@ public interface ProfileController {
                      @Part("website") TypedString website, @Part("facebook_url") TypedString facebookUrl,
                      @Part("twitter_handle") TypedString twitterHandle,
                      @Part("technologies") TypedString technologies,
-                     Callback<EditProfileBaseResponse> callback);
+                     Callback<Void> callback);
 
     @Multipart
     @PUT("/profile")

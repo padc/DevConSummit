@@ -127,6 +127,10 @@ public class User extends BaseDevCon {
         return mainTech;
     }
 
+    public String getMainTechnologySlug() {
+        return primaryTechnology.getCode();
+    }
+
     public List<String> getOtherTechnologiesTitleList() {
         List<String> techTitles = new ArrayList<String>();
         for (Technology technology : getOtherTechnologies()) {
@@ -247,11 +251,28 @@ public class User extends BaseDevCon {
     }
 
     public String getWebsite() {
-        return website;
+        if (website.startsWith("http")) {
+            return website;
+        } else {
+            return "http://" + website;
+        }
+    }
+
+    public String getWebsiteDomain() {
+        Pattern pattern = Pattern.compile("(http(s)?://)?(www.)?(.*)");
+        Matcher matcher = pattern.matcher(getWebsite());
+        if (matcher.find()) {
+            return matcher.group(4);
+        }
+        return getWebsite();
     }
 
     public void setWebsite(String website) {
-        this.website = website;
+        if (website.startsWith("http")) {
+            this.website = website;
+        } else {
+            this.website = "http://" + website;
+        }
     }
 
     public String getFacebookHandle() {

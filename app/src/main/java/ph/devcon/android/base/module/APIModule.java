@@ -38,6 +38,7 @@ import dagger.Provides;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.base.api.ApiRequestInterceptor;
 import retrofit.RestAdapter;
+import retrofit.android.AndroidLog;
 import retrofit.client.OkClient;
 
 /**
@@ -69,6 +70,7 @@ public class APIModule {
                 .setClient(new OkClient(ok))
                 .setEndpoint(DevConApplication.API_ENDPOINT)
                 .setRequestInterceptor(new ApiRequestInterceptor())
+//                .setLogLevel(RestAdapter.LogLevel.FULL).setLog(new AndroidLog("RETROFIT"))
                 .build();
     }
 

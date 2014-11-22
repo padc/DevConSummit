@@ -20,11 +20,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
@@ -43,6 +45,7 @@ import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
+import ph.devcon.android.profile.event.UpdatedProfileEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.db.User;
@@ -52,7 +55,7 @@ import ph.devcon.android.util.Util;
 /**
  * Created by lope on 9/13/14.
  */
-public class EditUserProfileActivity extends ActionBarActivity {
+public class EditUserProfileActivity extends ActionBarActivity implements SwipeRefreshLayout.OnRefreshListener {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     @Inject
@@ -71,8 +74,6 @@ public class EditUserProfileActivity extends ActionBarActivity {
     EditText edtLocation;
     @InjectView(R.id.edt_email_address)
     EditText edtEmailAddress;
-    @InjectView(R.id.edt_contact_number)
-    EditText edtContactNumber;
     @InjectView(R.id.edt_about_me)
     EditText edtAboutMe;
     @InjectView(R.id.edt_tech_1)
@@ -87,6 +88,10 @@ public class EditUserProfileActivity extends ActionBarActivity {
     EditText edtTwitter;
     @InjectView(R.id.edt_facebook)
     EditText edtFacebook;
+    @InjectView(R.id.cont_edit_profile)
+    SwipeRefreshLayout swipeLayout;
+    @InjectView(R.id.txt_save_changes)
+    TextView txtSaveChanges;
     Profile profile;
     @Inject
     UserDao userDao;
@@ -100,6 +105,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
         ButterKnife.inject(this);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
+        initSwipeLayout();
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
@@ -108,6 +114,15 @@ public class EditUserProfileActivity extends ActionBarActivity {
         } else {
             profileService.populateFromAPI();
         }
+    }
+
+    protected void initSwipeLayout() {
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
+        swipeLayout.setRefreshing(true);
     }
 
     @Override
@@ -130,8 +145,6 @@ public class EditUserProfileActivity extends ActionBarActivity {
                 edtCompanyName.setText(user.getCompany());
                 edtLocation.setText(user.getLocation());
                 edtEmailAddress.setText(user.getEmail());
-                // TODO
-                edtContactNumber.setText("");
                 edtAboutMe.setText(user.getDescription());
                 edtTech1.setText(user.getMainTechnologyTitle());
                 int counter = 0;
@@ -142,7 +155,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
                         edtTech3.setText(title);
                     counter++;
                 }
-                edtDomainName.setText(user.getWebsite());
+                edtDomainName.setText(user.getWebsiteDomain());
                 edtTwitter.setText(user.getTwitterHandle());
                 edtFacebook.setText(user.getFacebookHandle());
             }
@@ -158,7 +171,6 @@ public class EditUserProfileActivity extends ActionBarActivity {
             user.setCompany(edtCompanyName.getText().toString());
             user.setLocation(edtLocation.getText().toString());
             user.setEmail(edtEmailAddress.getText().toString());
-            user.setContactNumber(edtContactNumber.getText().toString());
             user.setDescription(edtAboutMe.getText().toString());
             user.setWebsite(edtDomainName.getText().toString());
             user.setFacebookUrl(edtFacebook.getText().toString());
@@ -177,11 +189,20 @@ public class EditUserProfileActivity extends ActionBarActivity {
                 e.printStackTrace();
             }
             profileService.updateAPI(profile);
+            txtSaveChanges.setText("Updating..");
         }
     }
 
     public void onEventMainThread(FetchedProfileEvent event) {
         setProfile(event.profile);
+        swipeLayout.setRefreshing(false);
+    }
+
+    public void onEventMainThread(UpdatedProfileEvent event) {
+        profileService.populateFromAPI();
+        txtSaveChanges.setText(getString(R.string.save_changes));
+        swipeLayout.setRefreshing(false);
+        Toast.makeText(this, "Profile updated successfully..", Toast.LENGTH_SHORT).show();
     }
 
     public void onClickUserProfile(View view) {
@@ -205,6 +226,11 @@ public class EditUserProfileActivity extends ActionBarActivity {
             eventBus.removeStickyEvent(LaunchCameraEvent.class);
             profile.getUser().setPhotoImage(imageByteArray);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        profileService.populateFromAPI();
     }
 
     public static class LaunchCameraEvent {

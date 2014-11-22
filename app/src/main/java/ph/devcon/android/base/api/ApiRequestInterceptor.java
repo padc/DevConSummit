@@ -31,8 +31,8 @@ public class ApiRequestInterceptor implements RequestInterceptor {
     }
 
     private String encodeCredentialsForBasicAuthorization() {
-        String username = "lope@metricbpo.com";
-        String password = "metricbpo";
+        String username = "lope";
+        String password = "";
         final String userAndPassword = username + ":" + password;
         return "Basic " + Base64.encodeToString(userAndPassword.getBytes(), Base64.NO_WRAP);
     }
