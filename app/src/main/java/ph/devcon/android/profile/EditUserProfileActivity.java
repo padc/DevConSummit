@@ -144,7 +144,7 @@ public class EditUserProfileActivity extends ActionBarActivity {
                 }
                 edtDomainName.setText(user.getWebsite());
                 edtTwitter.setText(user.getTwitterHandle());
-                edtFacebook.setText(user.getFacebookUrl());
+                edtFacebook.setText(user.getFacebookHandle());
             }
         }
     }

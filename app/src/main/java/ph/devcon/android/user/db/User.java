@@ -26,6 +26,8 @@ import com.j256.ormlite.table.DatabaseTable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.technology.db.Technology;
@@ -252,12 +254,27 @@ public class User extends BaseDevCon {
         this.website = website;
     }
 
+    public String getFacebookHandle() {
+        Pattern pattern = Pattern.compile("http(s)?://(www.)?facebook.com/(.*)");
+        Matcher matcher = pattern.matcher(getFacebookUrl());
+        if (matcher.find())
+            return matcher.group(3);
+        return getFacebookUrl();
+    }
+
     public String getFacebookUrl() {
+        if (!facebookUrl.contains("facebook")) {
+            return "https://www.facebook.com/" + facebookUrl;
+        }
         return facebookUrl;
     }
 
     public void setFacebookUrl(String facebookUrl) {
-        this.facebookUrl = facebookUrl;
+        if (!facebookUrl.contains("facebook")) {
+            this.facebookUrl = "https://www.facebook.com/" + facebookUrl;
+        } else {
+            this.facebookUrl = facebookUrl;
+        }
     }
 
     public String getTwitterHandle() {
