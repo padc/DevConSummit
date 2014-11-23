@@ -7,5 +7,5 @@ public class Mocker {
     public static final String USERNAME_VALID = "haifa@devcon.ph";
     public static final String PASSWORD_VALID = "password";
     public static final String PASSWORD_INVALID = "thisisawrongpassword";
-    public static final String TOKEN = "1jklfskjdf923049sldkfj";
+    public static final String TOKEN = "QqYas3TNzFQRi6wsXfMm";
 }
