@@ -40,6 +40,7 @@ import ph.devcon.android.navigation.MainActivity;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 9/16/14.
@@ -68,38 +69,42 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.btn_login)
     public void onClickLogin(View view) {
-        String email = String.valueOf(edtEmailAddress.getText());
-        String password = String.valueOf(edtPassword.getText());
-        email = "haifa@devcon.ph";
-        password = "password";
-        authProgressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
-        authProgressDialog.setIndeterminate(false);
-        authProgressDialog.setProgressStyle(ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
-        authProgressDialog.setMessage(getString(R.string.authenticating));
-        authProgressDialog.show();
-        authService.authenticate(email, password, new AuthService.AuthCallback() {
-            @Override
-            public void onAuthenticated(String token) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        authProgressDialog.setMessage("Fetching user profile..");
-                        profileService.populateFromAPI();
-                    }
-                });
-            }
+        if (Util.isNetworkAvailable(this)) {
+            String email = String.valueOf(edtEmailAddress.getText());
+            String password = String.valueOf(edtPassword.getText());
+            email = "haifa@devcon.ph";
+            password = "password";
+            authProgressDialog = new ProgressDialog(this, ProgressDialog.THEME_HOLO_LIGHT);
+            authProgressDialog.setIndeterminate(false);
+            authProgressDialog.setProgressStyle(ProgressDialog.THEME_DEVICE_DEFAULT_LIGHT);
+            authProgressDialog.setMessage(getString(R.string.authenticating));
+            authProgressDialog.show();
+            authService.authenticate(email, password, new AuthService.AuthCallback() {
+                @Override
+                public void onAuthenticated(String token) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            authProgressDialog.setMessage("Fetching user profile..");
+                            profileService.populateFromAPI();
+                        }
+                    });
+                }
 
-            @Override
-            public void onAuthenticationFailed(Integer statusCode, final String message) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
-                        authProgressDialog.dismiss();
-                    }
-                });
-            }
-        });
+                @Override
+                public void onAuthenticationFailed(final Integer statusCode, final String message) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(LoginActivity.this, message, Toast.LENGTH_LONG).show();
+                            authProgressDialog.dismiss();
+                        }
+                    });
+                }
+            });
+        } else {
+            Toast.makeText(LoginActivity.this, getString(R.string.error_no_network), Toast.LENGTH_LONG).show();
+        }
     }
 
     @OnClick(R.id.txt_forgot_password)
@@ -146,6 +151,7 @@ public class LoginActivity extends Activity {
 
     public void onEventMainThread(FetchedProfileFailedEvent fetchedProfileFailedEvent) {
         Toast.makeText(LoginActivity.this, String.valueOf(fetchedProfileFailedEvent), Toast.LENGTH_LONG).show();
+        authProgressDialog.dismiss();
     }
 
     @Override

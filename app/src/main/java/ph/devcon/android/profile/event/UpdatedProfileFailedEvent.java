@@ -19,10 +19,11 @@ package ph.devcon.android.profile.event;
 /**
  * Created by lope on 10/29/14.
  */
-public class FetchedProfileFailedEvent {
+public class UpdatedProfileFailedEvent {
     public String message;
 
-    public FetchedProfileFailedEvent(String message) {
+    public UpdatedProfileFailedEvent(String message) {
         this.message = message;
     }
+
 }

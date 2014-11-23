@@ -43,9 +43,11 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.base.event.NetworkUnavailableEvent;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.event.UpdatedProfileEvent;
+import ph.devcon.android.profile.event.UpdatedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.db.User;
@@ -203,6 +205,15 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
         txtSaveChanges.setText(getString(R.string.save_changes));
         swipeLayout.setRefreshing(false);
         Toast.makeText(this, "Profile updated successfully..", Toast.LENGTH_SHORT).show();
+    }
+
+    public void onEventMainThread(UpdatedProfileFailedEvent event) {
+        Toast.makeText(this, "An error occurred: " + event.message, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onEventMainThread(NetworkUnavailableEvent event) {
+        Toast.makeText(this, getString(R.string.update_when_available),
+                Toast.LENGTH_LONG).show();
     }
 
     public void onClickUserProfile(View view) {

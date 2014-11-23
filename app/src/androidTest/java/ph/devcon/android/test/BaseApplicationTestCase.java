@@ -21,6 +21,10 @@ public abstract class BaseApplicationTestCase extends ApplicationTestCase {
         assertEquals(false, true);
     }
 
+    public static void assertTrue() {
+        assertEquals(true, true);
+    }
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();

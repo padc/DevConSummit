@@ -9,7 +9,7 @@
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANYND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
@@ -18,6 +18,8 @@ package ph.devcon.android.util;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v8.renderscript.Allocation;
 import android.support.v8.renderscript.Element;
 import android.support.v8.renderscript.RenderScript;
@@ -38,7 +40,13 @@ import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.support.DatabaseConnection;
 import com.squareup.picasso.Transformation;
 
+import java.io.IOException;
 import java.sql.SQLException;
+
+import retrofit.client.Response;
+import retrofit.mime.MimeUtil;
+import retrofit.mime.TypedByteArray;
+import retrofit.mime.TypedInput;
 
 /**
  * Created by lope on 10/6/14.
@@ -92,6 +100,26 @@ public class Util {
         }
     }
 
+    public static Boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm =
+                (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    public static String getBodyString(Response response) throws IOException {
+        TypedInput body = response.getBody();
+        if (body != null) {
+            byte[] bodyBytes = ((TypedByteArray) body).getBytes();
+            String bodyMime = body.mimeType();
+            String bodyCharset = MimeUtil.parseCharset(bodyMime);
+            return new String(bodyBytes, bodyCharset);
+        }
+        return null;
+    }
+    
     /**
      * https://plus.google.com/+MarioViviani/posts/fhuzYkji9zz
      *

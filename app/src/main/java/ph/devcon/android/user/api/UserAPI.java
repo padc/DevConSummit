@@ -22,6 +22,8 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
+import ph.devcon.android.technology.api.TechnologyAPI;
+
 /**
  * Created by lope on 10/31/2014.
  */
@@ -67,10 +69,10 @@ public class UserAPI {
 
     @SerializedName("primary_technology")
     @Expose
-    private String primaryTechnology;
+    private TechnologyAPI primaryTechnology;
 
     @Expose
-    private List<String> technologies = new ArrayList<String>();
+    private List<TechnologyAPI> technologies = new ArrayList<TechnologyAPI>();
 
     public String getEmail() {
         return email;
@@ -164,16 +166,15 @@ public class UserAPI {
         return primaryTechnology;
     }
 
-    public void setPrimaryTechnology(String primaryTechnology) {
+    public void setPrimaryTechnology(TechnologyAPI primaryTechnology) {
         this.primaryTechnology = primaryTechnology;
     }
 
-    public List<String> getTechnologies() {
+    public List<TechnologyAPI> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<String> technologies) {
+    public void setTechnologies(List<TechnologyAPI> technologies) {
         this.technologies = technologies;
     }
-
 }

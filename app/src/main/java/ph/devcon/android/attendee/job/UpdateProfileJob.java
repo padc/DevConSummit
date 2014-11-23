@@ -35,9 +35,11 @@ import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.profile.controller.ProfileController;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.UpdatedProfileEvent;
+import ph.devcon.android.profile.event.UpdatedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.program.job.Priority;
 import ph.devcon.android.user.db.User;
+import ph.devcon.android.util.Util;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -111,8 +113,16 @@ public class UpdateProfileJob extends Job {
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
-                        // TODO error handling
-                        System.out.println("error");
+                        String body = "Unknown error";
+                        try {
+                            String bodyString = Util.getBodyString(retrofitError.getResponse());
+                            if (!body.contains("<html>")) {
+                                body = bodyString;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        eventBus.post(new UpdatedProfileFailedEvent(body));
                     }
                 });
     }
