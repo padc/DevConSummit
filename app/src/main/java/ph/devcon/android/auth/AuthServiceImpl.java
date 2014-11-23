@@ -103,6 +103,11 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void logout() {
+        mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, null).commit();
+    }
+
+    @Override
     public boolean isAuthenticated() {
         Boolean isAuthenticated = false;
         try {

@@ -128,20 +128,6 @@ public abstract class BaseDevConActivity extends ActionBarActivity
         return super.onCreateOptionsMenu(menu);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        switch (item.getItemId()) {
-            // Respond to the action bar's Up/Home button
-            case R.id.action_signout:
-                // TODO signout feature
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     /**
      *
      * A placeholder fragment containing a simple view.

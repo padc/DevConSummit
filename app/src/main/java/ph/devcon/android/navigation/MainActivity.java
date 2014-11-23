@@ -16,15 +16,43 @@
 
 package ph.devcon.android.navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import javax.inject.Inject;
+
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.auth.AuthService;
+import ph.devcon.android.login.LoginActivity;
 
 public class MainActivity extends BaseDevConActivity {
+
+    @Inject
+    AuthService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DevConApplication.injectMembers(this);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case R.id.action_signout:
+                authService.logout();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
