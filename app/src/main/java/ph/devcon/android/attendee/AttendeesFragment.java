@@ -17,6 +17,8 @@
 package ph.devcon.android.attendee;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -122,6 +124,17 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             attendeeService.populateFromAPI();
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Whoa!")
+                    .setMessage("We've got a lot of attendees." +
+                            " Lemme just get them for you this one time!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(R.drawable.ic_launcher)
+                    .show();
         }
         return rootView;
     }
@@ -161,7 +174,7 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
         getActivity().getMenuInflater().inflate(R.menu.attendee, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>Find name, address, company, etc..</font>"));
+        searchView.setQueryHint(Html.fromHtml("<font color = #808080>Find by name, address, company, etc..</font>"));
         int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchView.findViewById(searchPlateId);
         if (searchPlate != null) {
@@ -169,8 +182,8 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
             TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
             if (searchText != null) {
-                searchText.setTextColor(Color.WHITE);
-                searchText.setHintTextColor(Color.WHITE);
+                searchText.setTextColor(Color.DKGRAY);
+                searchText.setHintTextColor(Color.DKGRAY);
             }
         }
         MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
