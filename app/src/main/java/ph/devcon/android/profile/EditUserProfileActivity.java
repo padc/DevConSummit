@@ -23,6 +23,7 @@ import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -92,6 +93,12 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
     EditText edtFacebook;
     @InjectView(R.id.cont_edit_profile)
     SwipeRefreshLayout swipeLayout;
+
+    // submission
+    @InjectView(R.id.cont_submit)
+    ViewGroup contSubmit;
+    @InjectView(R.id.img_save_changes)
+    ImageView imgSaveChanges;
     @InjectView(R.id.txt_save_changes)
     TextView txtSaveChanges;
     Profile profile;
@@ -198,17 +205,19 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
     protected void enableSubmitButton() {
         txtSaveChanges.setText(getString(R.string.save_changes));
         swipeLayout.setRefreshing(false);
-        txtSaveChanges.setEnabled(true);
-        txtSaveChanges.setBackgroundResource(R.drawable.selectable_green);
-        txtSaveChanges.setText(getString(R.string.save_changes));
+        contSubmit.setEnabled(true);
+        contSubmit.setBackgroundResource(R.drawable.selectable_green);
+        imgSaveChanges.setVisibility(View.VISIBLE);
+
     }
 
     protected void disableSubmitButton() {
         txtSaveChanges.setText(getString(R.string.save_changes));
         swipeLayout.setRefreshing(true);
-        txtSaveChanges.setEnabled(false);
-        txtSaveChanges.setBackgroundResource(R.drawable.selectable_green_inverse);
+        contSubmit.setEnabled(false);
+        contSubmit.setBackgroundResource(R.drawable.selectable_green_inverse);
         txtSaveChanges.setText(getString(R.string.updating));
+        imgSaveChanges.setVisibility(View.GONE);
     }
 
     public void onEventMainThread(FetchedProfileEvent event) {
