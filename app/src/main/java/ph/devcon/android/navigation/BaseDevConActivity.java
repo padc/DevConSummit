@@ -135,13 +135,15 @@ public abstract class BaseDevConActivity extends ActionBarActivity
         // as you specify a parent activity in AndroidManifest.xml.
         switch (item.getItemId()) {
             // Respond to the action bar's Up/Home button
-            case R.id.action_settings:
+            case R.id.action_signout:
+                // TODO signout feature
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
     /**
+     *
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment {

@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -116,7 +118,9 @@ public class UpdateProfileJob extends Job {
                         String body = "Unknown error";
                         try {
                             String bodyString = Util.getBodyString(retrofitError.getResponse());
-                            if (!body.contains("<html>")) {
+                            Pattern pattern = Pattern.compile("DOCTYPE");
+                            Matcher matcher = pattern.matcher(bodyString);
+                            if (!matcher.find()) {
                                 body = bodyString;
                             }
                         } catch (IOException e) {

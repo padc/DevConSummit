@@ -1,4 +1,4 @@
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2014 Philippine Android Developers Community
 
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,13 +14,8 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="ph.devcon.android.navigation.MainActivity">
-    <item
-        android:id="@+id/action_signout"
-        android:title="@string/signout"
-        android:orderInCategory="100"
-        app:showAsAction="never" />
-</menu>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" android:exitFadeDuration="@android:integer/config_mediumAnimTime">
+    <item android:state_pressed="false" android:state_focused="true" android:drawable="@color/green_dark" />
+    <item android:state_pressed="true" android:drawable="@color/green" />
+    <item android:drawable="@color/green_dark" />
+</selector>

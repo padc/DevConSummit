@@ -42,9 +42,11 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_example">Example action</string>
     <string name="action_settings">Settings</string>
+    <string name="signout">Sign out</string>
     <string name="authenticating">Authenticating..</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save_changes">SAVE CHANGES</string>
+    <string name="updating">Updating..</string>
     <string name="update_when_available">Network unavailable, updating profile once connection is available..</string>
     <string name="error_no_network">Network is unavailable..</string>
 </resources>

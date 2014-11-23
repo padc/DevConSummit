@@ -191,29 +191,46 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
                 e.printStackTrace();
             }
             profileService.updateAPI(profile);
-            txtSaveChanges.setText("Updating..");
+            disableSubmitButton();
         }
+    }
+
+    protected void enableSubmitButton() {
+        txtSaveChanges.setText(getString(R.string.save_changes));
+        swipeLayout.setRefreshing(false);
+        txtSaveChanges.setEnabled(true);
+        txtSaveChanges.setBackgroundResource(R.drawable.selectable_green);
+        txtSaveChanges.setText(getString(R.string.save_changes));
+    }
+
+    protected void disableSubmitButton() {
+        txtSaveChanges.setText(getString(R.string.save_changes));
+        swipeLayout.setRefreshing(true);
+        txtSaveChanges.setEnabled(false);
+        txtSaveChanges.setBackgroundResource(R.drawable.selectable_green_inverse);
+        txtSaveChanges.setText(getString(R.string.updating));
     }
 
     public void onEventMainThread(FetchedProfileEvent event) {
         setProfile(event.profile);
-        swipeLayout.setRefreshing(false);
+        enableSubmitButton();
     }
 
     public void onEventMainThread(UpdatedProfileEvent event) {
         profileService.populateFromAPI();
-        txtSaveChanges.setText(getString(R.string.save_changes));
-        swipeLayout.setRefreshing(false);
         Toast.makeText(this, "Profile updated successfully..", Toast.LENGTH_SHORT).show();
+        enableSubmitButton();
     }
 
     public void onEventMainThread(UpdatedProfileFailedEvent event) {
         Toast.makeText(this, "An error occurred: " + event.message, Toast.LENGTH_SHORT).show();
+        enableSubmitButton();
     }
 
     public void onEventMainThread(NetworkUnavailableEvent event) {
         Toast.makeText(this, getString(R.string.update_when_available),
                 Toast.LENGTH_LONG).show();
+        enableSubmitButton();
     }
 
     public void onClickUserProfile(View view) {

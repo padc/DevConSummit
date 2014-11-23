@@ -35,13 +35,9 @@ public class UserProfileAPITestCase extends BaseApplicationTestCase {
     @Inject
     EventBus eventBus;
 
-//    @Inject
-//    JobManager jobManager;
-
     public void testShouldParseAPIProperly() {
         mApplication.setGraph(ObjectGraph.create(getModules().toArray()));
         DevConApplication.injectMembers(this);
-//        jobManager.start();
         profileService.populateFromAPI();
         final CountDownLatch signal = new CountDownLatch(1);
         Object listener = new Object() {
