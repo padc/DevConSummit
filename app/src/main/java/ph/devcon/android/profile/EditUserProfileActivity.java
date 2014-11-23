@@ -171,7 +171,7 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
         }
     }
 
-    @OnClick(R.id.txt_save_changes)
+    @OnClick(R.id.cont_submit)
     public void onClickSaveChanges(View view) {
         Optional<Profile> profileOptional = Optional.of(profile);
         if (profileOptional.isPresent()) {
