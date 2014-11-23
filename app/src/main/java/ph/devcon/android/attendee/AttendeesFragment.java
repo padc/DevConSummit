@@ -106,7 +106,8 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
     @Override
     public void onResume() {
         super.onResume();
-        search(lastQuery);
+        if (!Util.isNullOrEmpty(lastQuery))
+            search(lastQuery);
     }
 
     @Override

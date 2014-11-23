@@ -17,7 +17,7 @@
 <resources>
 
     <string name="app_name">DevCon Summit</string>
-    <string name="hockeyapp_api">bf65db0463c54a1c836f0c7798726aa4</string>
+    <string name="hockeyapp_id">cdaa8561ba8a8a6514a14d85b41ee152</string>
     <string name="title_section1">Section 1</string>
     <string name="title_section2">Section 2</string>
     <string name="title_section3">Section 3</string>

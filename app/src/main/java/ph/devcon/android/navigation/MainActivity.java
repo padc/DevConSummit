@@ -20,6 +20,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
 import javax.inject.Inject;
 
 import ph.devcon.android.DevConApplication;
@@ -36,6 +39,22 @@ public class MainActivity extends BaseDevConActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         DevConApplication.injectMembers(this);
+        checkForUpdates();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, getString(R.string.hockeyapp_id));
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store / production builds!
+        UpdateManager.register(this, getString(R.string.hockeyapp_id));
     }
 
     @Override
