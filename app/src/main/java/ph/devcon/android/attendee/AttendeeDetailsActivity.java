@@ -46,6 +46,7 @@ import ph.devcon.android.navigation.BaseDevConActivity;
  */
 public class AttendeeDetailsActivity extends BaseDevConActivity {
     public static final String POSITION = "position";
+    public static final String ID_ITEMS = "id_items";
 
     AttendeeDetailsPagerAdapter mAttendeeDetailsPagerAdapter;
 
@@ -67,7 +68,9 @@ public class AttendeeDetailsActivity extends BaseDevConActivity {
             eventBus.registerSticky(this);
         }
         setHomeAsUp();
-        attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
+        List<Integer> idItems = getIntent().getIntegerArrayListExtra(ID_ITEMS);
+        attendeeService.populateFromIdList(getSupportLoaderManager(), savedInstanceState,
+                idItems);
         // ViewPager and its adapters use support library
         // fragments, so use getSupportFragmentManager.
         mAttendeeDetailsPagerAdapter =

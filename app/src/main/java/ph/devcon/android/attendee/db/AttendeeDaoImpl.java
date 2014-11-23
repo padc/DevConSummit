@@ -41,8 +41,9 @@ public class AttendeeDaoImpl extends BaseDevConDaoImpl<Attendee, Integer> implem
 
     @Override
     public int create(Attendee attendee) throws SQLException {
+        int count = super.create(attendee);
         ftsAttendee.create(attendee);
-        return super.create(attendee);
+        return count;
     }
 
     @Override

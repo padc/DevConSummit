@@ -45,4 +45,22 @@ public class Attendee extends BaseDevCon {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Attendee other = (Attendee) obj;
+        return com.google.common.base.Objects.equal(this.getId(), other.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return com.google.common.base.Objects.hashCode(this.getId(), this.getUser().getFirstName(),
+                this.getUser().getLastName(), null);
+    }
 }

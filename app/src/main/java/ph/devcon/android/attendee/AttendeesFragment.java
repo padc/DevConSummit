@@ -36,8 +36,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.base.Optional;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,6 +66,8 @@ import ph.devcon.android.util.Util;
  */
 public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    static String lastQuery = "";
+
     @InjectView(R.id.lvw_attendee)
     ListView lvwAttendee;
 
@@ -83,12 +87,11 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
 
     AlphaInAnimationAdapter animationAdapter;
 
-    String lastQuery = "";
-
     @OnItemClick(R.id.lvw_attendee)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), AttendeeDetailsActivity.class);
         intent.putExtra(AttendeeDetailsActivity.POSITION, position);
+        intent.putIntegerArrayListExtra(AttendeeDetailsActivity.ID_ITEMS, getIds());
         startActivity(intent);
     }
 
@@ -96,6 +99,12 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        search(lastQuery);
     }
 
     @Override
@@ -213,6 +222,20 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
                 R.color.purple,
                 R.color.blue);
         swipeLayout.setRefreshing(true);
+    }
+
+    public ArrayList<Integer> getIds() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        Cursor c = attendeeAdapter.getCursor();
+        if (Optional.fromNullable(c).isPresent()) {
+            Integer ID_INDEX = c.getColumnIndex(FTSAttendee.COL_ID);
+            for (int i = 0; i < c.getCount(); i++) {
+                c.moveToPosition(i);
+                Integer id = Integer.valueOf(c.getString(ID_INDEX));
+                ids.add(id);
+            }
+        }
+        return ids;
     }
 
     public void setAttendeeList(List<Attendee> attendeeList) {

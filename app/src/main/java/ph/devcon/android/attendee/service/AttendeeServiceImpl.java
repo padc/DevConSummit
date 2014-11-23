@@ -164,4 +164,36 @@ public class AttendeeServiceImpl implements AttendeeService {
         }
         return null;
     }
+
+    @Override
+    public void populateFromIdList(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState, final List<Integer> idList) {
+        loaderManager.initLoader(0, savedInstanceState,
+                new android.support.v4.app.LoaderManager.LoaderCallbacks<List<Attendee>>() {
+                    @Override
+                    public android.support.v4.content.Loader<List<Attendee>> onCreateLoader(int id, Bundle args) {
+                        try {
+                            return new OrmliteListLoaderSupport(
+                                    context, attendeeDao,
+                                    attendeeDao.queryBuilder().where().in("id", idList).prepare());
+                        } catch (SQLException e) {
+                            e.printStackTrace();
+                        }
+                        return null;
+                    }
+
+                    @Override
+                    public void onLoadFinished(android.support.v4.content.Loader<List<Attendee>> loader, List<Attendee> data) {
+                        if (data != null) {
+                            eventBus.post(new FetchedAttendeeListEvent(data));
+                        } else {
+                            eventBus.post(new FetchedAttendeeListFailedEvent());
+                        }
+                    }
+
+                    @Override
+                    public void onLoaderReset(android.support.v4.content.Loader<List<Attendee>> loader) {
+                    }
+                }
+        );
+    }
 }

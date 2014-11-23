@@ -16,6 +16,8 @@
 
 package ph.devcon.android.attendee.service;
 
+import android.os.Bundle;
+
 import java.util.List;
 
 import ph.devcon.android.attendee.api.AttendeeBaseResponse;
@@ -27,4 +29,6 @@ import ph.devcon.android.base.service.BaseAPICacheService;
  */
 public interface AttendeeService extends BaseAPICacheService<List<Attendee>, AttendeeBaseResponse> {
     public Attendee getAttendee(int id);
+
+    public void populateFromIdList(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState, List<Integer> idList);
 }
