@@ -14,21 +14,16 @@
  * limitations under the License.
  */
 
-package ph.devcon.android.attendee.service;
-
-import android.os.Bundle;
-
-import java.util.List;
-
-import ph.devcon.android.attendee.api.AttendeeBaseResponse;
-import ph.devcon.android.attendee.db.Attendee;
-import ph.devcon.android.base.service.BaseAPICacheService;
+package ph.devcon.android.profile.event;
 
 /**
  * Created by lope on 10/29/14.
  */
-public interface AttendeeService extends BaseAPICacheService<List<Attendee>, AttendeeBaseResponse> {
-    public Attendee getAttendee(int id);
+public class UpdatedProfileFailedEvent {
+    public String message;
 
-    public void populateFromIdList(android.support.v4.app.LoaderManager loaderManager, Bundle savedInstanceState, List<Integer> idList);
+    public UpdatedProfileFailedEvent(String message) {
+        this.message = message;
+    }
+
 }

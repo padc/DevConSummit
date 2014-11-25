@@ -25,12 +25,15 @@ import dagger.Provides;
 import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.auth.AuthServiceImpl;
 import ph.devcon.android.base.module.APIModule;
+import ph.devcon.android.navigation.MainActivity;
+import ph.devcon.android.profile.EditUserProfileActivity;
 import retrofit.RestAdapter;
 
 /**
  * Created by lope on 10/28/14.
  */
-@Module(includes = APIModule.class,
+@Module(injects = {MainActivity.class},
+        includes = APIModule.class,
         library = true)
 public class AuthModule {
     Context mContext;

@@ -1,5 +1,6 @@
 package ph.devcon.android.test.auth;
 
+import com.google.common.base.Optional;
 import com.squareup.okhttp.mockwebserver.MockResponse;
 import com.squareup.okhttp.mockwebserver.MockWebServer;
 import com.squareup.okhttp.mockwebserver.RecordedRequest;
@@ -30,7 +31,8 @@ public class AuthTestCase extends BaseApplicationTestCase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
-        mockWebServer.shutdown();
+        if (Optional.fromNullable(mockWebServer).isPresent())
+            mockWebServer.shutdown();
     }
 
     public void testShouldReturnTokenFromResponseString() {
@@ -72,6 +74,11 @@ public class AuthTestCase extends BaseApplicationTestCase {
             e.printStackTrace();
             assertFalse();
         }
+    }
+
+    public void testShouldLogout() {
+        authService.logout();
+        assertEquals(false, authService.isAuthenticated());
     }
 
     @Override

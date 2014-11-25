@@ -84,7 +84,7 @@ public class FetchProfileJob extends Job {
 
             @Override
             public void failure(RetrofitError retrofitError) {
-                eventBus.post(new FetchedProfileFailedEvent());
+                eventBus.post(new FetchedProfileFailedEvent(retrofitError.getMessage()));
             }
         });
     }

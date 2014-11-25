@@ -14,9 +14,11 @@
   limitations under the License.
   -->
 
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/action_settings"
-        android:title="@string/action_settings"
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/action_signout"
+        android:title="@string/signout"
         android:orderInCategory="100"
-        android:showAsAction="never" />
+        app:showAsAction="ifRoom|withText" />
 </menu>

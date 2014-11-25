@@ -251,10 +251,20 @@ public class User extends BaseDevCon {
     }
 
     public String getWebsite() {
+        if (Util.isNullOrEmpty(website))
+            return website;
         if (website.startsWith("http")) {
             return website;
         } else {
             return "http://" + website;
+        }
+    }
+
+    public void setWebsite(String website) {
+        if (website.startsWith("http")) {
+            this.website = website;
+        } else {
+            this.website = "http://" + website;
         }
     }
 
@@ -265,14 +275,6 @@ public class User extends BaseDevCon {
             return matcher.group(4);
         }
         return getWebsite();
-    }
-
-    public void setWebsite(String website) {
-        if (website.startsWith("http")) {
-            this.website = website;
-        } else {
-            this.website = "http://" + website;
-        }
     }
 
     public String getFacebookHandle() {

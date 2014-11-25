@@ -17,6 +17,8 @@
 package ph.devcon.android.attendee;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -36,8 +38,10 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.base.Optional;
 import com.nhaarman.listviewanimations.appearance.simple.AlphaInAnimationAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -64,6 +68,8 @@ import ph.devcon.android.util.Util;
  */
 public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    static String lastQuery = "";
+
     @InjectView(R.id.lvw_attendee)
     ListView lvwAttendee;
 
@@ -83,12 +89,11 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
 
     AlphaInAnimationAdapter animationAdapter;
 
-    String lastQuery = "";
-
     @OnItemClick(R.id.lvw_attendee)
     public void onItemClick(int position) {
         Intent intent = new Intent(getActivity(), AttendeeDetailsActivity.class);
         intent.putExtra(AttendeeDetailsActivity.POSITION, position);
+        intent.putIntegerArrayListExtra(AttendeeDetailsActivity.ID_ITEMS, getIds());
         startActivity(intent);
     }
 
@@ -96,6 +101,13 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!Util.isNullOrEmpty(lastQuery))
+            search(lastQuery);
     }
 
     @Override
@@ -113,6 +125,17 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             attendeeService.populateFromCache(getLoaderManager(), savedInstanceState);
         } else {
             attendeeService.populateFromAPI();
+            new AlertDialog.Builder(getActivity())
+                    .setTitle("Whoa!")
+                    .setMessage("We've got a lot of attendees." +
+                            " Lemme just get them for you this one time!")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                        }
+                    })
+                    .setIcon(R.drawable.ic_launcher)
+                    .show();
         }
         return rootView;
     }
@@ -152,7 +175,7 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
         getActivity().getMenuInflater().inflate(R.menu.attendee, menu);
         MenuItem menuItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(menuItem);
-        searchView.setQueryHint(Html.fromHtml("<font color = #ffffff>Find name, address, company, etc..</font>"));
+        searchView.setQueryHint(Html.fromHtml("<font color = #808080>Find by name, address, company, etc..</font>"));
         int searchPlateId = searchView.getContext().getResources().getIdentifier("android:id/search_plate", null, null);
         View searchPlate = searchView.findViewById(searchPlateId);
         if (searchPlate != null) {
@@ -160,8 +183,8 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
             int searchTextId = searchPlate.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
             TextView searchText = (TextView) searchPlate.findViewById(searchTextId);
             if (searchText != null) {
-                searchText.setTextColor(Color.WHITE);
-                searchText.setHintTextColor(Color.WHITE);
+                searchText.setTextColor(Color.DKGRAY);
+                searchText.setHintTextColor(Color.DKGRAY);
             }
         }
         MenuItemCompat.setOnActionExpandListener(menuItem, new MenuItemCompat.OnActionExpandListener() {
@@ -213,6 +236,20 @@ public class AttendeesFragment extends Fragment implements SwipeRefreshLayout.On
                 R.color.purple,
                 R.color.blue);
         swipeLayout.setRefreshing(true);
+    }
+
+    public ArrayList<Integer> getIds() {
+        ArrayList<Integer> ids = new ArrayList<Integer>();
+        Cursor c = attendeeAdapter.getCursor();
+        if (Optional.fromNullable(c).isPresent()) {
+            Integer ID_INDEX = c.getColumnIndex(FTSAttendee.COL_ID);
+            for (int i = 0; i < c.getCount(); i++) {
+                c.moveToPosition(i);
+                Integer id = Integer.valueOf(c.getString(ID_INDEX));
+                ids.add(id);
+            }
+        }
+        return ids;
     }
 
     public void setAttendeeList(List<Attendee> attendeeList) {

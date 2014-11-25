@@ -26,6 +26,8 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.inject.Inject;
 
@@ -35,9 +37,11 @@ import ph.devcon.android.auth.AuthService;
 import ph.devcon.android.profile.controller.ProfileController;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.UpdatedProfileEvent;
+import ph.devcon.android.profile.event.UpdatedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.program.job.Priority;
 import ph.devcon.android.user.db.User;
+import ph.devcon.android.util.Util;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -111,8 +115,18 @@ public class UpdateProfileJob extends Job {
 
                     @Override
                     public void failure(RetrofitError retrofitError) {
-                        // TODO error handling
-                        System.out.println("error");
+                        String body = "Unknown error";
+                        try {
+                            String bodyString = Util.getBodyString(retrofitError.getResponse());
+                            Pattern pattern = Pattern.compile("DOCTYPE");
+                            Matcher matcher = pattern.matcher(bodyString);
+                            if (!matcher.find()) {
+                                body = bodyString;
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        eventBus.post(new UpdatedProfileFailedEvent(body));
                     }
                 });
     }

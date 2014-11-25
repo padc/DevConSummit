@@ -16,15 +16,62 @@
 
 package ph.devcon.android.navigation;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.UpdateManager;
+
+import javax.inject.Inject;
+
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.auth.AuthService;
+import ph.devcon.android.login.LoginActivity;
 
 public class MainActivity extends BaseDevConActivity {
+
+    @Inject
+    AuthService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        DevConApplication.injectMembers(this);
+        checkForUpdates();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        checkForCrashes();
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this, getString(R.string.hockeyapp_id));
+    }
+
+    private void checkForUpdates() {
+        // Remove this for store / production builds!
+        UpdateManager.register(this, getString(R.string.hockeyapp_id));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case R.id.action_signout:
+                authService.logout();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

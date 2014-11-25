@@ -31,6 +31,8 @@ public interface AuthService {
 
     public void setCachedToken(String token);
 
+    public void logout();
+
     public boolean isAuthenticated();
 
     public static interface AuthCallback {

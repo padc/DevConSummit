@@ -30,6 +30,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.base.Optional;
 import com.squareup.picasso.Picasso;
@@ -149,7 +150,7 @@ public class AttendeeDetailsFragment extends Fragment {
                 Util.emptyToDefault(txtTechnologyStack, getString(R.string.empty_technologies));
                 btnProfileWebsite.setTag(user.getWebsite());
                 btnProfileTwitter.setTag(user.getTwitterHandle());
-                btnProfileFacebook.setTag(user.getFacebookUrl());
+                btnProfileFacebook.setTag(user.getFacebookHandle());
             }
         }
     }
@@ -157,19 +158,25 @@ public class AttendeeDetailsFragment extends Fragment {
     @OnClick(R.id.btn_profile_website)
     public void onClickProfileWebsite(View view) {
         String webUrl = (String) view.getTag();
-        Intent intent = new Intent(Intent.ACTION_VIEW,
-                Uri.parse(webUrl));
-        startActivity(intent);
+        if (!Util.isNullOrEmpty(webUrl)) {
+            Intent intent = new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(webUrl));
+            startActivity(intent);
+        } else
+            Toast.makeText(getActivity(), "User website is empty..", Toast.LENGTH_LONG).show();
     }
 
     @OnClick(R.id.btn_profile_twitter)
     public void onClickProfileTwitter(View view) {
         String twitterHandle = (String) view.getTag();
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + twitterHandle)));
-        } catch (Exception e) {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + twitterHandle)));
-        }
+        if (!Util.isNullOrEmpty(twitterHandle))
+            try {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://user?screen_name=" + twitterHandle)));
+            } catch (Exception e) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://twitter.com/#!/" + twitterHandle)));
+            }
+        else
+            Toast.makeText(getActivity(), "Twitter handle is empty..", Toast.LENGTH_LONG).show();
     }
 
     /**
@@ -185,19 +192,21 @@ public class AttendeeDetailsFragment extends Fragment {
      */
     @OnClick(R.id.btn_profile_facebook)
     public void onClickProfileFacebook(View view) {
-        String facebookUrl = (String) view.getTag();
-        Intent intent;
-        // TODO extract facebook id
-        try {
-            getActivity().getPackageManager()
-                    .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
-            intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(facebookUrl)); //Trys to make intent with FB's URI
-        } catch (Exception e) {
-            intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(facebookUrl)); //catches and opens a url to the desired page
-        }
-        startActivity(intent);
+        String facebookHandle = (String) view.getTag();
+        if (!Util.isNullOrEmpty(facebookHandle)) {
+            Intent intent;
+            try {
+                getActivity().getPackageManager()
+                        .getPackageInfo("com.facebook.katana", 0); //Checks if FB is even installed.
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(facebookHandle)); //Trys to make intent with FB's URI
+            } catch (Exception e) {
+                intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse(facebookHandle)); //catches and opens a url to the desired page
+            }
+            startActivity(intent);
+        } else
+            Toast.makeText(getActivity(), "Facebook handle is empty..", Toast.LENGTH_LONG).show();
     }
 
     protected View buildFooterView(LayoutInflater inflater) {

@@ -26,6 +26,7 @@
     <color name="white_dark">#F8F8F8</color>
     <color name="white_dark_light">#F9F9FB</color>
     <color name="gray">#E1E1E1</color>
+    <color name="gray_hint">#808080</color>
     <color name="gray_light">#999999</color>
     <color name="gray_light_greenish">#F8F8F8</color>
     <color name="gray_light_greenish_transparent">#C4C4C4</color>

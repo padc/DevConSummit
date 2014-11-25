@@ -28,9 +28,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.base.db.OrmliteListLoaderSupport;
+import ph.devcon.android.base.event.NetworkUnavailableEvent;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.api.ProfileAPI;
 import ph.devcon.android.profile.db.Profile;
@@ -42,6 +44,7 @@ import ph.devcon.android.technology.db.TechnologyDao;
 import ph.devcon.android.user.api.UserAPI;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.user.db.UserDao;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 11/1/2014.
@@ -112,7 +115,7 @@ public class ProfileServiceImpl implements ProfileService {
                         if ((data != null) && (data.size() > 0)) {
                             eventBus.post(new FetchedProfileEvent(data.get(0)));
                         } else {
-                            eventBus.post(new FetchedProfileFailedEvent());
+                            eventBus.post(new FetchedProfileFailedEvent("Cache was empty.."));
                         }
                     }
 
@@ -142,7 +145,7 @@ public class ProfileServiceImpl implements ProfileService {
                         if ((data != null) && (data.size() > 0)) {
                             eventBus.post(new FetchedProfileEvent(data.get(0)));
                         } else {
-                            eventBus.post(new FetchedProfileFailedEvent());
+                            eventBus.post(new FetchedProfileFailedEvent("Cache was empty.."));
                         }
                     }
 
@@ -167,6 +170,8 @@ public class ProfileServiceImpl implements ProfileService {
             userDao.update(profile.getUser());
             profileDao.update(profile);
             jobManager.addJob(new UpdateProfileJob(profile.getId()));
+            if (!Util.isNetworkAvailable(DevConApplication.getInstance()))
+                eventBus.post(new NetworkUnavailableEvent());
         } catch (SQLException e) {
             e.printStackTrace();
         }

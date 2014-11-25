@@ -44,4 +44,29 @@ public class AuthAPITestCase extends BaseApplicationTestCase {
         }
     }
 
+    public void testShouldErrorInvalidAccount() {
+        // use real api
+        mApplication.setGraph(ObjectGraph.create(getModules().toArray()));
+        DevConApplication.injectMembers(this);
+        final CountDownLatch signal = new CountDownLatch(1);
+        authService.authenticate(Mocker.USERNAME_VALID, Mocker.PASSWORD_INVALID,
+                new AuthService.AuthCallback() {
+                    @Override
+                    public void onAuthenticated(String token) {
+                        signal.countDown();
+                    }
+
+                    @Override
+                    public void onAuthenticationFailed(Integer statusCode, String message) {
+                        signal.countDown();
+                        assertTrue();
+                    }
+                });
+        try {
+            signal.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

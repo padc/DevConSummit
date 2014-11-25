@@ -20,6 +20,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 
 import ph.devcon.android.auth.api.AuthResponse;
 import ph.devcon.android.auth.controller.AuthController;
@@ -65,9 +68,20 @@ public class AuthServiceImpl implements AuthService {
                 }
             }
 
+            /**
+             * server returns error 500 header, this serves as a temporary hack
+             * @param retrofitError
+             */
             @Override
             public void failure(RetrofitError retrofitError) {
                 authCallback.onAuthenticationFailed(STATUS_CODE_UNKNOWN, retrofitError.getMessage());
+                try {
+                    String body = Util.getBodyString(retrofitError.getResponse());
+                    AuthResponse authResponse = new GsonBuilder().create().fromJson(body, AuthResponse.class);
+                    authCallback.onAuthenticationFailed(authResponse.getStatusCode(), authResponse.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -86,6 +100,11 @@ public class AuthServiceImpl implements AuthService {
     public void setCachedToken(String token) {
         if (!Util.isNullOrEmpty(token))
             mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();
+    }
+
+    @Override
+    public void logout() {
+        mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, null).commit();
     }
 
     @Override

@@ -22,7 +22,10 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,9 +46,13 @@ import butterknife.OnClick;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.auth.AuthService;
+import ph.devcon.android.base.event.NetworkUnavailableEvent;
+import ph.devcon.android.login.LoginActivity;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.event.UpdatedProfileEvent;
+import ph.devcon.android.profile.event.UpdatedProfileFailedEvent;
 import ph.devcon.android.profile.service.ProfileService;
 import ph.devcon.android.technology.db.Technology;
 import ph.devcon.android.user.db.User;
@@ -90,11 +97,19 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
     EditText edtFacebook;
     @InjectView(R.id.cont_edit_profile)
     SwipeRefreshLayout swipeLayout;
+
+    // submission
+    @InjectView(R.id.cont_submit)
+    ViewGroup contSubmit;
+    @InjectView(R.id.img_save_changes)
+    ImageView imgSaveChanges;
     @InjectView(R.id.txt_save_changes)
     TextView txtSaveChanges;
     Profile profile;
     @Inject
     UserDao userDao;
+    @Inject
+    AuthService authService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,6 +129,33 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
         } else {
             profileService.populateFromAPI();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        // Only show items in the action bar relevant to this screen
+        // if the drawer is not showing. Otherwise, let the drawer
+        // decide what to show in the action bar.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case R.id.action_signout:
+                authService.logout();
+                Intent intent = new Intent(this, LoginActivity.class);
+                startActivity(intent);
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     protected void initSwipeLayout() {
@@ -162,7 +204,7 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
         }
     }
 
-    @OnClick(R.id.txt_save_changes)
+    @OnClick(R.id.cont_submit)
     public void onClickSaveChanges(View view) {
         Optional<Profile> profileOptional = Optional.of(profile);
         if (profileOptional.isPresent()) {
@@ -189,20 +231,48 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
                 e.printStackTrace();
             }
             profileService.updateAPI(profile);
-            txtSaveChanges.setText("Updating..");
+            disableSubmitButton();
         }
+    }
+
+    protected void enableSubmitButton() {
+        txtSaveChanges.setText(getString(R.string.save_changes));
+        swipeLayout.setRefreshing(false);
+        contSubmit.setEnabled(true);
+        contSubmit.setBackgroundResource(R.drawable.selectable_green);
+        imgSaveChanges.setVisibility(View.VISIBLE);
+
+    }
+
+    protected void disableSubmitButton() {
+        txtSaveChanges.setText(getString(R.string.save_changes));
+        swipeLayout.setRefreshing(true);
+        contSubmit.setEnabled(false);
+        contSubmit.setBackgroundResource(R.drawable.selectable_green_inverse);
+        txtSaveChanges.setText(getString(R.string.updating));
+        imgSaveChanges.setVisibility(View.GONE);
     }
 
     public void onEventMainThread(FetchedProfileEvent event) {
         setProfile(event.profile);
-        swipeLayout.setRefreshing(false);
+        enableSubmitButton();
     }
 
     public void onEventMainThread(UpdatedProfileEvent event) {
         profileService.populateFromAPI();
-        txtSaveChanges.setText(getString(R.string.save_changes));
-        swipeLayout.setRefreshing(false);
         Toast.makeText(this, "Profile updated successfully..", Toast.LENGTH_SHORT).show();
+        enableSubmitButton();
+    }
+
+    public void onEventMainThread(UpdatedProfileFailedEvent event) {
+        Toast.makeText(this, "An error occurred: " + event.message, Toast.LENGTH_SHORT).show();
+        enableSubmitButton();
+    }
+
+    public void onEventMainThread(NetworkUnavailableEvent event) {
+        Toast.makeText(this, getString(R.string.update_when_available),
+                Toast.LENGTH_LONG).show();
+        enableSubmitButton();
     }
 
     public void onClickUserProfile(View view) {
