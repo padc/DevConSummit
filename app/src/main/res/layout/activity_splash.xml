@@ -19,7 +19,7 @@
     android:layout_width="match_parent"
     android:layout_height="fill_parent"
     android:gravity="center_horizontal"
-    android:background="@color/gray_login"
+    android:background="@drawable/selectable_splash_bg"
     android:orientation="vertical">
 
     <ImageView
@@ -43,10 +43,22 @@
         android:id="@+id/img_sponsor_logos"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:src="@drawable/splash_bottom"
-        android:scaleType="fitXY"
+        android:src="@drawable/copresentor"
+        android:scaleType="centerInside"
         android:textStyle="bold"
+        android:paddingTop="16dp"
         android:layout_gravity="bottom"
         android:layout_alignParentBottom="true"
-        android:gravity="center"/>
+        android:background="@color/white"
+        android:gravity="bottom"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:textSize="12dp"
+        android:layout_alignTop="@+id/img_sponsor_logos"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/black"
+        android:text="CO-PRESENTED BY"/>
 </RelativeLayout>

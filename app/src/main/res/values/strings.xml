@@ -46,4 +46,7 @@
     <string name="authenticating">Authenticating..</string>
     <string name="edit_profile">Edit Profile</string>
     <string name="save_changes">SAVE CHANGES</string>
+    <string name="empty_email">Email and contact not yet set</string>
+    <string name="empty_about">Attendee details not yet set</string>
+    <string name="empty_technologies">Attendee technologies yet set</string>
 </resources>

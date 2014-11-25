@@ -137,13 +137,16 @@ public class AttendeeDetailsFragment extends Fragment {
                 txtTwitter.setText(user.getTwitterHandle());
                 txtWebsite.setText(user.getWebsite());
                 txtEmailAndContact.setText(user.getEmailAndContact());
+                Util.emptyToDefault(txtEmailAndContact, getString(R.string.empty_email));
                 txtAboutTitle.setText(user.getAboutTitle());
                 txtAboutContent.setText(user.getDescription());
+                Util.emptyToDefault(txtAboutContent, getString(R.string.empty_about));
                 if (!Util.isNullOrEmpty(user.getPhotoUrl())) {
                     Picasso.with(getActivity()).load(user.getPhotoUrl()).into(imgAttendee);
                     Picasso.with(getActivity()).load(user.getPhotoUrl()).transform(new Util.BlurTransformation(getActivity().getApplicationContext())).into(imgBackgroundTop);
                 }
                 txtTechnologyStack.setText(user.getPrettyTechnologyList());
+                Util.emptyToDefault(txtTechnologyStack, getString(R.string.empty_technologies));
                 btnProfileWebsite.setTag(user.getWebsite());
                 btnProfileTwitter.setTag(user.getTwitterHandle());
                 btnProfileFacebook.setTag(user.getFacebookUrl());

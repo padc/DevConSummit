@@ -139,7 +139,7 @@ public class EditUserProfileActivity extends ActionBarActivity implements SwipeR
                 this.profile = profile;
                 User user = profile.getUser();
                 if (!Util.isNullOrEmpty(user.getPhotoUrl()))
-                    Picasso.with(this).load(user.getPhotoUrl()).into(imgUser);
+                    Picasso.with(this).load(user.getPhotoUrl()).placeholder(R.drawable.ic_summit_logo).into(imgUser);
                 txtFullName.setText(user.getFullName());
                 edtCompanyPosition.setText(user.getPosition());
                 edtCompanyName.setText(user.getCompany());

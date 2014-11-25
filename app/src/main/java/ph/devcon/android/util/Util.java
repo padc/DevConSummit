@@ -149,6 +149,12 @@ public class Util {
         }
     }
 
+    public static void emptyToDefault(TextView textView, String defaultText) {
+        if (TextUtils.isEmpty(textView.getText())) {
+            textView.setText(defaultText);
+        }
+    }
+
     public static int clearTable(ConnectionSource connectionSource, String tableName) throws SQLException {
         FieldType[] noFieldTypes = new FieldType[0];
         DatabaseType databaseType = connectionSource.getDatabaseType();
