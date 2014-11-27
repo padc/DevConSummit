@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/padc/DevConSummit.svg)](https://travis-ci.org/padc/DevConSummit)
 <br />
-![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC")
+![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC") [![Get it on Google Play](http://www.android.com/images/brand/get_it_on_play_logo_small.png)](https://play.google.com/store/apps/details?id=ph.devcon.android)
 
 DevCon Summit 2014 Android App
 ============
@@ -49,17 +49,20 @@ Butterknife is a View "injection" library for Android. It helps in mapping xml v
 Picasso is an image downloading and caching library for Android. It helps a lot in managing and setting bitmaps for our ImageViews and provides support for RenderScript commands that helps in making the app look aesthetically pleasant
 
 ####[ListView Animations + StickyListHeader](http://nhaarman.github.io/ListViewAnimations/#getting-started) by nhaarman and emilsjolander
-ListView Animations is an open source library that helps in making ListView animations. This is very easy to use and works nicely with StickyListHeader since StickyListHeader is of type ListView.
+ListView Animations is an open source library that helps in making ListView animations. This is very easy to use and works nicely with StickyListHeader since StickyListHeader is of type ListView
+
+####[Guava](https://code.google.com/p/guava-libraries/) by Google
+ListView Animations is an open source library that helps in making ListView animations. This is very easy to use and works nicely with StickyListHeader since StickyListHeader is of type ListView
 
 ###Testing Tools
 ####[Mockito + Dexmaker](http://docs.mockito.googlecode.com/hg/org/mockito/Mockito.html) by Google
-Mockito creates mock objects and Dexmaker creates those objects in runtime on android. We don't have to make entire test classes for our unit tests. This works really well with a DI framework like Dagger since we can just inject mocked dependencies when running our tests.
+Mockito creates mock objects and Dexmaker creates those objects in runtime on android. We don't have to make entire test classes for our unit tests. This works really well with a DI framework like Dagger since we can just inject mocked dependencies when running our tests
 
 ####[MockWebServer](https://github.com/square/okhttp/tree/master/mockwebserver) by Square
 MockWebServer is a scriptable web server for testing HTTP clients. This lets us mock all kinds of response from our web server
 
 ####[Espresso](https://github.com/JakeWharton/double-espresso) by Google
-Espresso is Google's UI testing kit For android. This helps us write neat and reliable UI tests. We're using Jake Wharton's gradle port of espresso.
+Espresso is Google's UI testing kit For android. This helps us write neat and reliable UI tests. We're using Jake Wharton's gradle port of espresso
 
 Want to contribute?
 --------
