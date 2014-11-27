@@ -52,7 +52,7 @@ Picasso is an image downloading and caching library for Android. It helps a lot 
 ListView Animations is an open source library that helps in making ListView animations. This is very easy to use and works nicely with StickyListHeader since StickyListHeader is of type ListView
 
 ####[Guava](https://code.google.com/p/guava-libraries/) by Google
-ListView Animations is an open source library that helps in making ListView animations. This is very easy to use and works nicely with StickyListHeader since StickyListHeader is of type ListView
+Guava is Google's core libraries for Java. We're currently using it for precondition and nullOrEmpty checks. Its ArrayListMultimap class also helps a lot in generating items our sponsors and programs adapters 
 
 ###Testing Tools
 ####[Mockito + Dexmaker](http://docs.mockito.googlecode.com/hg/org/mockito/Mockito.html) by Google
