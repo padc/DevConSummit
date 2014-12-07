@@ -1,3 +1,6 @@
+## Project discontinued!
+Due to lack of beta testing, the app's release has been moved to DevCon Summit 2015. Leaving the project open as code reference for padc members.
+
 [![Build Status](https://travis-ci.org/padc/DevConSummit.svg)](https://travis-ci.org/padc/DevConSummit)
 <br />
 ![PADC - Logo](http://summit.devcon.ph/img/padc.png "PADC") [![Get it on Google Play](http://www.android.com/images/brand/get_it_on_play_logo_small.png)](https://play.google.com/store/apps/details?id=ph.devcon.android)
