@@ -1,14 +1,29 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.sponsor.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.applidium.headerlistview.SectionAdapter;
 import com.google.common.collect.ArrayListMultimap;
 import com.squareup.picasso.Picasso;
 
@@ -21,11 +36,12 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import ph.devcon.android.R;
 import ph.devcon.android.sponsor.db.Sponsor;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by lope on 9/21/14.
  */
-public class SponsorSectionAdapter extends SectionAdapter {
+public class SponsorSectionAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     Context mContext;
     ArrayListMultimap<String, Sponsor> mSponsorMultimap = ArrayListMultimap.create();
@@ -33,66 +49,55 @@ public class SponsorSectionAdapter extends SectionAdapter {
 
     public SponsorSectionAdapter(Context context, ArrayListMultimap<String, Sponsor> sponsorMultimap) {
         mContext = context;
+        setItems(sponsorMultimap);
+    }
+
+    public void setItems(ArrayListMultimap<String, Sponsor> sponsorMultimap) {
         mSponsorMultimap = sponsorMultimap;
+        mSponsorTypeKeyList.clear();
         for (String key : mSponsorMultimap.keySet()) {
             mSponsorTypeKeyList.add(key);
         }
     }
 
     @Override
-    public int numberOfSections() {
-        return mSponsorMultimap.keySet().size();
+    public int getCount() {
+        return mSponsorTypeKeyList.size();
     }
 
     @Override
-    public int numberOfRows(int section) {
-        return 1;
+    public Object getItem(int position) {
+        return mSponsorMultimap.get(mSponsorTypeKeyList.get(position));
     }
 
     @Override
-    public Object getRowItem(int section, int row) {
-        return mSponsorMultimap.get(mSponsorTypeKeyList.get(section));
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public boolean hasSectionHeaderView(int section) {
-        return true;
-    }
-
-    @Override
-    public View getRowView(int section, int row, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        ViewHolder holder = null;
-        List<Sponsor> sponsors = (List<Sponsor>) getRowItem(section, row);
+        ViewHolderItem holder = null;
+        List<Sponsor> sponsors = (List<Sponsor>) getItem(position);
         if (convertView != null) {
             // related to a bug lol
-//            holder = (ViewHolder) convertView.getTag();
+            holder = (ViewHolderItem) convertView.getTag();
         } else if (convertView == null) {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_sponsor), null);
-//            holder = new ViewHolder(convertView);
-//            convertView.setTag(holder);
+            holder = new ViewHolderItem(convertView);
+            convertView.setTag(holder);
         }
-        FlowLayout contSponsorImages = (FlowLayout) convertView.findViewById(R.id.cont_sponsor_images);
         for (Sponsor sponsor : sponsors) {
             ImageView imageView = new ImageView(mContext);
             Picasso.with(mContext).load(sponsor.getPhotoUrl()).into(imageView);
-            contSponsorImages.addView(imageView);
+            holder.flwSponsors.addView(imageView);
         }
         return convertView;
     }
 
     @Override
-    public int getSectionHeaderViewTypeCount() {
-        return 2;
-    }
-
-    @Override
-    public int getSectionHeaderItemViewType(int section) {
-        return section % 2;
-    }
-
-    @Override
-    public View getSectionHeaderView(int section, View convertView, ViewGroup parent) {
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder;
         if (convertView != null) {
@@ -102,13 +107,13 @@ public class SponsorSectionAdapter extends SectionAdapter {
             holder = new ViewHolder(convertView);
             convertView.setTag(holder);
         }
-        holder.txtSponsorType.setText(mSponsorTypeKeyList.get(section));
+        holder.txtSponsorType.setText(mSponsorTypeKeyList.get(position));
         return convertView;
     }
 
     @Override
-    public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
-        super.onRowItemClick(parent, view, section, row, id);
+    public long getHeaderId(int position) {
+        return position;
     }
 
     static class ViewHolder {
@@ -116,6 +121,15 @@ public class SponsorSectionAdapter extends SectionAdapter {
         TextView txtSponsorType;
 
         public ViewHolder(View view) {
+            ButterKnife.inject(this, view);
+        }
+    }
+
+    static class ViewHolderItem {
+        @InjectView(R.id.cont_sponsor_images)
+        FlowLayout flwSponsors;
+
+        public ViewHolderItem(View view) {
             ButterKnife.inject(this, view);
         }
     }

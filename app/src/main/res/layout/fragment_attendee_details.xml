@@ -1,7 +1,22 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2014 Philippine Android Developers Community
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent">
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,27 +38,27 @@
                     android:scaleType="centerCrop"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"
-                    android:background="@color/white"/>
+                    android:background="@color/white" />
 
                 <View
-                    android:src="@drawable/ic_launcher"
+                    android:src="@drawable/ic_summit_logo"
                     android:layout_width="fill_parent"
                     android:layout_height="160dp"
-                    android:background="@color/yellow"/>
+                    android:background="@color/yellow" />
             </LinearLayout>
 
             <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            android:id="@+id/img_attendee"
-                                            android:src="@drawable/ic_action_person"
-                                            android:layout_width="110dp"
-                                            android:layout_height="110dp"
-                                            android:layout_centerInParent="true"
-                                            android:scaleType="centerCrop"
-                                            app:corner_radius="5dp"
-                                            app:border_width="2dp"
-                                            app:border_color="@color/yellow"
-                                            app:mutate_background="true"
-                                            app:oval="false"/>
+                android:id="@+id/img_attendee"
+                android:src="@drawable/ic_action_person"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_centerInParent="true"
+                android:scaleType="centerCrop"
+                app:corner_radius="5dp"
+                app:border_width="2dp"
+                app:border_color="@color/yellow"
+                app:mutate_background="true"
+                app:oval="false" />
 
             <LinearLayout
                 android:layout_centerHorizontal="true"
@@ -68,28 +83,28 @@
                         android:textStyle="bold"
                         android:textSize="20sp"
                         android:layout_marginBottom="4dp"
-                        android:text="HAIFA BALUYOS"/>
+                        android:text="HAIFA BALUYOS" />
 
                     <TextView
                         android:id="@+id/txt_position"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text="Executive Director at Developers Connect"/>
+                        android:text="Executive Director at Developers Connect" />
 
                     <TextView
                         android:id="@+id/txt_twitter"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text=""/>
+                        android:text="" />
 
                     <TextView
                         android:id="@+id/txt_website"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/white"
-                        android:text=""/>
+                        android:text="" />
                 </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
@@ -101,14 +116,14 @@
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="Location"/>
+            android:text="Location" />
 
         <View
-            android:src="@drawable/ic_launcher"
+            android:src="@drawable/ic_summit_logo"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
             android:id="@+id/txt_location"
@@ -117,7 +132,7 @@
             android:gravity="center"
             android:textSize="18sp"
             android:layout_marginTop="10dp"
-            android:text="Manila, Philippines"/>
+            android:text="Manila, Philippines" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -126,13 +141,13 @@
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="E-mail Address &amp; Contact Information"/>
+            android:text="E-mail Address &amp; Contact Information" />
 
         <View
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
             android:id="@+id/txt_email_and_contact"
@@ -141,7 +156,7 @@
             android:gravity="center"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text=""/>
+            android:text="" />
 
         <TextView
             android:id="@+id/txt_about_title"
@@ -151,14 +166,13 @@
             android:textSize="16sp"
             android:layout_marginTop="10dp"
             android:typeface="monospace"
-            android:text="About Haifa"/>
+            android:text="About Haifa" />
 
         <View
-            android:src="@drawable/ic_launcher"
             android:layout_width="250dp"
             android:layout_height="1dp"
             android:layout_marginTop="6dp"
-            android:background="@color/gray"/>
+            android:background="@color/gray" />
 
         <TextView
             android:id="@+id/txt_about_content"
@@ -167,6 +181,78 @@
             android:gravity="center"
             android:textSize="16sp"
             android:layout_marginTop="10dp"
-            android:text=""/>
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:typeface="monospace"
+            android:text="Technology Stack" />
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/gray" />
+
+        <TextView
+            android:id="@+id/txt_technology_stack"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:text="" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/green"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:typeface="monospace"
+            android:text="Other Profiles &amp; Links" />
+
+        <View
+            android:layout_width="250dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="6dp"
+            android:background="@color/gray" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/btn_profile_website"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/website__icon_profile" />
+
+            <ImageView
+                android:id="@+id/btn_profile_twitter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:clickable="true"
+                android:src="@drawable/twitter__icon_profile" />
+
+            <ImageView
+                android:id="@+id/btn_profile_facebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:src="@drawable/facebook__icon_profile" />
+        </LinearLayout>
+
     </LinearLayout>
+
+    <!--TODO footer-->
 </ScrollView>

@@ -1,5 +1,22 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.user.db;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Optional;
 import com.j256.ormlite.dao.ForeignCollection;
 import com.j256.ormlite.field.DataType;
@@ -7,9 +24,10 @@ import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.field.ForeignCollectionField;
 import com.j256.ormlite.table.DatabaseTable;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ph.devcon.android.base.db.BaseDevCon;
 import ph.devcon.android.technology.db.Technology;
@@ -61,10 +79,10 @@ public class User extends BaseDevCon {
     @DatabaseField(dataType = DataType.BYTE_ARRAY)
     private byte[] photoImage;
 
-    @DatabaseField(foreign = true)
+    @DatabaseField(foreign = true, foreignAutoCreate = true)
     private Technology primaryTechnology;
 
-    @ForeignCollectionField
+    @ForeignCollectionField(eager = true)
     private ForeignCollection<Technology> technologies;
 
     public static User toUser(UserAPI userAPI) {
@@ -109,15 +127,36 @@ public class User extends BaseDevCon {
         return mainTech;
     }
 
+    public String getMainTechnologySlug() {
+        return primaryTechnology.getCode();
+    }
+
     public List<String> getOtherTechnologiesTitleList() {
         List<String> techTitles = new ArrayList<String>();
+        for (Technology technology : getOtherTechnologies()) {
+            techTitles.add(technology.getTitle());
+        }
+        return techTitles;
+    }
+
+    public List<Technology> getOtherTechnologies() {
+        List<Technology> technologyList = new ArrayList<Technology>();
         Optional<ForeignCollection<Technology>> technologiesOptional = Optional.fromNullable(getTechnologies());
         if (technologiesOptional.isPresent()) {
             for (Technology technology : getTechnologies()) {
-                techTitles.add(technology.getTitle());
+                if (technology.getId() != getPrimaryTechnology().getId())
+                    technologyList.add(technology);
             }
         }
-        return techTitles;
+        return technologyList;
+    }
+
+    public String getCSVTechnologies() {
+        List<String> technologyTitles = new ArrayList<String>();
+        for (Technology technology : getOtherTechnologies()) {
+            technologyTitles.add(technology.getCode());
+        }
+        return Joiner.on(", ").join(technologyTitles);
     }
 
     public String getPrettyTechnologyList() {
@@ -141,7 +180,7 @@ public class User extends BaseDevCon {
     }
 
     public String getPrettyMainTechnology() {
-        if (!Util.isNullOrEmpty(getPrettyMainTechnology())) {
+        if (!Util.isNullOrEmpty(getPrettyTechnologyList())) {
             return getPrettyTechnologyList() + " (Primary)";
         }
         return "";
@@ -212,19 +251,53 @@ public class User extends BaseDevCon {
     }
 
     public String getWebsite() {
-        return website;
+        if (Util.isNullOrEmpty(website))
+            return website;
+        if (website.startsWith("http")) {
+            return website;
+        } else {
+            return "http://" + website;
+        }
     }
 
     public void setWebsite(String website) {
-        this.website = website;
+        if (website.startsWith("http")) {
+            this.website = website;
+        } else {
+            this.website = "http://" + website;
+        }
+    }
+
+    public String getWebsiteDomain() {
+        Pattern pattern = Pattern.compile("(http(s)?://)?(www.)?(.*)");
+        Matcher matcher = pattern.matcher(getWebsite());
+        if (matcher.find()) {
+            return matcher.group(4);
+        }
+        return getWebsite();
+    }
+
+    public String getFacebookHandle() {
+        Pattern pattern = Pattern.compile("http(s)?://(www.)?facebook.com/(.*)");
+        Matcher matcher = pattern.matcher(getFacebookUrl());
+        if (matcher.find())
+            return matcher.group(3);
+        return getFacebookUrl();
     }
 
     public String getFacebookUrl() {
+        if (!facebookUrl.contains("facebook")) {
+            return "https://www.facebook.com/" + facebookUrl;
+        }
         return facebookUrl;
     }
 
     public void setFacebookUrl(String facebookUrl) {
-        this.facebookUrl = facebookUrl;
+        if (!facebookUrl.contains("facebook")) {
+            this.facebookUrl = "https://www.facebook.com/" + facebookUrl;
+        } else {
+            this.facebookUrl = facebookUrl;
+        }
     }
 
     public String getTwitterHandle() {

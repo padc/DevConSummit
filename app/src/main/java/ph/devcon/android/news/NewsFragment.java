@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.news;
 
 import android.app.Activity;
@@ -44,8 +60,13 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
 
     NewsAdapter newsAdapter;
 
+    SwingBottomInAnimationAdapter animationAdapter;
+
     @Inject
     NewsService newsService;
+
+    @InjectView(R.id.cont_news)
+    SwipeRefreshLayout swipeLayout;
 
     @OnItemClick(R.id.lvw_news)
     public void onItemClick(int position) {
@@ -61,6 +82,8 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         View rootView = inflater.inflate(R.layout.fragment_news, container, false);
         DevConApplication.injectMembers(this);
         ButterKnife.inject(this, rootView);
+        initSwipeLayout();
+        initAnimation();
         if (!eventBus.isRegistered(this)) {
             eventBus.register(this);
         }
@@ -76,12 +99,32 @@ public class NewsFragment extends Fragment implements SwipeRefreshLayout.OnRefre
         return rootView;
     }
 
+    protected void initAnimation() {
+        List<News> newsList = new ArrayList<News>();
+        newsAdapter = new NewsAdapter(getActivity(), newsList);
+        animationAdapter = new SwingBottomInAnimationAdapter(newsAdapter);
+        animationAdapter.setAbsListView(lvwNews);
+        lvwNews.setAdapter(animationAdapter);
+    }
+
+    protected void initSwipeLayout() {
+        swipeLayout.setOnRefreshListener(this);
+        swipeLayout.setColorSchemeResources(R.color.yellow,
+                R.color.orange,
+                R.color.purple,
+                R.color.blue);
+        swipeLayout.setRefreshing(true);
+    }
+
     public void setNewsList(List<News> newsList) {
         if (newsList != null && !newsList.isEmpty()) {
             newsAdapter = new NewsAdapter(getActivity(), newsList);
             lvwNews.setAdapter(newsAdapter);
             newsAdapter.notifyDataSetChanged();
         }
+        if (lvwNews.getFooterViewsCount() == 0)
+            lvwNews.addFooterView(buildFooterView(getLayoutInflater(getArguments())));
+        swipeLayout.setRefreshing(false);
     }
 
     public void onEventMainThread(FetchedNewsListEvent event) {

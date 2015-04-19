@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.base;
 
 import android.content.Context;
@@ -14,6 +30,7 @@ import java.util.List;
 
 import ph.devcon.android.attendee.db.Attendee;
 import ph.devcon.android.attendee.db.AttendeeDao;
+import ph.devcon.android.attendee.db.FTSAttendee;
 import ph.devcon.android.category.db.Category;
 import ph.devcon.android.category.db.CategoryDao;
 import ph.devcon.android.news.db.News;
@@ -59,6 +76,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
     private CategoryDao categoryDao = null;
     private TechnologyDao technologyDao = null;
     private TalkDao talkDao = null;
+    private FTSAttendee ftsAttendee = null;
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -91,6 +109,7 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
             TableUtils.createTable(connectionSource, User.class);
             TableUtils.createTable(connectionSource, Profile.class);
             TableUtils.createTable(connectionSource, Talk.class);
+            database.execSQL(FTSAttendee.buildTable());
 //            database.execSQL(FTSSearch.buildTable());
         } catch (SQLException e) {
             Log.e(DatabaseHelper.class.getName(), "Can't create database", e);
@@ -163,11 +182,19 @@ public class DatabaseHelper extends OrmLiteSqliteOpenHelper {
         if (null == attendeeDao) {
             try {
                 attendeeDao = getDao(Attendee.class);
+                attendeeDao.setFTSAttendee(getFTSAttendeeDao());
             } catch (java.sql.SQLException e) {
                 e.printStackTrace();
             }
         }
         return attendeeDao;
+    }
+
+    public FTSAttendee getFTSAttendeeDao() {
+        if (null == ftsAttendee) {
+            ftsAttendee = FTSAttendee.getInstance(this);
+        }
+        return ftsAttendee;
     }
 
     public UserDao getUserDao() {

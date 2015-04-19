@@ -1,236 +1,266 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/gray_light_light">
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2014 Philippine Android Developers Community
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:orientation="vertical">
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                              android:id="@+id/cont_edit_profile"
+                                              android:layout_width="match_parent"
+                                              android:layout_height="match_parent">
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/gray_light_light">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_horizontal"
-            android:background="@color/gray_light_light"
-            android:padding="8dp"
+            android:layout_height="0dp"
             android:orientation="vertical">
 
-            <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/img_user"
-                android:layout_width="110dp"
-                android:layout_height="110dp"
-                android:layout_marginTop="8dp"
-                android:scaleType="centerCrop"
-                android:onClick="onClickUserProfile"
-                app:corner_radius="5dp"
-                app:mutate_background="true"
-                app:oval="false" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:background="@color/gray_light_light"
+                android:padding="8dp"
+                android:orientation="vertical">
+
+                <com.makeramen.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                android:id="@+id/img_user"
+                                                android:layout_width="110dp"
+                                                android:layout_height="110dp"
+                                                android:layout_marginTop="8dp"
+                                                android:scaleType="centerCrop"
+                                                android:src="@drawable/ic_summit_logo"
+                                                app:corner_radius="5dp"
+                                                app:mutate_background="true"
+                                                app:oval="false"/>
+
+                <TextView
+                    android:id="@+id/txt_full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:layout_marginTop="4dp"
+                    android:paddingBottom="8dp"
+                    android:textAllCaps="true"
+                    android:typeface="sans"/>
+
+            </LinearLayout>
 
             <TextView
-                android:id="@+id/txt_full_name"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/green"
+                android:text="User Information"
+                style="@style/EditProfileHeaderTextView"/>
+
+            <EditText
+                android:id="@+id/edt_company_position"
+                android:layout_width="match_parent"
+                android:hint="@string/company_position"
+                style="@style/EditProfileEditTextItem"/>
+
+            <EditText
+                android:id="@+id/edt_company_name"
+                android:layout_width="match_parent"
+                android:hint="@string/company_name"
+                style="@style/EditProfileEditTextItem"/>
+
+            <EditText
+                android:id="@+id/edt_location"
+                android:layout_width="match_parent"
+                android:hint="@string/location"
+                style="@style/EditProfileEditTextItem"/>
+
+            <EditText
+                android:id="@+id/edt_email_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_address"
+                style="@style/EditProfileEditTextItem"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/about_me"
+                style="@style/EditProfileHeaderTextView"/>
+
+            <EditText
+                android:id="@+id/edt_about_me"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:gravity="left|top"
+                android:hint="@string/describe_yourself"
+                style="@style/EditProfileEditTextItem"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/three_main_tech"
+                style="@style/EditProfileHeaderTextView"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/edt_tech_1"
+                    android:layout_width="match_parent"
+                    android:hint="Enter primary technology"
+                    style="@style/EditProfileEditTextItem"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/primary"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"/>
+
+            </RelativeLayout>
+
+            <EditText
+                android:id="@+id/edt_tech_2"
+                android:layout_width="match_parent"
+                android:hint="Technology 2"
+                style="@style/EditProfileEditTextItem"/>
+
+            <EditText
+                android:id="@+id/edt_tech_3"
+                android:layout_width="match_parent"
+                android:hint="Technology 3"
+                style="@style/EditProfileEditTextItem"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/other_profiles"
+                style="@style/EditProfileHeaderTextView"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                style="@style/EditProfileOtherProfile">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/website__icon_profile"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:text="http://"/>
+
+                <EditText
+                    android:id="@+id/edt_domain_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/white"
+                    android:hint="yourdomainname.com"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                style="@style/EditProfileOtherProfile">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/twitter__icon_profile"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:text="\@"/>
+
+                <EditText
+                    android:id="@+id/edt_twitter"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/white"
+                    android:hint="username"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                style="@style/EditProfileOtherProfile">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@drawable/facebook__icon_profile"
+                    android:gravity="center_vertical"
+                    android:textSize="18sp"
+                    android:text="/"/>
+
+                <EditText
+                    android:id="@+id/edt_facebook"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@color/white"
+                    android:hint="username or facebook id"/>
+
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textStyle="bold"
                 android:textSize="18sp"
-                android:layout_marginTop="4dp"
-                android:paddingBottom="8dp"
-                android:textAllCaps="true"
-                android:typeface="sans" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="User Information"
-            style="@style/EditProfileHeaderTextView" />
-
-        <EditText
-            android:id="@+id/edt_company_position"
-            android:layout_width="match_parent"
-            android:hint="@string/company_position"
-            style="@style/EditProfileEditTextItem" />
-
-        <EditText
-            android:id="@+id/edt_company_name"
-            android:layout_width="match_parent"
-            android:hint="@string/company_name"
-            style="@style/EditProfileEditTextItem" />
-
-        <EditText
-            android:id="@+id/edt_location"
-            android:layout_width="match_parent"
-            android:hint="@string/location"
-            style="@style/EditProfileEditTextItem" />
-
-        <EditText
-            android:id="@+id/edt_email_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="@string/email_address"
-            style="@style/EditProfileEditTextItem" />
-
-        <EditText
-            android:id="@+id/edt_contact_number"
-            android:layout_width="match_parent"
-            android:hint="@string/contact_number"
-            style="@style/EditProfileEditTextItem" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/about_me"
-            style="@style/EditProfileHeaderTextView" />
-
-        <EditText
-            android:id="@+id/edt_about_me"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:gravity="left|top"
-            android:hint="@string/describe_yourself"
-            style="@style/EditProfileEditTextItem" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/three_main_tech"
-            style="@style/EditProfileHeaderTextView" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <EditText
-                android:id="@+id/edt_tech_1"
-                android:layout_width="match_parent"
-                android:hint="Enter primary technology"
-                style="@style/EditProfileEditTextItem" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/primary"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true" />
-
-        </RelativeLayout>
-
-        <EditText
-            android:id="@+id/edt_tech_2"
-            android:layout_width="match_parent"
-            android:hint="Technology 2"
-            style="@style/EditProfileEditTextItem" />
-
-        <EditText
-            android:id="@+id/edt_tech_3"
-            android:layout_width="match_parent"
-            android:hint="Technology 3"
-            style="@style/EditProfileEditTextItem" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/other_profiles"
-            style="@style/EditProfileHeaderTextView" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            style="@style/EditProfileOtherProfile">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/website__icon_profile"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:text="http://" />
-
-            <EditText
-                android:id="@+id/edt_domain_name"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:padding="30dp"
                 android:background="@color/white"
-                android:hint="yourdomainname.com" />
+                android:text="@string/disclaimer"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            style="@style/EditProfileOtherProfile">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/twitter__icon_profile"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:text="\@" />
-
-            <EditText
-                android:id="@+id/edt_twitter"
+            <RelativeLayout
+                android:id="@+id/cont_submit"
+                android:clickable="true"
+                android:background="@drawable/selectable_green"
+                android:orientation="horizontal"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white"
-                android:hint="username" />
+                android:layout_height="48dp">
 
+                <ImageView
+                    android:id="@+id/img_save_changes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_toLeftOf="@+id/txt_save_changes"
+                    android:src="@drawable/abc_ic_cab_done_holo_dark"/>
+
+                <TextView
+                    android:id="@+id/txt_save_changes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:layout_centerInParent="true"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:gravity="center"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/white"
+                    android:onClick="onClickSaveChanges"
+                    android:text="@string/save_changes"/>
+            </RelativeLayout>
         </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            style="@style/EditProfileOtherProfile">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/facebook__icon_profile"
-                android:gravity="center_vertical"
-                android:textSize="18sp"
-                android:text="/" />
-
-            <EditText
-                android:id="@+id/edt_facebook"
-                android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:background="@color/white"
-                android:hint="username or facebook id" />
-
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:padding="30dp"
-            android:background="@color/white"
-            android:text="@string/disclaimer" />
-
-        <TextView
-            android:id="@+id/txt_save_changes"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:drawableLeft="@drawable/abc_ic_cab_done_holo_dark"
-            android:paddingLeft="90dp"
-            android:paddingRight="90dp"
-            android:gravity="center"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:textColor="@color/white"
-            android:background="@color/green"
-            android:onClick="onClickSaveChanges"
-            android:text="SAVE CHANGES" />
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

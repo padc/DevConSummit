@@ -1,4 +1,19 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?><!--
+  Copyright (C) 2014 Philippine Android Developers Community
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+  http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+  -->
+
 <resources>
     <color name="purple">#6A4FFA</color>
     <color name="blue_purple">#333333</color>
@@ -11,6 +26,7 @@
     <color name="white_dark">#F8F8F8</color>
     <color name="white_dark_light">#F9F9FB</color>
     <color name="gray">#E1E1E1</color>
+    <color name="gray_hint">#808080</color>
     <color name="gray_light">#999999</color>
     <color name="gray_light_greenish">#F8F8F8</color>
     <color name="gray_light_greenish_transparent">#C4C4C4</color>
@@ -18,6 +34,7 @@
     <color name="gray_light_light_home">#E1E1E1</color>
     <color name="gray_login">#E8E8E8</color>
     <color name="green">#84AD2E</color>
+    <color name="green_dark">#ff407c24</color>
     <color name="green_trans">#D999CC00</color>
     <color name="orange">#DB6D2C</color>
     <color name="yellow">#E6C630</color>

@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.navigation;
 
 import android.app.ActionBar;
@@ -18,7 +34,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -34,6 +49,7 @@ import butterknife.InjectView;
 import de.greenrobot.event.EventBus;
 import ph.devcon.android.DevConApplication;
 import ph.devcon.android.R;
+import ph.devcon.android.navigation.adapter.NavigationAdapter;
 import ph.devcon.android.profile.EditUserProfileActivity;
 import ph.devcon.android.profile.db.Profile;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
@@ -59,49 +75,37 @@ public class NavigationDrawerFragment extends Fragment {
      * expands it. This shared preference tracks this.
      */
     private static final String PREF_USER_LEARNED_DRAWER = "navigation_drawer_learned";
-
+    @Inject
+    ProfileService profileService;
+    @Inject
+    SettingsService settingsService;
+    @Inject
+    EventBus eventBus;
+    @InjectView(R.id.img_profile)
+    ImageView imgProfile;
+    @InjectView(R.id.txt_profile_name)
+    TextView txtProfileName;
+    @InjectView(R.id.txt_profile_position)
+    TextView txtProfilePosition;
+    @InjectView(R.id.txt_main_technology)
+    TextView txtMainTechnology;
+    @InjectView(R.id.txt_location)
+    TextView txtLocation;
     /**
      * A pointer to the current callbacks instance (the Activity).
      */
     private NavigationDrawerCallbacks mCallbacks;
-
     /**
      * Helper component that ties the action bar to the navigation drawer.
      */
     private ActionBarDrawerToggle mDrawerToggle;
-
     private DrawerLayout mDrawerLayout;
     private ViewGroup mContainerListView;
     private ListView mDrawerListView;
     private View mFragmentContainerView;
-
     private int mCurrentSelectedPosition = 0;
     private boolean mFromSavedInstanceState;
     private boolean mUserLearnedDrawer;
-
-    @Inject
-    ProfileService profileService;
-
-    @Inject
-    SettingsService settingsService;
-
-    @Inject
-    EventBus eventBus;
-
-    @InjectView(R.id.img_profile)
-    ImageView imgProfile;
-
-    @InjectView(R.id.txt_profile_name)
-    TextView txtProfileName;
-
-    @InjectView(R.id.txt_profile_position)
-    TextView txtProfilePosition;
-
-    @InjectView(R.id.txt_main_technology)
-    TextView txtMainTechnology;
-
-    @InjectView(R.id.txt_location)
-    TextView txtLocation;
 
     public NavigationDrawerFragment() {
     }
@@ -150,17 +154,7 @@ public class NavigationDrawerFragment extends Fragment {
                 selectItem(position);
             }
         });
-        mDrawerListView.setAdapter(new ArrayAdapter<String>(
-                getActionBar().getThemedContext(),
-                R.layout.item_navigation_drawer,
-                android.R.id.text1,
-                new String[]{
-                        "News",
-                        "Programs",
-                        "Speakers",
-                        "Attendees",
-                        "Sponsors",
-                }));
+        mDrawerListView.setAdapter(new NavigationAdapter(getActionBar().getThemedContext()));
         mDrawerListView.setItemChecked(mCurrentSelectedPosition, true);
 
         ViewGroup contUserProfile = (ViewGroup) mContainerListView.findViewById(R.id.cont_user_profile);
@@ -189,7 +183,8 @@ public class NavigationDrawerFragment extends Fragment {
         txtMainTechnology.setText(currentUser.getMainTechnologyTitle());
         txtLocation.setText(currentUser.getLocation());
         if (!Util.isNullOrEmpty(currentUser.getPhotoUrl()))
-            Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).placeholder(R.drawable.ic_action_person).into(imgProfile);
+            Picasso.with(getActivity()).load(currentUser.getPhotoUrl()).placeholder(R.drawable.ic_summit_logo).into(imgProfile);
+        Util.emptyToGone(txtProfilePosition, txtMainTechnology, txtLocation);
     }
 
     public boolean isDrawerOpen() {
@@ -341,7 +336,8 @@ public class NavigationDrawerFragment extends Fragment {
             return true;
         }
 
-        if (item.getItemId() == R.id.action_example) {
+        if (item.getItemId() == R.id.action_signout) {
+            // TODO signout feature
             Toast.makeText(getActivity(), "Example action.", Toast.LENGTH_SHORT).show();
             return true;
         }

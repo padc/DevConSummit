@@ -1,19 +1,32 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.program.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.applidium.headerlistview.SectionAdapter;
 import com.google.common.base.Optional;
-import com.google.common.collect.Maps;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
@@ -22,57 +35,46 @@ import ph.devcon.android.R;
 import ph.devcon.android.program.db.Program;
 import ph.devcon.android.speaker.db.Speaker;
 import ph.devcon.android.util.Util;
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by lope on 9/21/14.
  */
-public class ProgramSectionAdapter extends SectionAdapter {
+public class ProgramSectionAdapter extends BaseAdapter implements StickyListHeadersAdapter {
 
     Context mContext;
     List<Program> programList;
-    HashMap<Integer, Program> programHashMap;
 
     public ProgramSectionAdapter(Context context, List<Program> programList) {
         mContext = context;
         this.programList = programList;
-        buildProgramMap();
     }
 
-    public void buildProgramMap() {
-        programHashMap = Maps.newHashMap();
-        int counter = 0;
-        for (Program program : programList) {
-            programHashMap.put(counter, program);
-            counter++;
-        }
+    public void setItems(List<Program> programList) {
+        this.programList = programList;
     }
 
     @Override
-    public int numberOfSections() {
-        return programHashMap.size();
+    public int getCount() {
+        return programList.size();
     }
 
     @Override
-    public int numberOfRows(int section) {
-        return 1;
+    public Object getItem(int position) {
+        return programList.get(position);
     }
 
     @Override
-    public Object getRowItem(int section, int row) {
-        return null;
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override
-    public boolean hasSectionHeaderView(int section) {
-        return true;
-    }
-
-    @Override
-    public View getRowView(int section, int row, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ViewHolder holder = null;
-        if (section != programHashMap.size()) {
-            Program program = programHashMap.get(section);
+        if (position != programList.size()) {
+            Program program = (Program) getItem(position);
             if (convertView != null) {
                 // related to a bug lol
                 View sponsorView = convertView.findViewById(R.id.cont_sponsors);
@@ -99,40 +101,31 @@ public class ProgramSectionAdapter extends SectionAdapter {
             }
             holder.txtProgramDescription.setText(program.getDescription());
         } else {
-            return inflater.inflate(R.layout.footer_standard, null);
+            // now at the end of the list
+            return inflater.inflate(R.layout.footer_standard, parent, true);
         }
         return convertView;
     }
 
     @Override
-    public int getSectionHeaderViewTypeCount() {
-        return 2;
-    }
-
-    @Override
-    public int getSectionHeaderItemViewType(int section) {
-        return section % 2;
-    }
-
-    @Override
-    public View getSectionHeaderView(int section, View convertView, ViewGroup parent) {
+    public View getHeaderView(int section, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
         if (convertView == null) {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_program), null);
         }
         TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
-        Program program = programHashMap.get(section);
+        Program program = programList.get(section);
         txtTime.setText(program.getStartAt());
-        if (section == programHashMap.size()) {
+        if (section == programList.size()) {
             convertView = inflater.inflate(mContext.getResources().getLayout(R.layout.item_header_null), null);
         }
         return convertView;
     }
 
     @Override
-    public void onRowItemClick(AdapterView<?> parent, View view, int section, int row, long id) {
-        super.onRowItemClick(parent, view, section, row, id);
+    public long getHeaderId(int position) {
+        return position;
     }
 
     static class ViewHolder {

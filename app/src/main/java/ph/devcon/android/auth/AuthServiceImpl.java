@@ -1,9 +1,28 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.auth;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.google.common.base.Optional;
+import com.google.gson.GsonBuilder;
+
+import java.io.IOException;
 
 import ph.devcon.android.auth.api.AuthResponse;
 import ph.devcon.android.auth.controller.AuthController;
@@ -36,8 +55,8 @@ public class AuthServiceImpl implements AuthService {
                     if (authResponse.getStatusCode().equals(STATUS_CODE_OK)) {
                         if (!Util.isNullOrEmpty(authResponse.getAuthenticationToken())) {
                             String token = authResponse.getAuthenticationToken();
-                            authCallback.onAuthenticated(token);
                             setCachedToken(token);
+                            authCallback.onAuthenticated(token);
                         } else {
                             authCallback.onAuthenticationFailed(STATUS_CODE_UNKNOWN, "Received null auth token");
                         }
@@ -49,9 +68,20 @@ public class AuthServiceImpl implements AuthService {
                 }
             }
 
+            /**
+             * server returns error 500 header, this serves as a temporary hack
+             * @param retrofitError
+             */
             @Override
             public void failure(RetrofitError retrofitError) {
                 authCallback.onAuthenticationFailed(STATUS_CODE_UNKNOWN, retrofitError.getMessage());
+                try {
+                    String body = Util.getBodyString(retrofitError.getResponse());
+                    AuthResponse authResponse = new GsonBuilder().create().fromJson(body, AuthResponse.class);
+                    authCallback.onAuthenticationFailed(authResponse.getStatusCode(), authResponse.getMessage());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -67,6 +97,17 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
+    public void setCachedToken(String token) {
+        if (!Util.isNullOrEmpty(token))
+            mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();
+    }
+
+    @Override
+    public void logout() {
+        mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, null).commit();
+    }
+
+    @Override
     public boolean isAuthenticated() {
         Boolean isAuthenticated = false;
         try {
@@ -77,11 +118,5 @@ public class AuthServiceImpl implements AuthService {
             e.printStackTrace();
         }
         return isAuthenticated;
-    }
-
-    @Override
-    public void setCachedToken(String token) {
-        if (!Util.isNullOrEmpty(token))
-            mPrefs.edit().putString(PREF_KEY_AUTH_TOKEN, token).commit();
     }
 }

@@ -5,6 +5,7 @@
 /.idea
 .idea
 .idea/
+app/app.iml
 gradle.properties
 # Built application files
 *.apk

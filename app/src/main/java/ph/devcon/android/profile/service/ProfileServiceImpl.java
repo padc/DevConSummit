@@ -1,3 +1,19 @@
+/*
+ * Copyright (C) 2014 Philippine Android Developers Community
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package ph.devcon.android.profile.service;
 
 import android.app.LoaderManager;
@@ -12,9 +28,11 @@ import java.sql.SQLException;
 import java.util.List;
 
 import de.greenrobot.event.EventBus;
+import ph.devcon.android.DevConApplication;
 import ph.devcon.android.attendee.job.UpdateProfileJob;
 import ph.devcon.android.base.db.OrmliteListLoader;
 import ph.devcon.android.base.db.OrmliteListLoaderSupport;
+import ph.devcon.android.base.event.NetworkUnavailableEvent;
 import ph.devcon.android.profile.api.EditProfileBaseResponse;
 import ph.devcon.android.profile.api.ProfileAPI;
 import ph.devcon.android.profile.db.Profile;
@@ -22,9 +40,11 @@ import ph.devcon.android.profile.db.ProfileDao;
 import ph.devcon.android.profile.event.FetchedProfileEvent;
 import ph.devcon.android.profile.event.FetchedProfileFailedEvent;
 import ph.devcon.android.profile.job.FetchProfileJob;
+import ph.devcon.android.technology.db.TechnologyDao;
 import ph.devcon.android.user.api.UserAPI;
 import ph.devcon.android.user.db.User;
 import ph.devcon.android.user.db.UserDao;
+import ph.devcon.android.util.Util;
 
 /**
  * Created by lope on 11/1/2014.
@@ -32,6 +52,8 @@ import ph.devcon.android.user.db.UserDao;
 public class ProfileServiceImpl implements ProfileService {
 
     ProfileDao profileDao;
+
+    TechnologyDao technologyDao;
 
     UserDao userDao;
 
@@ -41,12 +63,14 @@ public class ProfileServiceImpl implements ProfileService {
 
     Context context;
 
-    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus, ProfileDao profileDao, UserDao userDao) {
+    public ProfileServiceImpl(Context context, JobManager jobManager, EventBus eventBus,
+                              ProfileDao profileDao, UserDao userDao, TechnologyDao technologyDao) {
         this.context = context;
         this.jobManager = jobManager;
         this.eventBus = eventBus;
         this.profileDao = profileDao;
         this.userDao = userDao;
+        this.technologyDao = technologyDao;
     }
 
     @Override
@@ -91,7 +115,7 @@ public class ProfileServiceImpl implements ProfileService {
                         if ((data != null) && (data.size() > 0)) {
                             eventBus.post(new FetchedProfileEvent(data.get(0)));
                         } else {
-                            eventBus.post(new FetchedProfileFailedEvent());
+                            eventBus.post(new FetchedProfileFailedEvent("Cache was empty.."));
                         }
                     }
 
@@ -121,7 +145,7 @@ public class ProfileServiceImpl implements ProfileService {
                         if ((data != null) && (data.size() > 0)) {
                             eventBus.post(new FetchedProfileEvent(data.get(0)));
                         } else {
-                            eventBus.post(new FetchedProfileFailedEvent());
+                            eventBus.post(new FetchedProfileFailedEvent("Cache was empty.."));
                         }
                     }
 
@@ -140,9 +164,23 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     public void updateAPI(Profile profile) {
         try {
+            if (Optional.fromNullable(profile.getUser().getPrimaryTechnology()).isPresent()) {
+                technologyDao.updateOrCreateUserTechnologies(profile.getUser());
+            }
             userDao.update(profile.getUser());
             profileDao.update(profile);
-            jobManager.addJobInBackground(new UpdateProfileJob(profile.getId()));
+            jobManager.addJob(new UpdateProfileJob(profile.getId()));
+            if (!Util.isNetworkAvailable(DevConApplication.getInstance()))
+                eventBus.post(new NetworkUnavailableEvent());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void refresh(Profile profile) {
+        try {
+            profileDao.refresh(profile);
         } catch (SQLException e) {
             e.printStackTrace();
         }
